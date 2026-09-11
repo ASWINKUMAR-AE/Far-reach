@@ -1,0 +1,189 @@
+{
+  "app": {
+    "name": "Far-reach",
+    "tagline": "AI-Powered Farming Assistant"
+  },
+  "common": {
+    "loading": "Loading...",
+    "processing": "Processing...",
+    "getStarted": "Get Started",
+    "change": "Change",
+    "poweredBy": "Powered by"
+  },
+  "navigation": {
+    "home": "Home",
+    "fields": "Fields",
+    "market": "Market",
+    "profile": "Profile"
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Welcome to Smart Farming",
+      "subtitle": "Get AI-powered crop recommendations tailored for your soil and climate"
+    },
+    "features": {
+      "soil": {
+        "title": "Soil Analysis",
+        "desc": "Test your soil using satellite data or upload sensor readings"
+      },
+      "market": {
+        "title": "Market Insights",
+        "desc": "Get real-time crop prices and market trends"
+      },
+      "assistant": {
+        "title": "Voice Assistant",
+        "desc": "Ask farming questions in your local language"
+      },
+      "visual": {
+        "title": "Crop Monitoring",
+        "desc": "Detect diseases and pests using camera analysis"
+      }
+    }
+  },
+  "auth": {
+    "phone": {
+      "title": "Enter Mobile Number",
+      "subtitle": "We'll send you a verification code",
+      "label": "Mobile Number",
+      "placeholder": "Enter 10-digit number",
+      "accessibility": "Mobile number input field"
+    },
+    "otp": {
+      "title": "Verify Code",
+      "subtitle": "Enter the 6-digit code sent to your phone",
+      "label": "Verification Code",
+      "placeholder": "000000",
+      "accessibility": "OTP verification input field"
+    },
+    "sendOTP": "Send Code",
+    "verify": "Verify",
+    "changeNumber": "Change Number",
+    "skipForNow": "Skip for now",
+    "otpSent": "Verification code sent!",
+    "error": {
+      "invalidPhone": "Please enter a valid 10-digit mobile number",
+      "invalidOTP": "Please enter a valid 6-digit code"
+    }
+  },
+  "home": {
+    "greeting": "Good Morning, Farmer!",
+    "subtitle": "Let's make your farming smarter today",
+    "quickActions": "Quick Actions",
+    "recentActivity": "Recent Activity",
+    "farmStats": "Farm Overview",
+    "actions": {
+      "soilTest": "Soil Test",
+      "cropSuggestions": "Crop Suggestions",
+      "marketTrends": "Market Trends",
+      "cropMonitor": "Crop Monitor",
+      "assistant": "Voice Assistant",
+      "settings": "Settings"
+    },
+    "stats": {
+      "totalFields": "Total Fields",
+      "totalArea": "Area (acres)",
+      "activeCrops": "Active Crops"
+    }
+  },
+  "weather": {
+    "today": "Today's Weather",
+    "humidity": "Humidity",
+    "wind": "Wind",
+    "visibility": "Visibility"
+  },
+  "activity": {
+    "soilTest": "Soil test completed",
+    "cropRecommendation": "Got crop recommendations",
+    "marketPrice": "Checked market prices"
+  },
+  "soil": {
+    "title": "Soil Analysis",
+    "subtitle": "Choose how you want to analyze your soil",
+    "selectMethod": "Select Analysis Method",
+    "analyze": "Get Recommendations",
+    "methods": {
+      "manual": {
+        "title": "Manual Entry",
+        "desc": "Enter soil test values manually"
+      },
+      "csv": {
+        "title": "Upload Data",
+        "desc": "Upload sensor data or lab results"
+      },
+      "satellite": {
+        "title": "Satellite Analysis",
+        "desc": "Get data from satellite imagery"
+      },
+      "camera": {
+        "title": "Scan Field",
+        "desc": "Take photos for AI analysis"
+      }
+    },
+    "manual": {
+      "title": "Enter Soil Parameters"
+    },
+    "fields": {
+      "ph": "pH Level",
+      "nitrogen": "Nitrogen",
+      "phosphorus": "Phosphorus",
+      "potassium": "Potassium",
+      "organicMatter": "Organic Matter",
+      "moisture": "Moisture",
+      "temperature": "Temperature"
+    },
+    "satellite": {
+      "analyzing": "Analyzing satellite data...",
+      "success": "Satellite analysis completed!"
+    },
+    "camera": {
+      "info": "Camera Analysis",
+      "instructions": "Take clear photos of your soil from different angles for best results."
+    },
+    "csv": {
+      "info": "Upload Data",
+      "instructions": "Select a CSV file with your soil test results."
+    }
+  },
+  "crops": {
+    "title": "Crop Recommendations",
+    "subtitle": "Based on your soil analysis and local conditions",
+    "projectedProfit": "Projected Profit",
+    "sustainabilityScore": "Sustainability Score",
+    "yield": "Yield",
+    "sowingWindow": "Sowing Window",
+    "riskFactors": "Risk Factors",
+    "savePlan": "Save Plan",
+    "details": "Details",
+    "fertilizerPlan": "Fertilizer Plan",
+    "irrigationSchedule": "Irrigation Schedule",
+    "whyRecommended": "Why This Crop?"
+  },
+  "chat": {
+    "title": "Voice Assistant",
+    "subtitle": "Ask me anything about farming",
+    "welcome": "Hello! I'm your farming assistant. How can I help you today?",
+    "inputPlaceholder": "Type your question...",
+    "listening": "Listening... Speak now",
+    "stopSpeech": "Stop",
+    "playAudio": "Play",
+    "transcription": {
+      "sample": "What is the best fertilizer for wheat crop?"
+    },
+    "prompts": {
+      "soilTest": "How to test soil pH?",
+      "cropSelection": "Best crops for my region",
+      "fertilizer": "Fertilizer recommendations",
+      "weather": "Weather impact on crops",
+      "pestControl": "Pest control methods",
+      "irrigation": "Irrigation schedule"
+    },
+    "responses": {
+      "soil": "For soil testing, I recommend checking pH levels first. Ideal pH for most crops is 6.0-7.5. You can use our satellite analysis or manual testing kit.",
+      "crop": "Based on your soil conditions, I suggest wheat, chickpea, or mustard for winter season. Would you like detailed recommendations?",
+      "fertilizer": "For balanced nutrition, use DAP during sowing, urea for nitrogen boost, and potash for root development. Apply based on soil test results.",
+      "weather": "Current weather looks favorable for farming. Keep monitoring rainfall patterns and temperature changes for optimal crop planning.",
+      "pest": "For pest control, use integrated pest management. Start with neem oil for organic control, and monitor crops regularly for early detection.",
+      "general": "I'm here to help with all your farming questions. You can ask about crops, soil, weather, fertilizers, or any agricultural topic!"
+    }
+  }
+}

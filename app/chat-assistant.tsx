@@ -19,6 +19,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import * as Speech from "expo-speech";
 import * as Haptics from "expo-haptics";
+import { useTranslation } from "react-i18next";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   ArrowLeft,
@@ -36,6 +37,7 @@ import {
   Headphones,
 } from "lucide-react-native";
 import { askHositAI } from "@/lib/hositAI";
+import { translateText } from "@/lib/translationService";
 import { DEFAULT_FARMER, INITIAL_BOOKING, INITIAL_RECORD } from "@/lib/procurementService";
 
 // Safe import for native Voice (Android/iOS builds)
@@ -87,6 +89,7 @@ const LANGUAGES = [
 ];
 
 export default function ChatAssistantScreen() {
+  const { t, i18n } = useTranslation();
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: "1",
@@ -299,6 +302,9 @@ export default function ChatAssistantScreen() {
     setIsLoading(true);
 
     try {
+      // 1. Translate user message to English for the AI
+      const englishPrompt = await translateText(messageText, selectedLang.code, "en");
+
       const context = `Application: Far-Reach Procurement & Agriculture OS (SIH26032)
 Farmer Language: ${selectedLang.name}
 Farmer Profile:
@@ -312,13 +318,16 @@ Farmer Profile:
 - Weighing Status: Net 500 kg @ ₹23.50/kg = ₹11,750
 - Payment Status: Processing (Ref: ${INITIAL_RECORD.transactionRef})
 
-Task: Provide an accurate, helpful, and concise response in ${selectedLang.name} suited for an Indian farmer.`;
+Task: Provide an accurate, helpful, and concise response suited for an Indian farmer.`;
 
-      const reply = await askHositAI({
-        message: messageText,
+      const aiEnglishReply = await askHositAI({
+        message: englishPrompt,
         userId: DEFAULT_FARMER.id,
         context,
       });
+
+      // 2. Translate AI's English response back to the farmer's native language
+      const reply = await translateText(aiEnglishReply, "en", selectedLang.code);
 
       const assistantId = (Date.now() + 1).toString();
       const assistantMessage: ChatMessage = {
@@ -341,7 +350,7 @@ Task: Provide an accurate, helpful, and concise response in ${selectedLang.name}
         {
           id: (Date.now() + 2).toString(),
           type: "assistant",
-          content: "⚠️ Unable to connect to Far-Reach AI service. Please check your network and try again.",
+          content: t("chat.error", { defaultValue: "⚠️ Unable to connect to Far-Reach AI service. Please check your network and try again." }),
           timestamp: new Date(),
         },
       ]);
@@ -577,7 +586,7 @@ Task: Provide an accurate, helpful, and concise response in ${selectedLang.name}
                   <Volume2 size={14} color="#059669" />
                 )}
                 <Text style={[styles.ttsText, isPlaying && { color: "#ef4444" }]}>
-                  {isPlaying ? "Stop Speaking" : "Listen"}
+                  {isPlaying ? t("chat.stopSpeaking", { defaultValue: "Stop Speaking" }) : t("chat.listen", { defaultValue: "Listen" })}
                 </Text>
               </TouchableOpacity>
 
@@ -611,14 +620,14 @@ Task: Provide an accurate, helpful, and concise response in ${selectedLang.name}
           </TouchableOpacity>
           <View style={styles.headerTextContainer}>
             <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-              <Text style={styles.headerTitle}>Far-Reach Voice OS</Text>
+              <Text style={styles.headerTitle}>{t("chat.headerTitle", { defaultValue: "Far-Reach Voice OS" })}</Text>
               <View style={styles.onlineBadge}>
                 <View style={styles.onlineDot} />
-                <Text style={styles.onlineText}>Active</Text>
+                <Text style={styles.onlineText}>{t("chat.active", { defaultValue: "Active" })}</Text>
               </View>
             </View>
             <Text style={styles.headerSubtitle}>
-              Smart Mandi & Crop Assistant ({selectedLang.name})
+              {t("chat.headerSubtitle", { defaultValue: "Smart Mandi & Crop Assistant" })} ({selectedLang.name})
             </Text>
           </View>
           <TouchableOpacity
@@ -653,6 +662,7 @@ Task: Provide an accurate, helpful, and concise response in ${selectedLang.name}
                   onPress={() => {
                     triggerHaptic(Haptics.ImpactFeedbackStyle.Light);
                     setSelectedLang(lang);
+                    i18n.changeLanguage(lang.code.split('-')[0]);
                     stopAllTTS();
                   }}
                   style={[styles.langButton, isActive && styles.langButtonActive]}
@@ -692,12 +702,12 @@ Task: Provide an accurate, helpful, and concise response in ${selectedLang.name}
             <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
               <Volume2 size={16} color="#065f46" />
               <Text style={{ fontSize: 13, color: "#065f46", fontWeight: "600" }}>
-                Speaking Response Aloud...
+                {t("chat.speakingResponse", { defaultValue: "Speaking Response Aloud..." })}
               </Text>
             </View>
             <TouchableOpacity onPress={stopAllTTS} style={styles.stopSpeakingBtn}>
               <VolumeX size={14} color="white" />
-              <Text style={{ color: "white", fontSize: 12, fontWeight: "700" }}>Stop</Text>
+              <Text style={{ color: "white", fontSize: 12, fontWeight: "700" }}>{t("chat.stop", { defaultValue: "Stop" })}</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -717,7 +727,7 @@ Task: Provide an accurate, helpful, and concise response in ${selectedLang.name}
               />
             </View>
             <Text style={styles.listeningText} numberOfLines={2}>
-              {interimTranscript || "Listening... speak now in " + selectedLang.name}
+              {interimTranscript || t("chat.listeningPrompt", { defaultValue: "Listening... speak now in " }) + selectedLang.name}
             </Text>
           </View>
         )}
@@ -745,7 +755,7 @@ Task: Provide an accurate, helpful, and concise response in ${selectedLang.name}
               <TextInput
                 value={inputText}
                 onChangeText={setInputText}
-                placeholder={`Ask in ${selectedLang.name}...`}
+                placeholder={`${t("chat.askIn", { defaultValue: "Ask in " })}${selectedLang.name}...`}
                 multiline
                 style={styles.textInput}
                 placeholderTextColor="#9CA3AF"
