@@ -51,7 +51,15 @@
           "cameraPermission": "Allow Far-Reach to access your camera."
         }
       ],
-      "expo-image-picker"
+      "expo-image-picker",
+      "expo-av",
+      [
+        "@react-native-voice/voice",
+        {
+          "microphonePermission": "Allow Far-Reach to use the microphone for voice chatting.",
+          "speechRecognitionPermission": "Allow Far-Reach to securely recognize your speech."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

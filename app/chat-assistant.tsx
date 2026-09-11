@@ -18,6 +18,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import * as Speech from "expo-speech";
+import { Audio } from "expo-av";
 import * as Haptics from "expo-haptics";
 import { useTranslation } from "react-i18next";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -109,6 +110,7 @@ export default function ChatAssistantScreen() {
 
   const scrollViewRef = useRef<ScrollView | null>(null);
   const webRecognitionRef = useRef<any>(null);
+  const soundRef = useRef<any>(null);
 
   // Animations
   const pulseAnim = useRef(new Animated.Value(1)).current;
@@ -247,11 +249,26 @@ export default function ChatAssistantScreen() {
     try {
       Speech.stop();
     } catch {}
+    
+    if (Platform.OS === "web" && soundRef.current) {
+      try {
+        soundRef.current.pause();
+        soundRef.current.currentTime = 0;
+      } catch {}
+      soundRef.current = null;
+    } else if (Platform.OS !== "web" && soundRef.current) {
+      try {
+        soundRef.current.stopAsync();
+        soundRef.current.unloadAsync();
+      } catch {}
+      soundRef.current = null;
+    }
+    
     setCurrentlySpeakingId(null);
     setMessages((prev) => prev.map((m) => ({ ...m, isPlaying: false })));
   };
 
-  const handleTTS = (id: string, text: string) => {
+  const handleTTS = async (id: string, text: string) => {
     triggerHaptic(Haptics.ImpactFeedbackStyle.Light);
     if (currentlySpeakingId === id) {
       stopAllTTS();
@@ -268,6 +285,38 @@ export default function ChatAssistantScreen() {
     );
 
     try {
+      if (Platform.OS === "web") {
+        const langCode = selectedLang.code.split("-")[0];
+        const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(clean.substring(0, 200))}&tl=${langCode}&client=tw-ob`;
+        
+        const audio = new window.Audio(url);
+        audio.playbackRate = voiceSettings.speechRate;
+        soundRef.current = audio;
+        
+        audio.onended = () => {
+          stopAllTTS();
+        };
+        
+        await audio.play();
+      } else {
+        // Universal Cloud TTS for Mobile
+        const langCode = selectedLang.code.split("-")[0];
+        const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(clean.substring(0, 200))}&tl=${langCode}&client=tw-ob`;
+        
+        const { sound } = await Audio.Sound.createAsync(
+          { uri: url },
+          { shouldPlay: true, rate: voiceSettings.speechRate }
+        );
+        soundRef.current = sound;
+        
+        sound.setOnPlaybackStatusUpdate((status) => {
+          if (status.isLoaded && status.didJustFinish) {
+            stopAllTTS();
+          }
+        });
+      }
+    } catch (e) {
+      console.warn("TTS Error, falling back to local TTS:", e);
       Speech.speak(clean, {
         language: selectedLang.code,
         rate: voiceSettings.speechRate,
@@ -276,9 +325,6 @@ export default function ChatAssistantScreen() {
         onStopped: stopAllTTS,
         onError: stopAllTTS,
       });
-    } catch (e) {
-      console.warn("TTS Error:", e);
-      stopAllTTS();
     }
   };
 
@@ -302,11 +348,11 @@ export default function ChatAssistantScreen() {
     setIsLoading(true);
 
     try {
-      // 1. Translate user message to English for the AI
-      const englishPrompt = await translateText(messageText, selectedLang.code, "en");
+      // 1. Translate user message to English (auto-detects Tanglish/Hinglish/Native)
+      const englishPrompt = await translateText(messageText, "auto", "en");
 
       const context = `Application: Far-Reach Procurement & Agriculture OS (SIH26032)
-Farmer Language: ${selectedLang.name}
+Farmer Language: English
 Farmer Profile:
 - Name: ${DEFAULT_FARMER.name}
 - Farmer ID: ${DEFAULT_FARMER.id}
@@ -318,7 +364,7 @@ Farmer Profile:
 - Weighing Status: Net 500 kg @ ₹23.50/kg = ₹11,750
 - Payment Status: Processing (Ref: ${INITIAL_RECORD.transactionRef})
 
-Task: Provide an accurate, helpful, and concise response suited for an Indian farmer.`;
+Task: You are an expert agricultural AI assistant for an Indian farmer. YOU MUST answer all agriculture-related questions (crops, farming techniques, soil, weather, fertilizers, market prices, etc.) thoroughly and accurately. Do not refuse to answer agricultural queries. Provide the response in clear English.`;
 
       const aiEnglishReply = await askHositAI({
         message: englishPrompt,
@@ -445,6 +491,12 @@ Task: Provide an accurate, helpful, and concise response suited for an Indian fa
     try {
       if (!Voice || typeof Voice.start !== "function") {
         alert("Native speech recognition requires an Android or iOS device build. Please type your message.");
+        return;
+      }
+
+      const { status } = await Audio.requestPermissionsAsync();
+      if (status !== 'granted') {
+        alert("Microphone permission is required to use voice chat.");
         return;
       }
 
