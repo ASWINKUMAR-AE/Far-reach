@@ -1,0 +1,34 @@
+# Set default behavior to automatically handle line endings
+* text=auto
+
+# Explicit text files
+*.js text
+*.jsx text
+*.ts text
+*.tsx text
+*.json text
+*.css text
+*.md text
+*.html text
+*.xml text
+*.gradle text
+*.properties text
+
+# Ensure shell scripts always use LF (for Linux / macOS execution)
+*.sh text eol=lf
+gradlew text eol=lf
+
+# Ensure Windows scripts always use CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.jar binary
+*.keystore binary
+*.jks binary
