@@ -17,7 +17,9 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "NSCameraUsageDescription": "This app uses the camera to scan crops for analysis."
+        "NSCameraUsageDescription": "This app uses the camera to scan crops for analysis.",
+        "NSMicrophoneUsageDescription": "This app uses the microphone for farmer voice assistance in Indian regional languages.",
+        "NSSpeechRecognitionUsageDescription": "This app uses speech recognition to process your farming queries."
       }
     },
     "android": {
