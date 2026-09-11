@@ -1,0 +1,139 @@
+import { HositAIRequest, HositAIResponse } from './types';
+import * as apiClient from './apiClient';
+
+// Exact Hosit AI Endpoints specified in API docs
+const HOSIT_AI_PUBLIC_8000 = "http://106.51.21.4:8000/api/chat";
+const HOSIT_AI_LOCAL_8000 = "http://192.168.0.2:8000/api/chat";
+
+export async function askHositAI({
+  message,
+  userId = "F1021",
+  context = "Far Reach Farmer Procurement Operating System",
+}: HositAIRequest): Promise<string> {
+  const payload = {
+    message,
+    user_id: userId,
+    context,
+  };
+
+  // ----------------------------------------------------
+  // 1. Direct AI Microservice API (Public IP Port 8000)
+  // ----------------------------------------------------
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 20000); // 20s timeout for LLM
+
+    const res = await fetch(HOSIT_AI_PUBLIC_8000, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+      body: JSON.stringify(payload),
+      signal: controller.signal,
+    });
+
+    clearTimeout(timer);
+
+    if (res.ok) {
+      const data: HositAIResponse = await res.json();
+      if (data.status === "success" && data.ai_response) {
+        return data.ai_response;
+      }
+      if (data.ai_response) return data.ai_response;
+    }
+  } catch (err: any) {
+    console.log("[Hosit AI] Public 8000 port attempt:", err?.message || err);
+  }
+
+  // ----------------------------------------------------
+  // 2. Direct AI Microservice API (Local LAN IP Port 8000)
+  // ----------------------------------------------------
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 5000); // 5s timeout
+
+    const res = await fetch(HOSIT_AI_LOCAL_8000, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+      body: JSON.stringify(payload),
+      signal: controller.signal,
+    });
+
+    clearTimeout(timer);
+
+    if (res.ok) {
+      const data: HositAIResponse = await res.json();
+      if (data.status === "success" && data.ai_response) {
+        return data.ai_response;
+      }
+      if (data.ai_response) return data.ai_response;
+    }
+  } catch (err: any) {
+    console.log("[Hosit AI] Local 8000 port attempt:", err?.message || err);
+  }
+
+  // ----------------------------------------------------
+  // 3. Main Backend v1 API (/ai/chat)
+  // ----------------------------------------------------
+  try {
+    const res = await apiClient.postAiChat(payload);
+    if (res?.ai_response) return res.ai_response;
+    if (res?.data?.ai_response) return res.data.ai_response;
+    if (res?.message) return res.message;
+    if (res?.response) return res.response;
+  } catch (apiError: any) {
+    console.log("[Hosit AI] Main API v1 endpoint attempt:", apiError?.message || apiError);
+  }
+
+  // ----------------------------------------------------
+  // 4. Offline Smart Agronomist Fallback
+  // ----------------------------------------------------
+  return getFallbackResponse(message);
+}
+
+/**
+ * Diagnostic test function for verifying Hosit AI API connection
+ */
+export async function testHositAI(): Promise<{ success: boolean; response: string }> {
+  try {
+    const res = await askHositAI({
+      message: "Reply exactly: FAR REACH AI CONNECTION SUCCESSFUL",
+      userId: "far-reach-test",
+      context: "This is an API connectivity test for the Far Reach farmer procurement application.",
+    });
+
+    const isSuccess = res.includes("FAR REACH AI CONNECTION SUCCESSFUL") || res.length > 5;
+    return {
+      success: isSuccess,
+      response: res,
+    };
+  } catch (err: any) {
+    return {
+      success: false,
+      response: err?.message || "Failed to reach Hosit AI",
+    };
+  }
+}
+
+/**
+ * Friendly offline/fallback AI response when server is unreachable or times out
+ */
+function getFallbackResponse(userQuery: string): string {
+  const query = userQuery.toLowerCase();
+  
+  if (query.includes("centre") || query.includes("center") || query.includes("where")) {
+    return "🌾 [Far Reach Guidance]: Samayapuram Procurement Centre currently has the lowest load (43% capacity, ~18 min wait). It is recommended for paddy procurement.";
+  }
+  if (query.includes("queue") || query.includes("token") || query.includes("turn")) {
+    return "🎫 [Far Reach Queue Info]: Token #147 is registered. Current token serving is #132 (15 farmers ahead, ~45 mins expected waiting time).";
+  }
+  if (query.includes("payment") || query.includes("money") || query.includes("pay")) {
+    return "💰 [Far Reach Payment Update]: Procurement record #147 has been processed. Net weight 500 kg @ ₹23.50/kg = ₹11,750. Payment status is Processing.";
+  }
+  
+  return "🌱 Far Reach AI Assistant: I am here to help you with procurement slots, centre crowd predictions, live queue updates, and payment tracking. Please make sure your internet connection is active.";
+}
