@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MapPin } from "lucide-react-native";
 import * as Location from "expo-location";
-import MapView, { Marker } from "react-native-maps";
+import FieldMap from "@/components/maps/FieldMap";
 
 export default function FieldsScreen() {
   const [location, setLocation] = useState<any>(null);
@@ -34,24 +34,7 @@ export default function FieldsScreen() {
       {errorMsg ? (
         <Text style={styles.error}>{errorMsg}</Text>
       ) : location ? (
-        <MapView
-          style={styles.map}
-          initialRegion={{
-            latitude: location.latitude,
-            longitude: location.longitude,
-            latitudeDelta: 0.01,
-            longitudeDelta: 0.01,
-          }}
-        >
-          <Marker
-            coordinate={{
-              latitude: location.latitude,
-              longitude: location.longitude,
-            }}
-            title="My Field"
-            description="Current Location"
-          />
-        </MapView>
+        <FieldMap location={location} />
       ) : (
         <ActivityIndicator size="large" color="#059669" />
       )}
