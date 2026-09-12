@@ -96,7 +96,7 @@ export default function WeighingDetailsScreen() {
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 40 }}>
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+          <TouchableOpacity onPress={() => { if (router.canGoBack()) { router.back(); } else { router.replace('/'); } }} style={styles.backButton}>
             <ArrowLeft size={20} color="#166534" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Transparent Weighing</Text>

@@ -8,6 +8,7 @@ import {
   Building2,
   Users,
   CreditCard,
+  Newspaper,
 } from 'lucide-react-native';
 
 import { View, Text, StyleSheet, Animated } from 'react-native';
@@ -103,6 +104,18 @@ export default function TabLayout() {
             <CustomTabBarIcon
               icon={<TrendingUp size={20} color={focused ? '#ffffff' : '#059669'} />}
               label={t('navigation.market')}
+              focused={focused}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="news"
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <CustomTabBarIcon
+              icon={<Newspaper size={20} color={focused ? '#ffffff' : '#059669'} />}
+              label="Updates"
               focused={focused}
             />
           ),

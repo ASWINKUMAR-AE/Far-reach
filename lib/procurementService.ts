@@ -233,7 +233,7 @@ export function calculateWeighing(grossKg: number, tareKg: number, ratePerKg: nu
 
 export async function getActiveBooking(): Promise<ProcurementBooking> {
   try {
-    const liveRes = await apiClient.fetchActiveBooking();
+    const liveRes = await apiClient.fetchActiveBooking(DEFAULT_FARMER.id);
     if (liveRes?.data) {
       const b = liveRes.data;
       const mapped: ProcurementBooking = {
@@ -377,6 +377,8 @@ export async function createBooking(
       crop,
       quantityKg,
       slot,
+      sessionId: 'SESSION_DEFAULT',
+      farmerId: DEFAULT_FARMER.id,
     });
     if (liveRes?.data) {
       const b = liveRes.data;

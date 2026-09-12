@@ -1,0 +1,162 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model News {
+  id            String    @id @default(uuid())
+  title         String
+  summary       String
+  content       String?
+  category      String
+  source_name   String
+  source_url    String
+  image_url     String?
+  published_at  DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+  expires_at    DateTime?
+  priority      String    @default("LOW") // CRITICAL, HIGH, MEDIUM, LOW
+  location      String?   // E.g., India, Tamil Nadu, Madurai
+  crop          String?
+  language      String    @default("English")
+  is_active     Boolean   @default(true)
+  is_verified   Boolean   @default(false)
+  verification_method String? // OFFICIAL_API, OFFICIAL_WEBSITE, OFFICIAL_RSS, ADMIN_VERIFIED, UNVERIFIED
+  verified_at   DateTime?
+  verified_by   String?
+  content_hash  String?   @unique
+  created_at    DateTime  @default(now())
+}
+
+model NewsSource {
+  id               String   @id @default(uuid())
+  name             String
+  url              String?
+  type             String   // RSS, API, WEBSITE
+  rss_url          String?
+  api_url          String?
+  trust_level      String   // OFFICIAL, GOVERNMENT, TRUSTED, GENERAL
+  update_frequency Int      @default(30) // in minutes
+  is_active        Boolean  @default(true)
+  last_sync        DateTime?
+  last_error       String?
+}
+
+// ----------------------------------------------------------------------
+// Core Procurement System Models
+// ----------------------------------------------------------------------
+
+model Farmer {
+  id           String   @id @default(uuid())
+  phone        String   @unique
+  name         String
+  language     String   @default("English")
+  district     String?
+  upi_id       String?
+  bank_account String?
+  bank_ifsc    String?
+  tickets      Ticket[]
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+}
+
+model ProcurementCentre {
+  id               String               @id @default(uuid())
+  name             String
+  address          String?
+  contact_number   String?
+  counters_count   Int                  @default(1)
+  daily_capacity   Int                  @default(100)
+  operating_hours  String?
+  status           String               @default("OPEN") // OPEN, CLOSED, FULL, TEMPORARILY_CLOSED
+  latitude         Float?
+  longitude        Float?
+  sessions         ProcurementSession[]
+  created_at       DateTime             @default(now())
+  updated_at       DateTime             @updatedAt
+}
+
+model ProcurementSession {
+  id               String            @id @default(uuid())
+  centre_id        String
+  centre           ProcurementCentre @relation(fields: [centre_id], references: [id])
+  crop             String
+  date             String            // YYYY-MM-DD
+  opening_time     String?           // HH:mm
+  closing_time     String?           // HH:mm
+  capacity         Int
+  status           String            @default("ACTIVE") // ACTIVE, COMPLETED, CANCELLED
+  tickets          Ticket[]
+  created_at       DateTime          @default(now())
+  updated_at       DateTime          @updatedAt
+}
+
+model Ticket {
+  id               String              @id // Custom ID like PRC-2026-000821
+  queue_number     Int
+  status           String              // QUEUED, CALLED, ARRIVED, VERIFYING, PROCESSING, COMPLETED, PAID, CLOSED, CANCELLED, NO_SHOW, RESCHEDULED, REJECTED
+  priority         String              @default("NORMAL")
+  requested_qty_kg Float
+  crop             String
+  
+  farmer_id        String
+  farmer           Farmer              @relation(fields: [farmer_id], references: [id])
+  
+  session_id       String
+  session          ProcurementSession  @relation(fields: [session_id], references: [id])
+  
+  called_at        DateTime?
+  arrived_at       DateTime?
+  no_show_at       DateTime?
+  cancelled_at     DateTime?
+  closed_at        DateTime?
+  
+  counter_id       String?
+  
+  history          TicketStatusHistory[]
+  transaction      ProcurementTransaction?
+
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+}
+
+model TicketStatusHistory {
+  id               String   @id @default(uuid())
+  ticket_id        String
+  ticket           Ticket   @relation(fields: [ticket_id], references: [id])
+  old_status       String
+  new_status       String
+  changed_at       DateTime @default(now())
+  changed_by       String   // user_id or 'SYSTEM'
+  actor_type       String   // FARMER, STAFF, ADMIN, SYSTEM
+  reason           String?
+  metadata         String?  // JSON
+}
+
+model ProcurementTransaction {
+  id                String   @id @default(uuid())
+  ticket_id         String   @unique
+  ticket            Ticket   @relation(fields: [ticket_id], references: [id])
+  gross_quantity_kg Float
+  tare_quantity_kg  Float    @default(0)
+  accepted_quantity Float
+  rejected_quantity Float    @default(0)
+  quality_grade     String?
+  moisture_pct      Float?
+  rate_per_kg       Float
+  total_amount      Float
+  
+  payment_status    String   @default("PENDING") // PENDING, PROCESSING, PAID, FAILED
+  payment_ref       String?
+  
+  procurement_started_at DateTime?
+  procurement_completed_at DateTime?
+  processed_by             String?
+  
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+}

@@ -7,9 +7,6 @@ export const API_BASE_URL =
 
 export const TOKEN_STORAGE_KEY = 'far_reach_token';
 
-/**
- * Generic HTTP Request Wrapper with 10s Timeout & JWT Token Interception
- */
 export async function apiRequest<T = any>(
   endpoint: string,
   options: RequestInit = {},
@@ -115,6 +112,8 @@ export async function bookProcurementSlot(payload: {
   crop: string;
   quantityKg: number;
   slot: string;
+  sessionId: string;
+  farmerId: string;
 }) {
   return apiRequest('/procurement/book-slot', {
     method: 'POST',
@@ -122,21 +121,28 @@ export async function bookProcurementSlot(payload: {
   });
 }
 
-export async function fetchActiveBooking() {
-  return apiRequest('/procurement/active-booking', { method: 'GET' });
+export async function fetchActiveBooking(farmerId: string) {
+  return apiRequest(`/procurement/active-booking/${farmerId}`, { method: 'GET' });
 }
 
 export async function fetchQueueStatus(centreCode: string) {
   return apiRequest(`/procurement/queue-status/${centreCode}`, { method: 'GET' });
 }
 
+export async function cancelProcurementTicket(ticketId: string, payload: { actorId: string, actorType: string, reason: string }) {
+  return apiRequest(`/procurement/tickets/${ticketId}/cancel`, {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+}
+
 // ----------------------------------------------------
 // D. Procurement Operations APIs
 // ----------------------------------------------------
 export async function checkinGate(bookingId: string) {
-  return apiRequest('/procurement/checkin', {
+  return apiRequest(`/procurement/tickets/${bookingId}/arrive`, {
     method: 'POST',
-    body: JSON.stringify({ bookingId }),
+    body: JSON.stringify({ staffId: 'SYSTEM' }),
   });
 }
 
@@ -145,8 +151,13 @@ export async function postWeighingRecord(payload: {
   grossWeightKg: number;
   tareWeightKg: number;
   ratePerKg: number;
+  acceptedQuantity: number;
+  rejectedQuantity: number;
+  qualityGrade: string;
+  moisturePct: number;
+  staffId: string;
 }) {
-  return apiRequest('/procurement/weighing', {
+  return apiRequest(`/procurement/tickets/${payload.bookingId}/complete`, {
     method: 'POST',
     body: JSON.stringify(payload),
   });
@@ -156,8 +167,11 @@ export async function postQualityInspection(payload: {
   bookingId: string;
   qualityGrade: string;
   moisturePercentage: number;
+  staffId: string;
+  isApproved: boolean;
+  rejectionReason?: string;
 }) {
-  return apiRequest('/procurement/quality', {
+  return apiRequest(`/procurement/tickets/${payload.bookingId}/verify`, {
     method: 'POST',
     body: JSON.stringify(payload),
   });
@@ -235,4 +249,44 @@ export async function createComplaint(payload: {
     method: 'POST',
     body: JSON.stringify(payload),
   });
+}
+
+// ----------------------------------------------------
+// G. Live News & Farmer Updates APIs
+// ----------------------------------------------------
+export const NEWS_API_BASE_URL = process.env.EXPO_PUBLIC_NEWS_API_URL || 'http://localhost:3000/api/news';
+
+export async function fetchNews(params?: { category?: string; location?: string; priority?: string; search?: string; limit?: number }) {
+  const query = new URLSearchParams(params as Record<string, string>).toString();
+  try {
+    const res = await fetch(`${NEWS_API_BASE_URL}?${query}`);
+    return await res.json();
+  } catch (error) {
+    console.warn("Failed to fetch news:", error);
+    return { data: [] };
+  }
+}
+
+export async function fetchLiveNews() {
+  try {
+    const res = await fetch(`${NEWS_API_BASE_URL}/live`);
+    return await res.json();
+  } catch (error) {
+    console.warn("Failed to fetch live news:", error);
+    return { data: [] };
+  }
+}
+
+export async function publishAdminNews(payload: any) {
+  try {
+    const res = await fetch(`${NEWS_API_BASE_URL}/admin`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    return await res.json();
+  } catch (error) {
+    console.error("Failed to publish admin news:", error);
+    throw error;
+  }
 }

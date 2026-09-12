@@ -15,7 +15,7 @@ export default function HelpScreen() {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
+          <TouchableOpacity onPress={() => { if (router.canGoBack()) { router.back(); } else { router.replace('/'); } }} style={styles.backBtn}>
             <ArrowLeft size={20} color="#166534" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Help & Grievance Support</Text>

@@ -667,7 +667,7 @@ Task: You are an expert agricultural AI assistant for an Indian farmer. YOU MUST
       {/* Mobile-First Header */}
       <View style={styles.header}>
         <View style={styles.headerContent}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+          <TouchableOpacity onPress={() => { if (router.canGoBack()) { router.back(); } else { router.replace('/'); } }} style={styles.backButton}>
             <ArrowLeft size={20} color="#065f46" />
           </TouchableOpacity>
           <View style={styles.headerTextContainer}>

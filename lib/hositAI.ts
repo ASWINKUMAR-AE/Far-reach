@@ -10,10 +10,13 @@ export async function askHositAI({
   userId = "F1021",
   context = "Far Reach Farmer Procurement Operating System",
 }: HositAIRequest): Promise<string> {
+  // Enhance context with real-time news RAG if necessary
+  const enhancedContext = await buildRAGContext(message, context);
+
   const payload = {
     message,
     user_id: userId,
-    context,
+    context: enhancedContext,
   };
 
   // ----------------------------------------------------
@@ -137,3 +140,30 @@ function getFallbackResponse(userQuery: string): string {
   
   return "🌱 Far Reach AI Assistant: I am here to help you with procurement slots, centre crowd predictions, live queue updates, and payment tracking. Please make sure your internet connection is active.";
 }
+
+/**
+ * Enhanced RAG context builder. Checks if query implies news or updates,
+ * fetches verified news from the backend, and injects it into context.
+ */
+async function buildRAGContext(message: string, baseContext: string): Promise<string> {
+  let finalContext = baseContext;
+  const q = message.toLowerCase();
+  
+  const isNewsQuery = q.includes("news") || q.includes("update") || q.includes("scheme") || 
+                      q.includes("weather") || q.includes("subsidy") || q.includes("today");
+  
+  if (isNewsQuery) {
+    try {
+      // Fetch latest high-priority news as context
+      const res = await apiClient.fetchLiveNews();
+      if (res?.data && res.data.length > 0) {
+        const newsItems = res.data.map((n: any) => `- ${n.title}: ${n.summary} (Verified: ${n.is_verified})`).join("\n");
+        finalContext += `\n\n[LIVE VERIFIED NEWS UPDATES]:\n${newsItems}\n\nINSTRUCTIONS: If the farmer asks for updates, answer ONLY using the above verified news. Do NOT invent updates. Cite the source if available.`;
+      }
+    } catch (e) {
+      console.warn("RAG Context fetch failed:", e);
+    }
+  }
+  return finalContext;
+}
+

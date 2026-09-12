@@ -125,7 +125,7 @@ export default function SoilInputScreen() {
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+          <TouchableOpacity onPress={() => { if (router.canGoBack()) { router.back(); } else { router.replace('/'); } }} style={styles.backButton}>
             <ArrowLeft size={24} color="#374151" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>
