@@ -190,6 +190,30 @@ export default function AICropRecommendationScreen() {
               <Text>Temp: {weather.temperature}°C | Humidity: {weather.humidity}% | Wind: {weather.windSpeed} km/h</Text>
             </View>
           ) : null}
+
+          {/* Voice Assistant Button */}
+          <TouchableOpacity 
+            style={{ 
+              backgroundColor: '#166534', 
+              padding: 16, 
+              borderRadius: 12, 
+              flexDirection: 'row', 
+              alignItems: 'center', 
+              justifyContent: 'center', 
+              marginTop: 16,
+              gap: 8,
+              elevation: 3,
+              shadowColor: '#166534',
+              shadowOpacity: 0.3,
+              shadowRadius: 5
+            }}
+            onPress={() => router.push('/(tabs)/Crop_rotation')}
+          >
+            <Mic size={20} color="white" />
+            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16 }}>
+              Ask AI Agronomist (Voice)
+            </Text>
+          </TouchableOpacity>
         </View>
 
         {!hasSubmitted ? (

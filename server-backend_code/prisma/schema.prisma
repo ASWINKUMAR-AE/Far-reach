@@ -160,3 +160,10 @@ model ProcurementTransaction {
   created_at       DateTime @default(now())
   updated_at       DateTime @updatedAt
 }
+
+model CctvRequest {
+  id           String   @id @default(uuid())
+  farmer_id    String
+  centre_id    String
+  requested_at DateTime @default(now())
+}

@@ -7,6 +7,8 @@ import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
 import newsRoutes from './routes/news.routes';
 import procurementRoutes from './routes/procurement.routes';
+import cvRoutes from './routes/cv.routes';
+import paymentRoutes from './routes/payment.routes';
 import { startIngestionScheduler } from './services/ingestion.service';
 
 dotenv.config();
@@ -36,6 +38,8 @@ app.set('io', io);
 // Routes
 app.use('/api/news', newsRoutes);
 app.use('/api/procurement', procurementRoutes);
+app.use('/api/cv', cvRoutes);
+app.use('/api/payment', paymentRoutes);
 
 // Socket.io Events
 io.on('connection', (socket) => {

@@ -12,6 +12,7 @@ import { router } from 'expo-router';
 import { ArrowLeft, CheckCircle2, Clock, ShieldCheck, CreditCard, ArrowRight } from 'lucide-react-native';
 import { getActiveBooking, getProcurementRecord } from '@/lib/procurementService';
 import { ProcurementBooking, ProcurementRecord } from '@/lib/types';
+import { Video } from 'lucide-react-native';
 
 export default function ProcurementStatusScreen() {
   const [booking, setBooking] = useState<ProcurementBooking | null>(null);
@@ -103,12 +104,25 @@ export default function ProcurementStatusScreen() {
           ))}
         </View>
 
-        {/* Action Button */}
-        <View style={{ paddingHorizontal: 20 }}>
-          <TouchableOpacity onPress={() => router.push('/(tabs)/payments')} style={styles.primaryBtn}>
-            <CreditCard size={20} color="white" />
-            <Text style={styles.primaryBtnText}>Track Payment & DBT Status</Text>
-            <ArrowRight size={20} color="white" />
+        {/* Action Buttons */}
+        <View style={{ paddingHorizontal: 20, gap: 12 }}>
+          
+          <TouchableOpacity onPress={() => router.push('/crowd-monitoring')} style={styles.secondaryBtn}>
+            <Video size={20} color="#166534" />
+            <Text style={styles.secondaryBtnText}>View Live Crowd & CCTV</Text>
+            <ArrowRight size={20} color="#166534" />
+          </TouchableOpacity>
+
+          {(booking.status === 'PAYMENT_PENDING' || booking.status === 'PAYMENT_INITIATED' || booking.status === 'COMPLETED') && (
+            <TouchableOpacity onPress={() => router.push('/payment')} style={styles.primaryBtn}>
+              <CreditCard size={20} color="white" />
+              <Text style={styles.primaryBtnText}>Proceed to Secure Payment</Text>
+              <ArrowRight size={20} color="white" />
+            </TouchableOpacity>
+          )}
+
+          <TouchableOpacity onPress={() => router.push('/(tabs)/payments')} style={styles.tertiaryBtn}>
+            <Text style={styles.tertiaryBtnText}>Track Payment & DBT Status</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -189,4 +203,22 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   primaryBtnText: { color: 'white', fontWeight: '900', fontSize: 16 },
+  secondaryBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#DCFCE7',
+    paddingVertical: 16,
+    borderRadius: 12,
+    gap: 8,
+    borderWidth: 1,
+    borderColor: '#166534',
+  },
+  secondaryBtnText: { color: '#166534', fontWeight: '900', fontSize: 16 },
+  tertiaryBtn: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+  },
+  tertiaryBtnText: { color: '#64748B', fontWeight: '700', fontSize: 14 },
 });
