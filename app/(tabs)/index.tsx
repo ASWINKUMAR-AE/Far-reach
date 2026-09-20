@@ -87,24 +87,39 @@ const quickActions = [
 }
 ];
 
+const LANGUAGES = [
+  { code: 'en', name: 'English (India)' },
+  { code: 'ta', name: 'தமிழ் (Tamil)' },
+  { code: 'hi', name: 'हिंदी (Hindi)' },
+  { code: 'ml', name: 'മലയാളം (Malayalam)' },
+  { code: 'kn', name: 'ಕನ್ನಡ (Kannada)' },
+];
+
 export default function HomeScreen() {
   const { t, i18n } = useTranslation();
-  const [selectedLang, setSelectedLang] = useState("en");
+  const [selectedLang, setSelectedLang] = useState(i18n.language || "en");
 
   const changeLanguage = (lang: string) => {
     setSelectedLang(lang);
     i18n.changeLanguage(lang);
 
-    let message = "";
-    if (lang === "en") {
-      message = "Welcome to the Smart Farming App!";
-    } else if (lang === "hi") {
+    let message = "Welcome to the Smart Farming App!";
+    let voiceCode = "en-US";
+    if (lang === "hi") {
       message = "स्मार्ट खेती ऐप में आपका स्वागत है!";
+      voiceCode = "hi-IN";
     } else if (lang === "ta") {
       message = "ஸ்மார்ட் விவசாய பயன்பாட்டிற்கு வரவேற்கிறோம்!";
+      voiceCode = "ta-IN";
+    } else if (lang === "ml") {
+      message = "സ്മാർട്ട് ഫാമിംഗ് ആപ്പിലേക്ക് സ്വാഗതം!";
+      voiceCode = "ml-IN";
+    } else if (lang === "kn") {
+      message = "ಸ್ಮಾರ್ಟ್ ಕೃಷಿ ಅಪ್ಲಿಕೇಶನ್‌ಗೆ ಸುಸ್ವಾಗತ!";
+      voiceCode = "kn-IN";
     }
 
-    Speech.speak(message, { language: lang === "en" ? "en-US" : lang === "hi" ? "hi-IN" : "ta-IN" });
+    Speech.speak(message, { language: voiceCode });
   };
 
   return (
@@ -134,26 +149,20 @@ export default function HomeScreen() {
 
           {/* Translation Buttons */}
           <View style={styles.languageContainer}>
-            <TouchableOpacity 
-              style={[styles.langButton, selectedLang === "en" && styles.langButtonActive]} 
-              onPress={() => changeLanguage("en")}
-            >
-              <Text style={styles.langText}>English</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity 
-              style={[styles.langButton, selectedLang === "hi" && styles.langButtonActive]} 
-              onPress={() => changeLanguage("hi")}
-            >
-              <Text style={styles.langText}>हिन्दी</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity 
-              style={[styles.langButton, selectedLang === "ta" && styles.langButtonActive]} 
-              onPress={() => changeLanguage("ta")}
-            >
-              <Text style={styles.langText}>தமிழ்</Text>
-            </TouchableOpacity>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingVertical: 8, paddingRight: 20 }}>
+              {LANGUAGES.map((lang) => {
+                const isActive = selectedLang === lang.code;
+                return (
+                  <TouchableOpacity 
+                    key={lang.code}
+                    style={[styles.langButton, isActive && styles.langButtonActive]} 
+                    onPress={() => changeLanguage(lang.code)}
+                  >
+                    <Text style={[styles.langText, isActive && styles.langTextActive]}>{lang.name}</Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
           </View>
         </View>
 

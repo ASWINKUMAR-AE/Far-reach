@@ -29,6 +29,7 @@ export const DEFAULT_FARMER: Farmer = {
   upiId: 'rameshkumar@upi',
   bankAccount: 'XXXX-XXXX-1234',
   bankIfsc: 'SBIN0001234',
+  soilType: 'Clay',
 };
 
 export const INITIAL_CENTRES: ProcurementCentre[] = [

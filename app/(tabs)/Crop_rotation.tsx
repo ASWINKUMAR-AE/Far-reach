@@ -258,8 +258,14 @@ export default function InteractiveCropRotationScreen() {
       const historyContext = messages.map(m => `${m.type === 'assistant' ? 'AI' : 'Farmer'}: ${m.content}`).join('\n');
       const context = `Application: Far-Reach Crop Rotation Module
 Farmer: ${DEFAULT_FARMER.name}
+Auto-Fetched Soil Profile: ${DEFAULT_FARMER.soilType || 'Unknown'} (Use this unless farmer overrides)
 Current Season: ${seasonInfo}
 Live Weather: ${weatherInfo}
+
+CRITICAL SUCCESSION RULES:
+- If Previous Crop is Rice or Paddy: DO NOT suggest tree/shrub crops (like Mango, Banana). The field will be needed again in 6 months for the next Rice cycle. Suggest short-term pulses or legumes.
+- If Previous Crop is Sugarcane: Suggest deep-rooted restorative crops like Wheat or Legumes to replenish soil nutrients.
+- If Previous Crop is Cotton: DO NOT suggest closely related crops. Suggest non-host crops like Pulses to break the pest cycle (e.g., bollworm).
 
 Goal: You are an expert agronomist AI. Ask for details one by one (last crop, soil, budget, farm size). Recommend a profitable rotation plan.
 Current Conversation:

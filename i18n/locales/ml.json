@@ -1,189 +1,189 @@
 {
   "app": {
-    "name": "Far-reach",
-    "tagline": "AI-Powered Farming Assistant"
+    "name": "ദൂരവ്യാപകമായ",
+    "tagline": "AI- പവർ ഫാമിംഗ് അസിസ്റ്റൻ്റ്"
   },
   "common": {
-    "loading": "Loading...",
-    "processing": "Processing...",
-    "getStarted": "Get Started",
-    "change": "Change",
-    "poweredBy": "Powered by"
+    "loading": "ലോഡ് ചെയ്യുന്നു...",
+    "processing": "പ്രോസസ്സ് ചെയ്യുന്നു...",
+    "getStarted": "ആരംഭിക്കുക",
+    "change": "മാറ്റുക",
+    "poweredBy": "പ്രായോജകർ"
   },
   "navigation": {
-    "home": "Home",
-    "fields": "Fields",
-    "market": "Market",
-    "profile": "Profile"
+    "home": "വീട്",
+    "fields": "വയലുകൾ",
+    "market": "വിപണി",
+    "profile": "പ്രൊഫൈൽ"
   },
   "onboarding": {
     "welcome": {
-      "title": "Welcome to Smart Farming",
-      "subtitle": "Get AI-powered crop recommendations tailored for your soil and climate"
+      "title": "സ്മാർട്ട് ഫാമിംഗിലേക്ക് സ്വാഗതം",
+      "subtitle": "നിങ്ങളുടെ മണ്ണിനും കാലാവസ്ഥയ്ക്കും അനുയോജ്യമായ AI- പവർ ക്രോപ്പ് ശുപാർശകൾ നേടുക"
     },
     "features": {
       "soil": {
-        "title": "Soil Analysis",
-        "desc": "Test your soil using satellite data or upload sensor readings"
+        "title": "മണ്ണ് വിശകലനം",
+        "desc": "സാറ്റലൈറ്റ് ഡാറ്റ ഉപയോഗിച്ച് നിങ്ങളുടെ മണ്ണ് പരിശോധിക്കുക അല്ലെങ്കിൽ സെൻസർ റീഡിംഗുകൾ അപ്‌ലോഡ് ചെയ്യുക"
       },
       "market": {
-        "title": "Market Insights",
-        "desc": "Get real-time crop prices and market trends"
+        "title": "മാർക്കറ്റ് ഇൻസൈറ്റുകൾ",
+        "desc": "വിളകളുടെ തത്സമയ വിലകളും വിപണി പ്രവണതകളും നേടുക"
       },
       "assistant": {
-        "title": "Voice Assistant",
-        "desc": "Ask farming questions in your local language"
+        "title": "വോയ്സ് അസിസ്റ്റൻ്റ്",
+        "desc": "നിങ്ങളുടെ പ്രാദേശിക ഭാഷയിൽ കാർഷിക ചോദ്യങ്ങൾ ചോദിക്കുക"
       },
       "visual": {
-        "title": "Crop Monitoring",
-        "desc": "Detect diseases and pests using camera analysis"
+        "title": "വിള നിരീക്ഷണം",
+        "desc": "ക്യാമറ വിശകലനം ഉപയോഗിച്ച് രോഗങ്ങളും കീടങ്ങളും കണ്ടെത്തുക"
       }
     }
   },
   "auth": {
     "phone": {
-      "title": "Enter Mobile Number",
-      "subtitle": "We'll send you a verification code",
-      "label": "Mobile Number",
-      "placeholder": "Enter 10-digit number",
-      "accessibility": "Mobile number input field"
+      "title": "മൊബൈൽ നമ്പർ നൽകുക",
+      "subtitle": "ഞങ്ങൾ നിങ്ങൾക്ക് ഒരു സ്ഥിരീകരണ കോഡ് അയയ്ക്കും",
+      "label": "മൊബൈൽ നമ്പർ",
+      "placeholder": "10 അക്ക നമ്പർ നൽകുക",
+      "accessibility": "മൊബൈൽ നമ്പർ ഇൻപുട്ട് ഫീൽഡ്"
     },
     "otp": {
-      "title": "Verify Code",
-      "subtitle": "Enter the 6-digit code sent to your phone",
-      "label": "Verification Code",
+      "title": "കോഡ് പരിശോധിക്കുക",
+      "subtitle": "നിങ്ങളുടെ ഫോണിലേക്ക് അയച്ച 6 അക്ക കോഡ് നൽകുക",
+      "label": "പരിശോധിച്ചുറപ്പിക്കൽ കോഡ്",
       "placeholder": "000000",
-      "accessibility": "OTP verification input field"
+      "accessibility": "OTP പരിശോധന ഇൻപുട്ട് ഫീൽഡ്"
     },
-    "sendOTP": "Send Code",
-    "verify": "Verify",
-    "changeNumber": "Change Number",
-    "skipForNow": "Skip for now",
-    "otpSent": "Verification code sent!",
+    "sendOTP": "കോഡ് അയയ്ക്കുക",
+    "verify": "സ്ഥിരീകരിക്കുക",
+    "changeNumber": "നമ്പർ മാറ്റുക",
+    "skipForNow": "തൽക്കാലം ഒഴിവാക്കുക",
+    "otpSent": "പരിശോധനാ കോഡ് അയച്ചു!",
     "error": {
-      "invalidPhone": "Please enter a valid 10-digit mobile number",
-      "invalidOTP": "Please enter a valid 6-digit code"
+      "invalidPhone": "സാധുവായ 10 അക്ക മൊബൈൽ നമ്പർ നൽകുക",
+      "invalidOTP": "സാധുവായ 6 അക്ക കോഡ് നൽകുക"
     }
   },
   "home": {
-    "greeting": "Good Morning, Farmer!",
-    "subtitle": "Let's make your farming smarter today",
-    "quickActions": "Quick Actions",
-    "recentActivity": "Recent Activity",
-    "farmStats": "Farm Overview",
+    "greeting": "സുപ്രഭാതം, കർഷകൻ!",
+    "subtitle": "ഇന്ന് നിങ്ങളുടെ കൃഷി കൂടുതൽ മികച്ചതാക്കാം",
+    "quickActions": "ദ്രുത പ്രവർത്തനങ്ങൾ",
+    "recentActivity": "സമീപകാല പ്രവർത്തനം",
+    "farmStats": "ഫാം അവലോകനം",
     "actions": {
-      "soilTest": "Soil Test",
-      "cropSuggestions": "Crop Suggestions",
-      "marketTrends": "Market Trends",
-      "cropMonitor": "Crop Monitor",
-      "assistant": "Voice Assistant",
-      "settings": "Settings"
+      "soilTest": "മണ്ണ് പരിശോധന",
+      "cropSuggestions": "വിള നിർദ്ദേശങ്ങൾ",
+      "marketTrends": "മാർക്കറ്റ് ട്രെൻഡുകൾ",
+      "cropMonitor": "ക്രോപ്പ് മോണിറ്റർ",
+      "assistant": "വോയ്സ് അസിസ്റ്റൻ്റ്",
+      "settings": "ക്രമീകരണങ്ങൾ"
     },
     "stats": {
-      "totalFields": "Total Fields",
-      "totalArea": "Area (acres)",
-      "activeCrops": "Active Crops"
+      "totalFields": "മൊത്തം ഫീൽഡുകൾ",
+      "totalArea": "വിസ്തീർണം (ഏക്കറുകൾ)",
+      "activeCrops": "സജീവ വിളകൾ"
     }
   },
   "weather": {
-    "today": "Today's Weather",
-    "humidity": "Humidity",
-    "wind": "Wind",
-    "visibility": "Visibility"
+    "today": "ഇന്നത്തെ കാലാവസ്ഥ",
+    "humidity": "ഈർപ്പം",
+    "wind": "കാറ്റ്",
+    "visibility": "ദൃശ്യപരത"
   },
   "activity": {
-    "soilTest": "Soil test completed",
-    "cropRecommendation": "Got crop recommendations",
-    "marketPrice": "Checked market prices"
+    "soilTest": "മണ്ണ് പരിശോധന പൂർത്തിയായി",
+    "cropRecommendation": "വിള ശുപാർശകൾ ലഭിച്ചു",
+    "marketPrice": "വിപണി വില പരിശോധിച്ചു"
   },
   "soil": {
-    "title": "Soil Analysis",
-    "subtitle": "Choose how you want to analyze your soil",
-    "selectMethod": "Select Analysis Method",
-    "analyze": "Get Recommendations",
+    "title": "മണ്ണ് വിശകലനം",
+    "subtitle": "നിങ്ങളുടെ മണ്ണ് എങ്ങനെ വിശകലനം ചെയ്യണമെന്ന് തിരഞ്ഞെടുക്കുക",
+    "selectMethod": "വിശകലന രീതി തിരഞ്ഞെടുക്കുക",
+    "analyze": "ശുപാർശകൾ നേടുക",
     "methods": {
       "manual": {
-        "title": "Manual Entry",
-        "desc": "Enter soil test values manually"
+        "title": "മാനുവൽ എൻട്രി",
+        "desc": "മണ്ണ് പരിശോധന മൂല്യങ്ങൾ നേരിട്ട് നൽകുക"
       },
       "csv": {
-        "title": "Upload Data",
-        "desc": "Upload sensor data or lab results"
+        "title": "ഡാറ്റ അപ്‌ലോഡ് ചെയ്യുക",
+        "desc": "സെൻസർ ഡാറ്റയോ ലാബ് ഫലങ്ങളോ അപ്‌ലോഡ് ചെയ്യുക"
       },
       "satellite": {
-        "title": "Satellite Analysis",
-        "desc": "Get data from satellite imagery"
+        "title": "ഉപഗ്രഹ വിശകലനം",
+        "desc": "ഉപഗ്രഹ ചിത്രങ്ങളിൽ നിന്ന് ഡാറ്റ നേടുക"
       },
       "camera": {
-        "title": "Scan Field",
-        "desc": "Take photos for AI analysis"
+        "title": "ഫീൽഡ് സ്കാൻ ചെയ്യുക",
+        "desc": "AI വിശകലനത്തിനായി ഫോട്ടോകൾ എടുക്കുക"
       }
     },
     "manual": {
-      "title": "Enter Soil Parameters"
+      "title": "മണ്ണിൻ്റെ പാരാമീറ്ററുകൾ നൽകുക"
     },
     "fields": {
-      "ph": "pH Level",
-      "nitrogen": "Nitrogen",
-      "phosphorus": "Phosphorus",
-      "potassium": "Potassium",
-      "organicMatter": "Organic Matter",
-      "moisture": "Moisture",
-      "temperature": "Temperature"
+      "ph": "pH ലെവൽ",
+      "nitrogen": "നൈട്രജൻ",
+      "phosphorus": "ഫോസ്ഫറസ്",
+      "potassium": "പൊട്ടാസ്യം",
+      "organicMatter": "ജൈവ പദാർത്ഥം",
+      "moisture": "ഈർപ്പം",
+      "temperature": "താപനില"
     },
     "satellite": {
-      "analyzing": "Analyzing satellite data...",
-      "success": "Satellite analysis completed!"
+      "analyzing": "ഉപഗ്രഹ ഡാറ്റ വിശകലനം ചെയ്യുന്നു...",
+      "success": "ഉപഗ്രഹ വിശകലനം പൂർത്തിയായി!"
     },
     "camera": {
-      "info": "Camera Analysis",
-      "instructions": "Take clear photos of your soil from different angles for best results."
+      "info": "ക്യാമറ വിശകലനം",
+      "instructions": "മികച്ച ഫലങ്ങൾക്കായി വ്യത്യസ്ത കോണുകളിൽ നിന്ന് നിങ്ങളുടെ മണ്ണിൻ്റെ വ്യക്തമായ ഫോട്ടോകൾ എടുക്കുക."
     },
     "csv": {
-      "info": "Upload Data",
-      "instructions": "Select a CSV file with your soil test results."
+      "info": "ഡാറ്റ അപ്‌ലോഡ് ചെയ്യുക",
+      "instructions": "നിങ്ങളുടെ മണ്ണ് പരിശോധനാ ഫലങ്ങളുള്ള ഒരു CSV ഫയൽ തിരഞ്ഞെടുക്കുക."
     }
   },
   "crops": {
-    "title": "Crop Recommendations",
-    "subtitle": "Based on your soil analysis and local conditions",
-    "projectedProfit": "Projected Profit",
-    "sustainabilityScore": "Sustainability Score",
-    "yield": "Yield",
-    "sowingWindow": "Sowing Window",
-    "riskFactors": "Risk Factors",
-    "savePlan": "Save Plan",
-    "details": "Details",
-    "fertilizerPlan": "Fertilizer Plan",
-    "irrigationSchedule": "Irrigation Schedule",
-    "whyRecommended": "Why This Crop?"
+    "title": "വിള ശുപാർശകൾ",
+    "subtitle": "നിങ്ങളുടെ മണ്ണിൻ്റെ വിശകലനത്തെയും പ്രാദേശിക സാഹചര്യങ്ങളെയും അടിസ്ഥാനമാക്കി",
+    "projectedProfit": "പ്രൊജക്റ്റഡ് ലാഭം",
+    "sustainabilityScore": "സുസ്ഥിരത സ്കോർ",
+    "yield": "വരുമാനം",
+    "sowingWindow": "വിതയ്ക്കൽ വിൻഡോ",
+    "riskFactors": "അപകട ഘടകങ്ങൾ",
+    "savePlan": "പദ്ധതി സംരക്ഷിക്കുക",
+    "details": "വിശദാംശങ്ങൾ",
+    "fertilizerPlan": "രാസവള പദ്ധതി",
+    "irrigationSchedule": "ജലസേചന ഷെഡ്യൂൾ",
+    "whyRecommended": "എന്തുകൊണ്ട് ഈ വിള?"
   },
   "chat": {
-    "title": "Voice Assistant",
-    "subtitle": "Ask me anything about farming",
-    "welcome": "Hello! I'm your farming assistant. How can I help you today?",
-    "inputPlaceholder": "Type your question...",
-    "listening": "Listening... Speak now",
-    "stopSpeech": "Stop",
-    "playAudio": "Play",
+    "title": "വോയ്സ് അസിസ്റ്റൻ്റ്",
+    "subtitle": "കൃഷിയെ കുറിച്ച് എന്തും ചോദിക്കൂ",
+    "welcome": "ഹലോ! ഞാൻ നിങ്ങളുടെ കൃഷി സഹായിയാണ്. ഇന്ന് എനിക്ക് നിങ്ങളെ എങ്ങനെ സഹായിക്കാനാകും?",
+    "inputPlaceholder": "നിങ്ങളുടെ ചോദ്യം ടൈപ്പ് ചെയ്യുക...",
+    "listening": "കേൾക്കുന്നു... ഇപ്പോൾ സംസാരിക്കൂ",
+    "stopSpeech": "നിർത്തുക",
+    "playAudio": "കളിക്കുക",
     "transcription": {
-      "sample": "What is the best fertilizer for wheat crop?"
+      "sample": "ഗോതമ്പ് വിളകൾക്ക് ഏറ്റവും നല്ല വളം ഏതാണ്?"
     },
     "prompts": {
-      "soilTest": "How to test soil pH?",
-      "cropSelection": "Best crops for my region",
-      "fertilizer": "Fertilizer recommendations",
-      "weather": "Weather impact on crops",
-      "pestControl": "Pest control methods",
-      "irrigation": "Irrigation schedule"
+      "soilTest": "മണ്ണിൻ്റെ പിഎച്ച് എങ്ങനെ പരിശോധിക്കാം?",
+      "cropSelection": "എൻ്റെ പ്രദേശത്തെ മികച്ച വിളകൾ",
+      "fertilizer": "വളം ശുപാർശകൾ",
+      "weather": "വിളകളെ ബാധിക്കുന്ന കാലാവസ്ഥ",
+      "pestControl": "കീട നിയന്ത്രണ രീതികൾ",
+      "irrigation": "ജലസേചന ഷെഡ്യൂൾ"
     },
     "responses": {
-      "soil": "For soil testing, I recommend checking pH levels first. Ideal pH for most crops is 6.0-7.5. You can use our satellite analysis or manual testing kit.",
-      "crop": "Based on your soil conditions, I suggest wheat, chickpea, or mustard for winter season. Would you like detailed recommendations?",
-      "fertilizer": "For balanced nutrition, use DAP during sowing, urea for nitrogen boost, and potash for root development. Apply based on soil test results.",
-      "weather": "Current weather looks favorable for farming. Keep monitoring rainfall patterns and temperature changes for optimal crop planning.",
-      "pest": "For pest control, use integrated pest management. Start with neem oil for organic control, and monitor crops regularly for early detection.",
-      "general": "I'm here to help with all your farming questions. You can ask about crops, soil, weather, fertilizers, or any agricultural topic!"
+      "soil": "മണ്ണ് പരിശോധനയ്ക്കായി, ആദ്യം pH അളവ് പരിശോധിക്കാൻ ഞാൻ ശുപാർശ ചെയ്യുന്നു. മിക്ക വിളകൾക്കും അനുയോജ്യമായ pH 6.0-7.5 ആണ്. നിങ്ങൾക്ക് ഞങ്ങളുടെ ഉപഗ്രഹ വിശകലനം അല്ലെങ്കിൽ മാനുവൽ ടെസ്റ്റിംഗ് കിറ്റ് ഉപയോഗിക്കാം.",
+      "crop": "നിങ്ങളുടെ മണ്ണിൻ്റെ അവസ്ഥയെ അടിസ്ഥാനമാക്കി, ശൈത്യകാലത്ത് ഗോതമ്പ്, ചെറുപയർ അല്ലെങ്കിൽ കടുക് എന്നിവ ഞാൻ നിർദ്ദേശിക്കുന്നു. നിങ്ങൾക്ക് വിശദമായ ശുപാർശകൾ വേണോ?",
+      "fertilizer": "സമീകൃത പോഷണത്തിനായി, വിതയ്ക്കുമ്പോൾ ഡിഎപിയും നൈട്രജൻ വർദ്ധിപ്പിക്കുന്നതിന് യൂറിയയും വേരുവളർച്ചയ്ക്ക് പൊട്ടാഷും ഉപയോഗിക്കുക. മണ്ണ് പരിശോധനാ ഫലത്തിൻ്റെ അടിസ്ഥാനത്തിലാണ് അപേക്ഷിക്കേണ്ടത്.",
+      "weather": "നിലവിലെ കാലാവസ്ഥ കൃഷിക്ക് അനുകൂലമാണ്. ഒപ്റ്റിമൽ വിള ആസൂത്രണത്തിനായി മഴയുടെ പാറ്റേണുകളും താപനില മാറ്റങ്ങളും നിരീക്ഷിക്കുന്നത് തുടരുക.",
+      "pest": "കീടനിയന്ത്രണത്തിന്, സംയോജിത കീട നിയന്ത്രണം ഉപയോഗിക്കുക. ജൈവ നിയന്ത്രണത്തിനായി വേപ്പെണ്ണ ഉപയോഗിച്ച് ആരംഭിക്കുക, നേരത്തെയുള്ള കണ്ടെത്തലിനായി വിളകൾ പതിവായി നിരീക്ഷിക്കുക.",
+      "general": "നിങ്ങളുടെ എല്ലാ കാർഷിക ചോദ്യങ്ങൾക്കും സഹായിക്കാൻ ഞാൻ ഇവിടെയുണ്ട്. വിളകൾ, മണ്ണ്, കാലാവസ്ഥ, രാസവളങ്ങൾ അല്ലെങ്കിൽ ഏതെങ്കിലും കാർഷിക വിഷയത്തെക്കുറിച്ച് നിങ്ങൾക്ക് ചോദിക്കാം!"
     }
   }
 }

@@ -1,189 +1,189 @@
 {
   "app": {
-    "name": "Far-reach",
-    "tagline": "AI-Powered Farming Assistant"
+    "name": "தொலைநோக்கு",
+    "tagline": "AI-இயக்கப்படும் விவசாய உதவியாளர்"
   },
   "common": {
-    "loading": "Loading...",
-    "processing": "Processing...",
-    "getStarted": "Get Started",
-    "change": "Change",
-    "poweredBy": "Powered by"
+    "loading": "ஏற்றுகிறது...",
+    "processing": "செயலாக்குகிறது...",
+    "getStarted": "தொடங்குங்கள்",
+    "change": "மாற்றவும்",
+    "poweredBy": "மூலம் இயக்கப்படுகிறது"
   },
   "navigation": {
-    "home": "Home",
-    "fields": "Fields",
-    "market": "Market",
-    "profile": "Profile"
+    "home": "வீடு",
+    "fields": "வயல்வெளிகள்",
+    "market": "சந்தை",
+    "profile": "சுயவிவரம்"
   },
   "onboarding": {
     "welcome": {
-      "title": "Welcome to Smart Farming",
-      "subtitle": "Get AI-powered crop recommendations tailored for your soil and climate"
+      "title": "ஸ்மார்ட் ஃபார்மிங்கிற்கு வரவேற்கிறோம்",
+      "subtitle": "உங்கள் மண் மற்றும் காலநிலைக்கு ஏற்ப AI-இயங்கும் பயிர் பரிந்துரைகளைப் பெறுங்கள்"
     },
     "features": {
       "soil": {
-        "title": "Soil Analysis",
-        "desc": "Test your soil using satellite data or upload sensor readings"
+        "title": "மண் பகுப்பாய்வு",
+        "desc": "செயற்கைக்கோள் தரவைப் பயன்படுத்தி உங்கள் மண்ணைச் சோதிக்கவும் அல்லது சென்சார் அளவீடுகளைப் பதிவேற்றவும்"
       },
       "market": {
-        "title": "Market Insights",
-        "desc": "Get real-time crop prices and market trends"
+        "title": "சந்தை நுண்ணறிவு",
+        "desc": "நிகழ்நேர பயிர் விலைகள் மற்றும் சந்தைப் போக்குகளைப் பெறுங்கள்"
       },
       "assistant": {
-        "title": "Voice Assistant",
-        "desc": "Ask farming questions in your local language"
+        "title": "குரல் உதவியாளர்",
+        "desc": "உங்கள் உள்ளூர் மொழியில் விவசாய கேள்விகளைக் கேளுங்கள்"
       },
       "visual": {
-        "title": "Crop Monitoring",
-        "desc": "Detect diseases and pests using camera analysis"
+        "title": "பயிர் கண்காணிப்பு",
+        "desc": "கேமரா பகுப்பாய்வு மூலம் நோய்கள் மற்றும் பூச்சிகளைக் கண்டறியவும்"
       }
     }
   },
   "auth": {
     "phone": {
-      "title": "Enter Mobile Number",
-      "subtitle": "We'll send you a verification code",
-      "label": "Mobile Number",
-      "placeholder": "Enter 10-digit number",
-      "accessibility": "Mobile number input field"
+      "title": "மொபைல் எண்ணை உள்ளிடவும்",
+      "subtitle": "சரிபார்ப்புக் குறியீட்டை உங்களுக்கு அனுப்புவோம்",
+      "label": "மொபைல் எண்",
+      "placeholder": "10 இலக்க எண்ணை உள்ளிடவும்",
+      "accessibility": "மொபைல் எண் உள்ளீட்டு புலம்"
     },
     "otp": {
-      "title": "Verify Code",
-      "subtitle": "Enter the 6-digit code sent to your phone",
-      "label": "Verification Code",
+      "title": "குறியீட்டைச் சரிபார்க்கவும்",
+      "subtitle": "உங்கள் மொபைலுக்கு அனுப்பப்பட்ட 6 இலக்கக் குறியீட்டை உள்ளிடவும்",
+      "label": "சரிபார்ப்பு குறியீடு",
       "placeholder": "000000",
-      "accessibility": "OTP verification input field"
+      "accessibility": "OTP சரிபார்ப்பு உள்ளீட்டு புலம்"
     },
-    "sendOTP": "Send Code",
-    "verify": "Verify",
-    "changeNumber": "Change Number",
-    "skipForNow": "Skip for now",
-    "otpSent": "Verification code sent!",
+    "sendOTP": "குறியீட்டை அனுப்பவும்",
+    "verify": "சரிபார்க்கவும்",
+    "changeNumber": "எண்ணை மாற்றவும்",
+    "skipForNow": "இப்போதைக்கு தவிர்க்கவும்",
+    "otpSent": "சரிபார்ப்புக் குறியீடு அனுப்பப்பட்டது!",
     "error": {
-      "invalidPhone": "Please enter a valid 10-digit mobile number",
-      "invalidOTP": "Please enter a valid 6-digit code"
+      "invalidPhone": "சரியான 10 இலக்க மொபைல் எண்ணை உள்ளிடவும்",
+      "invalidOTP": "சரியான 6 இலக்கக் குறியீட்டை உள்ளிடவும்"
     }
   },
   "home": {
-    "greeting": "Good Morning, Farmer!",
-    "subtitle": "Let's make your farming smarter today",
-    "quickActions": "Quick Actions",
-    "recentActivity": "Recent Activity",
-    "farmStats": "Farm Overview",
+    "greeting": "காலை வணக்கம், விவசாயி!",
+    "subtitle": "இன்றே உங்கள் விவசாயத்தை சிறந்ததாக்குவோம்",
+    "quickActions": "விரைவான செயல்கள்",
+    "recentActivity": "சமீபத்திய செயல்பாடு",
+    "farmStats": "பண்ணை கண்ணோட்டம்",
     "actions": {
-      "soilTest": "Soil Test",
-      "cropSuggestions": "Crop Suggestions",
-      "marketTrends": "Market Trends",
-      "cropMonitor": "Crop Monitor",
-      "assistant": "Voice Assistant",
-      "settings": "Settings"
+      "soilTest": "மண் பரிசோதனை",
+      "cropSuggestions": "பயிர் பரிந்துரைகள்",
+      "marketTrends": "சந்தை போக்குகள்",
+      "cropMonitor": "பயிர் மானிட்டர்",
+      "assistant": "குரல் உதவியாளர்",
+      "settings": "அமைப்புகள்"
     },
     "stats": {
-      "totalFields": "Total Fields",
-      "totalArea": "Area (acres)",
-      "activeCrops": "Active Crops"
+      "totalFields": "மொத்த புலங்கள்",
+      "totalArea": "பரப்பளவு (ஏக்கர்)",
+      "activeCrops": "செயலில் உள்ள பயிர்கள்"
     }
   },
   "weather": {
-    "today": "Today's Weather",
-    "humidity": "Humidity",
-    "wind": "Wind",
-    "visibility": "Visibility"
+    "today": "இன்றைய வானிலை",
+    "humidity": "ஈரப்பதம்",
+    "wind": "காற்று",
+    "visibility": "தெரிவுநிலை"
   },
   "activity": {
-    "soilTest": "Soil test completed",
-    "cropRecommendation": "Got crop recommendations",
-    "marketPrice": "Checked market prices"
+    "soilTest": "மண் பரிசோதனை முடிந்தது",
+    "cropRecommendation": "பயிர் பரிந்துரைகள் கிடைத்தது",
+    "marketPrice": "சந்தை விலைகளை சரிபார்த்தார்"
   },
   "soil": {
-    "title": "Soil Analysis",
-    "subtitle": "Choose how you want to analyze your soil",
-    "selectMethod": "Select Analysis Method",
-    "analyze": "Get Recommendations",
+    "title": "மண் பகுப்பாய்வு",
+    "subtitle": "உங்கள் மண்ணை எவ்வாறு பகுப்பாய்வு செய்ய விரும்புகிறீர்கள் என்பதைத் தேர்ந்தெடுக்கவும்",
+    "selectMethod": "பகுப்பாய்வு முறையைத் தேர்ந்தெடுக்கவும்",
+    "analyze": "பரிந்துரைகளைப் பெறுங்கள்",
     "methods": {
       "manual": {
-        "title": "Manual Entry",
-        "desc": "Enter soil test values manually"
+        "title": "கைமுறை நுழைவு",
+        "desc": "மண் பரிசோதனை மதிப்புகளை கைமுறையாக உள்ளிடவும்"
       },
       "csv": {
-        "title": "Upload Data",
-        "desc": "Upload sensor data or lab results"
+        "title": "தரவைப் பதிவேற்றவும்",
+        "desc": "சென்சார் தரவு அல்லது ஆய்வக முடிவுகளை பதிவேற்றவும்"
       },
       "satellite": {
-        "title": "Satellite Analysis",
-        "desc": "Get data from satellite imagery"
+        "title": "செயற்கைக்கோள் பகுப்பாய்வு",
+        "desc": "செயற்கைக்கோள் படங்களிலிருந்து தரவைப் பெறுங்கள்"
       },
       "camera": {
-        "title": "Scan Field",
-        "desc": "Take photos for AI analysis"
+        "title": "ஸ்கேன் புலம்",
+        "desc": "AI பகுப்பாய்விற்கு புகைப்படங்களை எடுக்கவும்"
       }
     },
     "manual": {
-      "title": "Enter Soil Parameters"
+      "title": "மண் அளவுருக்களை உள்ளிடவும்"
     },
     "fields": {
-      "ph": "pH Level",
-      "nitrogen": "Nitrogen",
-      "phosphorus": "Phosphorus",
-      "potassium": "Potassium",
-      "organicMatter": "Organic Matter",
-      "moisture": "Moisture",
-      "temperature": "Temperature"
+      "ph": "pH நிலை",
+      "nitrogen": "நைட்ரஜன்",
+      "phosphorus": "பாஸ்பரஸ்",
+      "potassium": "பொட்டாசியம்",
+      "organicMatter": "கரிமப் பொருள்",
+      "moisture": "ஈரம்",
+      "temperature": "வெப்பநிலை"
     },
     "satellite": {
-      "analyzing": "Analyzing satellite data...",
-      "success": "Satellite analysis completed!"
+      "analyzing": "செயற்கைக்கோள் தரவுகளை பகுப்பாய்வு செய்கிறது...",
+      "success": "செயற்கைக்கோள் பகுப்பாய்வு முடிந்தது!"
     },
     "camera": {
-      "info": "Camera Analysis",
-      "instructions": "Take clear photos of your soil from different angles for best results."
+      "info": "கேமரா பகுப்பாய்வு",
+      "instructions": "சிறந்த முடிவுகளுக்கு வெவ்வேறு கோணங்களில் உங்கள் மண்ணின் தெளிவான புகைப்படங்களை எடுக்கவும்."
     },
     "csv": {
-      "info": "Upload Data",
-      "instructions": "Select a CSV file with your soil test results."
+      "info": "தரவைப் பதிவேற்றவும்",
+      "instructions": "உங்கள் மண் பரிசோதனை முடிவுகளுடன் CSV கோப்பைத் தேர்ந்தெடுக்கவும்."
     }
   },
   "crops": {
-    "title": "Crop Recommendations",
-    "subtitle": "Based on your soil analysis and local conditions",
-    "projectedProfit": "Projected Profit",
-    "sustainabilityScore": "Sustainability Score",
-    "yield": "Yield",
-    "sowingWindow": "Sowing Window",
-    "riskFactors": "Risk Factors",
-    "savePlan": "Save Plan",
-    "details": "Details",
-    "fertilizerPlan": "Fertilizer Plan",
-    "irrigationSchedule": "Irrigation Schedule",
-    "whyRecommended": "Why This Crop?"
+    "title": "பயிர் பரிந்துரைகள்",
+    "subtitle": "உங்கள் மண் பகுப்பாய்வு மற்றும் உள்ளூர் நிலைமைகளின் அடிப்படையில்",
+    "projectedProfit": "திட்டமிடப்பட்ட லாபம்",
+    "sustainabilityScore": "நிலைத்தன்மை மதிப்பெண்",
+    "yield": "மகசூல்",
+    "sowingWindow": "விதைப்பு சாளரம்",
+    "riskFactors": "ஆபத்து காரணிகள்",
+    "savePlan": "திட்டத்தை சேமிக்கவும்",
+    "details": "விவரங்கள்",
+    "fertilizerPlan": "உரத் திட்டம்",
+    "irrigationSchedule": "நீர்ப்பாசன அட்டவணை",
+    "whyRecommended": "ஏன் இந்த பயிர்?"
   },
   "chat": {
-    "title": "Voice Assistant",
-    "subtitle": "Ask me anything about farming",
-    "welcome": "Hello! I'm your farming assistant. How can I help you today?",
-    "inputPlaceholder": "Type your question...",
-    "listening": "Listening... Speak now",
-    "stopSpeech": "Stop",
-    "playAudio": "Play",
+    "title": "குரல் உதவியாளர்",
+    "subtitle": "விவசாயம் பற்றி என்ன வேண்டுமானாலும் கேளுங்கள்",
+    "welcome": "வணக்கம்! நான் உங்கள் விவசாய உதவியாளர். இன்று நான் உங்களுக்கு எப்படி உதவ முடியும்?",
+    "inputPlaceholder": "உங்கள் கேள்வியை உள்ளிடவும்...",
+    "listening": "கேட்கிறேன்... இப்போது பேசுங்கள்",
+    "stopSpeech": "நிறுத்து",
+    "playAudio": "விளையாடு",
     "transcription": {
-      "sample": "What is the best fertilizer for wheat crop?"
+      "sample": "கோதுமை பயிருக்கு சிறந்த உரம் எது?"
     },
     "prompts": {
-      "soilTest": "How to test soil pH?",
-      "cropSelection": "Best crops for my region",
-      "fertilizer": "Fertilizer recommendations",
-      "weather": "Weather impact on crops",
-      "pestControl": "Pest control methods",
-      "irrigation": "Irrigation schedule"
+      "soilTest": "மண்ணின் pH ஐ எவ்வாறு பரிசோதிப்பது?",
+      "cropSelection": "எனது பிராந்தியத்திற்கான சிறந்த பயிர்கள்",
+      "fertilizer": "உர பரிந்துரைகள்",
+      "weather": "பயிர்களுக்கு வானிலை பாதிப்பு",
+      "pestControl": "பூச்சி கட்டுப்பாடு முறைகள்",
+      "irrigation": "நீர்ப்பாசன அட்டவணை"
     },
     "responses": {
-      "soil": "For soil testing, I recommend checking pH levels first. Ideal pH for most crops is 6.0-7.5. You can use our satellite analysis or manual testing kit.",
-      "crop": "Based on your soil conditions, I suggest wheat, chickpea, or mustard for winter season. Would you like detailed recommendations?",
-      "fertilizer": "For balanced nutrition, use DAP during sowing, urea for nitrogen boost, and potash for root development. Apply based on soil test results.",
-      "weather": "Current weather looks favorable for farming. Keep monitoring rainfall patterns and temperature changes for optimal crop planning.",
-      "pest": "For pest control, use integrated pest management. Start with neem oil for organic control, and monitor crops regularly for early detection.",
-      "general": "I'm here to help with all your farming questions. You can ask about crops, soil, weather, fertilizers, or any agricultural topic!"
+      "soil": "மண் பரிசோதனைக்கு, முதலில் pH அளவை சரிபார்க்க பரிந்துரைக்கிறேன். பெரும்பாலான பயிர்களுக்கு உகந்த pH 6.0-7.5 ஆகும். நீங்கள் எங்கள் செயற்கைக்கோள் பகுப்பாய்வு அல்லது கைமுறை சோதனைக் கருவியைப் பயன்படுத்தலாம்.",
+      "crop": "உங்கள் மண்ணின் நிலைமைகளின் அடிப்படையில், குளிர்காலத்திற்கு கோதுமை, கொண்டைக்கடலை அல்லது கடுகு ஆகியவற்றை பரிந்துரைக்கிறேன். விரிவான பரிந்துரைகளை விரும்புகிறீர்களா?",
+      "fertilizer": "சமச்சீர் ஊட்டச்சத்துக்கு, விதைப்பின் போது டிஏபி, நைட்ரஜனை அதிகரிக்க யூரியா மற்றும் வேர் வளர்ச்சிக்கு பொட்டாஷ் பயன்படுத்தவும். மண் பரிசோதனை முடிவுகளின் அடிப்படையில் விண்ணப்பிக்கவும்.",
+      "weather": "தற்போதைய வானிலை விவசாயத்திற்கு சாதகமாக உள்ளது. உகந்த பயிர் திட்டமிடலுக்காக மழைப்பொழிவு முறைகள் மற்றும் வெப்பநிலை மாற்றங்களை தொடர்ந்து கண்காணித்தல்.",
+      "pest": "பூச்சிக் கட்டுப்பாட்டுக்கு, ஒருங்கிணைந்த பூச்சி மேலாண்மையைப் பயன்படுத்தவும். கரிமக் கட்டுப்பாட்டிற்கு வேப்ப எண்ணெயுடன் தொடங்கவும், முன்கூட்டியே கண்டறிவதற்கு பயிர்களை தொடர்ந்து கண்காணிக்கவும்.",
+      "general": "உங்களின் அனைத்து விவசாய கேள்விகளுக்கும் உதவ நான் இங்கு வந்துள்ளேன். பயிர்கள், மண், வானிலை, உரங்கள் அல்லது விவசாயத் தலைப்புகள் பற்றி நீங்கள் கேட்கலாம்!"
     }
   }
 }

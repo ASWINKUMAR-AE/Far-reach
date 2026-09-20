@@ -1,189 +1,189 @@
 {
   "app": {
-    "name": "Far-reach",
-    "tagline": "AI-Powered Farming Assistant"
+    "name": "ದೂರಗಾಮಿ",
+    "tagline": "AI-ಚಾಲಿತ ಕೃಷಿ ಸಹಾಯಕ"
   },
   "common": {
-    "loading": "Loading...",
-    "processing": "Processing...",
-    "getStarted": "Get Started",
-    "change": "Change",
-    "poweredBy": "Powered by"
+    "loading": "ಲೋಡ್ ಆಗುತ್ತಿದೆ...",
+    "processing": "ಪ್ರಕ್ರಿಯೆಗೊಳಿಸಲಾಗುತ್ತಿದೆ...",
+    "getStarted": "ಪ್ರಾರಂಭಿಸಿ",
+    "change": "ಬದಲಾವಣೆ",
+    "poweredBy": "ನಡೆಸಲ್ಪಡುತ್ತಿದೆ"
   },
   "navigation": {
-    "home": "Home",
-    "fields": "Fields",
-    "market": "Market",
-    "profile": "Profile"
+    "home": "ಮನೆ",
+    "fields": "ಕ್ಷೇತ್ರಗಳು",
+    "market": "ಮಾರುಕಟ್ಟೆ",
+    "profile": "ಪ್ರೊಫೈಲ್"
   },
   "onboarding": {
     "welcome": {
-      "title": "Welcome to Smart Farming",
-      "subtitle": "Get AI-powered crop recommendations tailored for your soil and climate"
+      "title": "ಸ್ಮಾರ್ಟ್ ಫಾರ್ಮಿಂಗ್‌ಗೆ ಸುಸ್ವಾಗತ",
+      "subtitle": "ನಿಮ್ಮ ಮಣ್ಣು ಮತ್ತು ಹವಾಮಾನಕ್ಕೆ ಅನುಗುಣವಾಗಿ AI-ಚಾಲಿತ ಬೆಳೆ ಶಿಫಾರಸುಗಳನ್ನು ಪಡೆಯಿರಿ"
     },
     "features": {
       "soil": {
-        "title": "Soil Analysis",
-        "desc": "Test your soil using satellite data or upload sensor readings"
+        "title": "ಮಣ್ಣಿನ ವಿಶ್ಲೇಷಣೆ",
+        "desc": "ಉಪಗ್ರಹ ಡೇಟಾವನ್ನು ಬಳಸಿಕೊಂಡು ನಿಮ್ಮ ಮಣ್ಣನ್ನು ಪರೀಕ್ಷಿಸಿ ಅಥವಾ ಸಂವೇದಕ ರೀಡಿಂಗ್‌ಗಳನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ"
       },
       "market": {
-        "title": "Market Insights",
-        "desc": "Get real-time crop prices and market trends"
+        "title": "ಮಾರುಕಟ್ಟೆ ಒಳನೋಟಗಳು",
+        "desc": "ನೈಜ-ಸಮಯದ ಬೆಳೆ ಬೆಲೆಗಳು ಮತ್ತು ಮಾರುಕಟ್ಟೆ ಪ್ರವೃತ್ತಿಗಳನ್ನು ಪಡೆಯಿರಿ"
       },
       "assistant": {
-        "title": "Voice Assistant",
-        "desc": "Ask farming questions in your local language"
+        "title": "ಧ್ವನಿ ಸಹಾಯಕ",
+        "desc": "ನಿಮ್ಮ ಸ್ಥಳೀಯ ಭಾಷೆಯಲ್ಲಿ ಕೃಷಿ ಪ್ರಶ್ನೆಗಳನ್ನು ಕೇಳಿ"
       },
       "visual": {
-        "title": "Crop Monitoring",
-        "desc": "Detect diseases and pests using camera analysis"
+        "title": "ಬೆಳೆ ಮಾನಿಟರಿಂಗ್",
+        "desc": "ಕ್ಯಾಮರಾ ವಿಶ್ಲೇಷಣೆಯನ್ನು ಬಳಸಿಕೊಂಡು ರೋಗಗಳು ಮತ್ತು ಕೀಟಗಳನ್ನು ಪತ್ತೆ ಮಾಡಿ"
       }
     }
   },
   "auth": {
     "phone": {
-      "title": "Enter Mobile Number",
-      "subtitle": "We'll send you a verification code",
-      "label": "Mobile Number",
-      "placeholder": "Enter 10-digit number",
-      "accessibility": "Mobile number input field"
+      "title": "ಮೊಬೈಲ್ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ",
+      "subtitle": "ನಾವು ನಿಮಗೆ ಪರಿಶೀಲನಾ ಕೋಡ್ ಕಳುಹಿಸುತ್ತೇವೆ",
+      "label": "ಮೊಬೈಲ್ ಸಂಖ್ಯೆ",
+      "placeholder": "10-ಅಂಕಿಯ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ",
+      "accessibility": "ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಇನ್ಪುಟ್ ಕ್ಷೇತ್ರ"
     },
     "otp": {
-      "title": "Verify Code",
-      "subtitle": "Enter the 6-digit code sent to your phone",
-      "label": "Verification Code",
+      "title": "ಕೋಡ್ ಪರಿಶೀಲಿಸಿ",
+      "subtitle": "ನಿಮ್ಮ ಫೋನ್‌ಗೆ ಕಳುಹಿಸಲಾದ 6-ಅಂಕಿಯ ಕೋಡ್ ಅನ್ನು ನಮೂದಿಸಿ",
+      "label": "ಪರಿಶೀಲನೆ ಕೋಡ್",
       "placeholder": "000000",
-      "accessibility": "OTP verification input field"
+      "accessibility": "OTP ಪರಿಶೀಲನೆ ಇನ್‌ಪುಟ್ ಕ್ಷೇತ್ರ"
     },
-    "sendOTP": "Send Code",
-    "verify": "Verify",
-    "changeNumber": "Change Number",
-    "skipForNow": "Skip for now",
-    "otpSent": "Verification code sent!",
+    "sendOTP": "ಕೋಡ್ ಕಳುಹಿಸಿ",
+    "verify": "ಪರಿಶೀಲಿಸಿ",
+    "changeNumber": "ಸಂಖ್ಯೆಯನ್ನು ಬದಲಾಯಿಸಿ",
+    "skipForNow": "ಸದ್ಯಕ್ಕೆ ಬಿಟ್ಟುಬಿಡಿ",
+    "otpSent": "ಪರಿಶೀಲನೆ ಕೋಡ್ ಕಳುಹಿಸಲಾಗಿದೆ!",
     "error": {
-      "invalidPhone": "Please enter a valid 10-digit mobile number",
-      "invalidOTP": "Please enter a valid 6-digit code"
+      "invalidPhone": "ದಯವಿಟ್ಟು ಮಾನ್ಯವಾದ 10-ಅಂಕಿಯ ಮೊಬೈಲ್ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ",
+      "invalidOTP": "ದಯವಿಟ್ಟು ಮಾನ್ಯವಾದ 6-ಅಂಕಿಯ ಕೋಡ್ ಅನ್ನು ನಮೂದಿಸಿ"
     }
   },
   "home": {
-    "greeting": "Good Morning, Farmer!",
-    "subtitle": "Let's make your farming smarter today",
-    "quickActions": "Quick Actions",
-    "recentActivity": "Recent Activity",
-    "farmStats": "Farm Overview",
+    "greeting": "ಶುಭೋದಯ, ರೈತ!",
+    "subtitle": "ಇಂದು ನಿಮ್ಮ ಕೃಷಿಯನ್ನು ಚುರುಕುಗೊಳಿಸೋಣ",
+    "quickActions": "ತ್ವರಿತ ಕ್ರಮಗಳು",
+    "recentActivity": "ಇತ್ತೀಚಿನ ಚಟುವಟಿಕೆ",
+    "farmStats": "ಫಾರ್ಮ್ ಅವಲೋಕನ",
     "actions": {
-      "soilTest": "Soil Test",
-      "cropSuggestions": "Crop Suggestions",
-      "marketTrends": "Market Trends",
-      "cropMonitor": "Crop Monitor",
-      "assistant": "Voice Assistant",
-      "settings": "Settings"
+      "soilTest": "ಮಣ್ಣಿನ ಪರೀಕ್ಷೆ",
+      "cropSuggestions": "ಬೆಳೆ ಸಲಹೆಗಳು",
+      "marketTrends": "ಮಾರುಕಟ್ಟೆ ಪ್ರವೃತ್ತಿಗಳು",
+      "cropMonitor": "ಕ್ರಾಪ್ ಮಾನಿಟರ್",
+      "assistant": "ಧ್ವನಿ ಸಹಾಯಕ",
+      "settings": "ಸೆಟ್ಟಿಂಗ್‌ಗಳು"
     },
     "stats": {
-      "totalFields": "Total Fields",
-      "totalArea": "Area (acres)",
-      "activeCrops": "Active Crops"
+      "totalFields": "ಒಟ್ಟು ಕ್ಷೇತ್ರಗಳು",
+      "totalArea": "ಪ್ರದೇಶ (ಎಕರೆ)",
+      "activeCrops": "ಸಕ್ರಿಯ ಬೆಳೆಗಳು"
     }
   },
   "weather": {
-    "today": "Today's Weather",
-    "humidity": "Humidity",
-    "wind": "Wind",
-    "visibility": "Visibility"
+    "today": "ಇಂದಿನ ಹವಾಮಾನ",
+    "humidity": "ಆರ್ದ್ರತೆ",
+    "wind": "ಗಾಳಿ",
+    "visibility": "ಗೋಚರತೆ"
   },
   "activity": {
-    "soilTest": "Soil test completed",
-    "cropRecommendation": "Got crop recommendations",
-    "marketPrice": "Checked market prices"
+    "soilTest": "ಮಣ್ಣು ಪರೀಕ್ಷೆ ಮುಗಿದಿದೆ",
+    "cropRecommendation": "ಬೆಳೆ ಶಿಫಾರಸುಗಳನ್ನು ಪಡೆದುಕೊಂಡಿದೆ",
+    "marketPrice": "ಮಾರುಕಟ್ಟೆ ಬೆಲೆಗಳನ್ನು ಪರಿಶೀಲಿಸಲಾಗಿದೆ"
   },
   "soil": {
-    "title": "Soil Analysis",
-    "subtitle": "Choose how you want to analyze your soil",
-    "selectMethod": "Select Analysis Method",
-    "analyze": "Get Recommendations",
+    "title": "ಮಣ್ಣಿನ ವಿಶ್ಲೇಷಣೆ",
+    "subtitle": "ನಿಮ್ಮ ಮಣ್ಣನ್ನು ನೀವು ಹೇಗೆ ವಿಶ್ಲೇಷಿಸಲು ಬಯಸುತ್ತೀರಿ ಎಂಬುದನ್ನು ಆರಿಸಿ",
+    "selectMethod": "ವಿಶ್ಲೇಷಣೆ ವಿಧಾನವನ್ನು ಆಯ್ಕೆಮಾಡಿ",
+    "analyze": "ಶಿಫಾರಸುಗಳನ್ನು ಪಡೆಯಿರಿ",
     "methods": {
       "manual": {
-        "title": "Manual Entry",
-        "desc": "Enter soil test values manually"
+        "title": "ಹಸ್ತಚಾಲಿತ ಪ್ರವೇಶ",
+        "desc": "ಮಣ್ಣಿನ ಪರೀಕ್ಷಾ ಮೌಲ್ಯಗಳನ್ನು ಹಸ್ತಚಾಲಿತವಾಗಿ ನಮೂದಿಸಿ"
       },
       "csv": {
-        "title": "Upload Data",
-        "desc": "Upload sensor data or lab results"
+        "title": "ಡೇಟಾವನ್ನು ಅಪ್ಲೋಡ್ ಮಾಡಿ",
+        "desc": "ಸಂವೇದಕ ಡೇಟಾ ಅಥವಾ ಲ್ಯಾಬ್ ಫಲಿತಾಂಶಗಳನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ"
       },
       "satellite": {
-        "title": "Satellite Analysis",
-        "desc": "Get data from satellite imagery"
+        "title": "ಉಪಗ್ರಹ ವಿಶ್ಲೇಷಣೆ",
+        "desc": "ಉಪಗ್ರಹ ಚಿತ್ರಣದಿಂದ ಡೇಟಾವನ್ನು ಪಡೆಯಿರಿ"
       },
       "camera": {
-        "title": "Scan Field",
-        "desc": "Take photos for AI analysis"
+        "title": "ಫೀಲ್ಡ್ ಅನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡಿ",
+        "desc": "AI ವಿಶ್ಲೇಷಣೆಗಾಗಿ ಫೋಟೋಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳಿ"
       }
     },
     "manual": {
-      "title": "Enter Soil Parameters"
+      "title": "ಮಣ್ಣಿನ ನಿಯತಾಂಕಗಳನ್ನು ನಮೂದಿಸಿ"
     },
     "fields": {
-      "ph": "pH Level",
-      "nitrogen": "Nitrogen",
-      "phosphorus": "Phosphorus",
-      "potassium": "Potassium",
-      "organicMatter": "Organic Matter",
-      "moisture": "Moisture",
-      "temperature": "Temperature"
+      "ph": "pH ಮಟ್ಟ",
+      "nitrogen": "ಸಾರಜನಕ",
+      "phosphorus": "ರಂಜಕ",
+      "potassium": "ಪೊಟ್ಯಾಸಿಯಮ್",
+      "organicMatter": "ಸಾವಯವ ವಸ್ತು",
+      "moisture": "ತೇವಾಂಶ",
+      "temperature": "ತಾಪಮಾನ"
     },
     "satellite": {
-      "analyzing": "Analyzing satellite data...",
-      "success": "Satellite analysis completed!"
+      "analyzing": "ಉಪಗ್ರಹ ಡೇಟಾವನ್ನು ವಿಶ್ಲೇಷಿಸಲಾಗುತ್ತಿದೆ...",
+      "success": "ಉಪಗ್ರಹ ವಿಶ್ಲೇಷಣೆ ಪೂರ್ಣಗೊಂಡಿದೆ!"
     },
     "camera": {
-      "info": "Camera Analysis",
-      "instructions": "Take clear photos of your soil from different angles for best results."
+      "info": "ಕ್ಯಾಮೆರಾ ವಿಶ್ಲೇಷಣೆ",
+      "instructions": "ಉತ್ತಮ ಫಲಿತಾಂಶಗಳಿಗಾಗಿ ವಿವಿಧ ಕೋನಗಳಿಂದ ನಿಮ್ಮ ಮಣ್ಣಿನ ಸ್ಪಷ್ಟ ಫೋಟೋಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳಿ."
     },
     "csv": {
-      "info": "Upload Data",
-      "instructions": "Select a CSV file with your soil test results."
+      "info": "ಡೇಟಾವನ್ನು ಅಪ್ಲೋಡ್ ಮಾಡಿ",
+      "instructions": "ನಿಮ್ಮ ಮಣ್ಣಿನ ಪರೀಕ್ಷೆಯ ಫಲಿತಾಂಶಗಳೊಂದಿಗೆ CSV ಫೈಲ್ ಅನ್ನು ಆಯ್ಕೆಮಾಡಿ."
     }
   },
   "crops": {
-    "title": "Crop Recommendations",
-    "subtitle": "Based on your soil analysis and local conditions",
-    "projectedProfit": "Projected Profit",
-    "sustainabilityScore": "Sustainability Score",
-    "yield": "Yield",
-    "sowingWindow": "Sowing Window",
-    "riskFactors": "Risk Factors",
-    "savePlan": "Save Plan",
-    "details": "Details",
-    "fertilizerPlan": "Fertilizer Plan",
-    "irrigationSchedule": "Irrigation Schedule",
-    "whyRecommended": "Why This Crop?"
+    "title": "ಬೆಳೆ ಶಿಫಾರಸುಗಳು",
+    "subtitle": "ನಿಮ್ಮ ಮಣ್ಣಿನ ವಿಶ್ಲೇಷಣೆ ಮತ್ತು ಸ್ಥಳೀಯ ಪರಿಸ್ಥಿತಿಗಳ ಆಧಾರದ ಮೇಲೆ",
+    "projectedProfit": "ಯೋಜಿತ ಲಾಭ",
+    "sustainabilityScore": "ಸುಸ್ಥಿರತೆ ಸ್ಕೋರ್",
+    "yield": "ಇಳುವರಿ",
+    "sowingWindow": "ಬಿತ್ತನೆ ವಿಂಡೋ",
+    "riskFactors": "ಅಪಾಯದ ಅಂಶಗಳು",
+    "savePlan": "ಯೋಜನೆಯನ್ನು ಉಳಿಸಿ",
+    "details": "ವಿವರಗಳು",
+    "fertilizerPlan": "ರಸಗೊಬ್ಬರ ಯೋಜನೆ",
+    "irrigationSchedule": "ನೀರಾವರಿ ವೇಳಾಪಟ್ಟಿ",
+    "whyRecommended": "ಏಕೆ ಈ ಬೆಳೆ?"
   },
   "chat": {
-    "title": "Voice Assistant",
-    "subtitle": "Ask me anything about farming",
-    "welcome": "Hello! I'm your farming assistant. How can I help you today?",
-    "inputPlaceholder": "Type your question...",
-    "listening": "Listening... Speak now",
-    "stopSpeech": "Stop",
-    "playAudio": "Play",
+    "title": "ಧ್ವನಿ ಸಹಾಯಕ",
+    "subtitle": "ಬೇಸಾಯದ ಬಗ್ಗೆ ಏನು ಬೇಕಾದರೂ ಕೇಳಿ",
+    "welcome": "ನಮಸ್ಕಾರ! ನಾನು ನಿಮ್ಮ ಕೃಷಿ ಸಹಾಯಕ. ಇಂದು ನಾನು ನಿಮಗೆ ಹೇಗೆ ಸಹಾಯ ಮಾಡಬಹುದು?",
+    "inputPlaceholder": "ನಿಮ್ಮ ಪ್ರಶ್ನೆಯನ್ನು ಟೈಪ್ ಮಾಡಿ...",
+    "listening": "ಕೇಳುತ್ತಿದ್ದೇನೆ... ಈಗಲೇ ಮಾತನಾಡಿ",
+    "stopSpeech": "ನಿಲ್ಲಿಸು",
+    "playAudio": "ಪ್ಲೇ ಮಾಡಿ",
     "transcription": {
-      "sample": "What is the best fertilizer for wheat crop?"
+      "sample": "ಗೋಧಿ ಬೆಳೆಗೆ ಉತ್ತಮ ಗೊಬ್ಬರ ಯಾವುದು?"
     },
     "prompts": {
-      "soilTest": "How to test soil pH?",
-      "cropSelection": "Best crops for my region",
-      "fertilizer": "Fertilizer recommendations",
-      "weather": "Weather impact on crops",
-      "pestControl": "Pest control methods",
-      "irrigation": "Irrigation schedule"
+      "soilTest": "ಮಣ್ಣಿನ pH ಅನ್ನು ಹೇಗೆ ಪರೀಕ್ಷಿಸುವುದು?",
+      "cropSelection": "ನನ್ನ ಪ್ರದೇಶಕ್ಕೆ ಉತ್ತಮ ಬೆಳೆಗಳು",
+      "fertilizer": "ರಸಗೊಬ್ಬರ ಶಿಫಾರಸುಗಳು",
+      "weather": "ಬೆಳೆಗಳ ಮೇಲೆ ಹವಾಮಾನದ ಪ್ರಭಾವ",
+      "pestControl": "ಕೀಟ ನಿಯಂತ್ರಣ ವಿಧಾನಗಳು",
+      "irrigation": "ನೀರಾವರಿ ವೇಳಾಪಟ್ಟಿ"
     },
     "responses": {
-      "soil": "For soil testing, I recommend checking pH levels first. Ideal pH for most crops is 6.0-7.5. You can use our satellite analysis or manual testing kit.",
-      "crop": "Based on your soil conditions, I suggest wheat, chickpea, or mustard for winter season. Would you like detailed recommendations?",
-      "fertilizer": "For balanced nutrition, use DAP during sowing, urea for nitrogen boost, and potash for root development. Apply based on soil test results.",
-      "weather": "Current weather looks favorable for farming. Keep monitoring rainfall patterns and temperature changes for optimal crop planning.",
-      "pest": "For pest control, use integrated pest management. Start with neem oil for organic control, and monitor crops regularly for early detection.",
-      "general": "I'm here to help with all your farming questions. You can ask about crops, soil, weather, fertilizers, or any agricultural topic!"
+      "soil": "ಮಣ್ಣಿನ ಪರೀಕ್ಷೆಗಾಗಿ, ನಾನು ಮೊದಲು pH ಮಟ್ಟವನ್ನು ಪರೀಕ್ಷಿಸಲು ಶಿಫಾರಸು ಮಾಡುತ್ತೇವೆ. ಹೆಚ್ಚಿನ ಬೆಳೆಗಳಿಗೆ ಸೂಕ್ತವಾದ pH 6.0-7.5 ಆಗಿದೆ. ನೀವು ನಮ್ಮ ಉಪಗ್ರಹ ವಿಶ್ಲೇಷಣೆ ಅಥವಾ ಹಸ್ತಚಾಲಿತ ಪರೀಕ್ಷಾ ಕಿಟ್ ಅನ್ನು ಬಳಸಬಹುದು.",
+      "crop": "ನಿಮ್ಮ ಮಣ್ಣಿನ ಪರಿಸ್ಥಿತಿಗಳ ಆಧಾರದ ಮೇಲೆ, ನಾನು ಚಳಿಗಾಲದಲ್ಲಿ ಗೋಧಿ, ಕಡಲೆ, ಅಥವಾ ಸಾಸಿವೆ ಸಲಹೆ ನೀಡುತ್ತೇನೆ. ನೀವು ವಿವರವಾದ ಶಿಫಾರಸುಗಳನ್ನು ಬಯಸುವಿರಾ?",
+      "fertilizer": "ಸಮತೋಲಿತ ಪೋಷಣೆಗಾಗಿ, ಬಿತ್ತನೆ ಸಮಯದಲ್ಲಿ ಡಿಎಪಿ, ಸಾರಜನಕವನ್ನು ಹೆಚ್ಚಿಸಲು ಯೂರಿಯಾ ಮತ್ತು ಬೇರಿನ ಬೆಳವಣಿಗೆಗೆ ಪೊಟ್ಯಾಷ್ ಅನ್ನು ಬಳಸಿ. ಮಣ್ಣಿನ ಪರೀಕ್ಷೆಯ ಫಲಿತಾಂಶಗಳ ಆಧಾರದ ಮೇಲೆ ಅನ್ವಯಿಸಿ.",
+      "weather": "ಪ್ರಸ್ತುತ ಹವಾಮಾನವು ಕೃಷಿಗೆ ಅನುಕೂಲಕರವಾಗಿದೆ. ಸೂಕ್ತವಾದ ಬೆಳೆ ಯೋಜನೆಗಾಗಿ ಮಳೆಯ ಮಾದರಿಗಳು ಮತ್ತು ತಾಪಮಾನ ಬದಲಾವಣೆಗಳನ್ನು ಮೇಲ್ವಿಚಾರಣೆ ಮಾಡಿ.",
+      "pest": "ಕೀಟ ನಿಯಂತ್ರಣಕ್ಕಾಗಿ, ಸಮಗ್ರ ಕೀಟ ನಿರ್ವಹಣೆಯನ್ನು ಬಳಸಿ. ಸಾವಯವ ನಿಯಂತ್ರಣಕ್ಕಾಗಿ ಬೇವಿನ ಎಣ್ಣೆಯಿಂದ ಪ್ರಾರಂಭಿಸಿ ಮತ್ತು ಆರಂಭಿಕ ಪತ್ತೆಗಾಗಿ ನಿಯಮಿತವಾಗಿ ಬೆಳೆಗಳನ್ನು ಮೇಲ್ವಿಚಾರಣೆ ಮಾಡಿ.",
+      "general": "ನಿಮ್ಮ ಎಲ್ಲಾ ಕೃಷಿ ಪ್ರಶ್ನೆಗಳಿಗೆ ಸಹಾಯ ಮಾಡಲು ನಾನು ಇಲ್ಲಿದ್ದೇನೆ. ನೀವು ಬೆಳೆಗಳು, ಮಣ್ಣು, ಹವಾಮಾನ, ರಸಗೊಬ್ಬರಗಳು ಅಥವಾ ಯಾವುದೇ ಕೃಷಿ ವಿಷಯದ ಬಗ್ಗೆ ಕೇಳಬಹುದು!"
     }
   }
 }

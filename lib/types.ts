@@ -7,6 +7,7 @@ export type Farmer = {
   upiId?: string;
   bankAccount?: string;
   bankIfsc?: string;
+  soilType?: string;
 };
 
 export type CropDeclaration = {
