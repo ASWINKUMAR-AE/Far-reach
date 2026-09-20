@@ -22,6 +22,7 @@ import {
   Calendar,
   AlertTriangle,
   Navigation,
+  Camera,
 } from 'lucide-react-native';
 import { getProcurementCentres, INITIAL_CENTRES } from '@/lib/procurementService';
 import { ProcurementCentre } from '@/lib/types';
@@ -173,6 +174,14 @@ export default function CentreDetailsScreen() {
           </TouchableOpacity>
 
           <TouchableOpacity
+            onPress={() => router.push(`/cctv-monitor?centreId=${centre.id}&centreName=${encodeURIComponent(centre.name)}`)}
+            style={styles.cctvBtn}
+          >
+            <Camera size={20} color="white" />
+            <Text style={styles.cctvBtnText}>Watch Live CCTV</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
             onPress={() => router.push(`/(tabs)/procurement?centreId=${centre.id}`)}
             style={styles.bookBtn}
           >
@@ -281,4 +290,14 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   bookBtnText: { color: 'white', fontWeight: '900', fontSize: 16 },
+  cctvBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#38BDF8',
+    paddingVertical: 14,
+    borderRadius: 12,
+    gap: 8,
+  },
+  cctvBtnText: { color: '#0F172A', fontWeight: '800', fontSize: 15 },
 });

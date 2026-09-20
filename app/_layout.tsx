@@ -5,6 +5,7 @@ import { useFrameworkReady } from '@/hooks/useFrameworkReady';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import './global.css';
 import '@/i18n/config';
+import RadialAIAssistant from '@/components/ui/RadialAIAssistant';
 
 export default function RootLayout() {
   useFrameworkReady();
@@ -16,6 +17,7 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="+not-found" />
       </Stack>
+      <RadialAIAssistant />
       <StatusBar style="auto" />
     </GestureHandlerRootView>
   );
