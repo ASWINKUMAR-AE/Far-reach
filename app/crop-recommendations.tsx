@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import {
   ArrowLeft, Bookmark, Share2, Eye, X, Bug, Sun, Droplets, AlertCircle, RotateCcw, Mic, CheckSquare, Square
 } from 'lucide-react-native';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { translateText } from '@/lib/translationService';
 import { DEFAULT_FARMER } from '@/lib/procurementService';
 import { askHositAI } from '@/lib/hositAI';
@@ -50,6 +50,9 @@ const ORGANIC_FERTILIZERS = ['Neem Cake', 'Vermicompost', 'Cow Dung Manure', 'Bo
 
 export default function AICropRecommendationScreen() {
   const { i18n } = useTranslation();
+  const params = useLocalSearchParams();
+  const derivedSoilType = params.soilType as string;
+
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [loadingWeather, setLoadingWeather] = useState(true);
   const [errorWeather, setErrorWeather] = useState<string | null>(null);
@@ -62,7 +65,7 @@ export default function AICropRecommendationScreen() {
   const [previousCrop, setPreviousCrop] = useState('');
   const [selectedFerts, setSelectedFerts] = useState<Set<string>>(new Set());
   const [activeTab, setActiveTab] = useState<'Chemical' | 'Organic'>('Chemical');
-  const [soilType, setSoilType] = useState(DEFAULT_FARMER.soilType || 'Loam');
+  const [soilType, setSoilType] = useState(derivedSoilType || DEFAULT_FARMER.soilType || 'Loam');
   const [season, setSeason] = useState('Kharif');
   const [hasSubmitted, setHasSubmitted] = useState(false);
   
@@ -137,8 +140,16 @@ export default function AICropRecommendationScreen() {
           setLoadingWeather(false);
           return;
         }
-        const loc = await Location.getCurrentPositionAsync({});
-        const url = `https://api.open-meteo.com/v1/forecast?latitude=${loc.coords.latitude}&longitude=${loc.coords.longitude}&current_weather=true&hourly=temperature_2m,relative_humidity_2m,visibility,windspeed_10m`;
+        let latitude = 10.7905;
+        let longitude = 78.7047;
+        try {
+          const loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced, timeout: 5000 });
+          latitude = loc.coords.latitude;
+          longitude = loc.coords.longitude;
+        } catch (locErr) {
+          console.warn("Location fetch timeout, using fallback Tiruchirappalli coordinates.");
+        }
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=temperature_2m,relative_humidity_2m,visibility,windspeed_10m`;
         const response = await fetch(url);
         const data = await response.json();
 

@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { ArrowLeft, Upload, Satellite, Camera, Info } from 'lucide-react-native';
 import { Card } from '@/components/ui/Card';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
+import { DEFAULT_FARMER } from '@/lib/procurementService';
 
 const { width } = Dimensions.get('window');
 
@@ -92,7 +93,11 @@ export default function SoilInputScreen() {
         moisture: '28',
         temperature: '24',
       });
+      DEFAULT_FARMER.soilType = 'Loam'; // logically persist the tested soil type for the AI session
       Alert.alert(t('soil.satellite.success'));
+      setTimeout(() => {
+        router.push({ pathname: '/crop-recommendations', params: { soilType: 'Loam' } });
+      }, 500);
     }, 3000);
   };
 
@@ -112,7 +117,16 @@ export default function SoilInputScreen() {
     // Simulate analysis
     setTimeout(() => {
       setIsLoading(false);
-      router.push('/crop-recommendations');
+      // Pass the raw deterministic numbers to the new Engine
+      router.push({ 
+        pathname: '/fertilizer-advisor', 
+        params: { 
+          n: soilData.nitrogen, 
+          p: soilData.phosphorus, 
+          k: soilData.potassium, 
+          ph: soilData.ph 
+        } 
+      });
     }, 2000);
   };
 

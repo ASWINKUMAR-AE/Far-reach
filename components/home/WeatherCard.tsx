@@ -29,10 +29,16 @@ export function WeatherCard() {
           return;
         }
 
-        // Get current location
-        const loc = await Location.getCurrentPositionAsync({});
-        const latitude = loc.coords.latitude;
-        const longitude = loc.coords.longitude;
+        // Get current location with timeout and fallback
+        let latitude = 10.7905;
+        let longitude = 78.7047;
+        try {
+          const loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced, timeout: 5000 });
+          latitude = loc.coords.latitude;
+          longitude = loc.coords.longitude;
+        } catch (locErr) {
+          console.warn("Location fetch timeout, using fallback Tiruchirappalli coordinates.", locErr);
+        }
 
         // Optional: get city name
         try {

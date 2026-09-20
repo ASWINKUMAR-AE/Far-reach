@@ -19,8 +19,13 @@ export default function FieldsScreen() {
       }
 
       // Get current position
-      let loc = await Location.getCurrentPositionAsync({});
-      setLocation(loc.coords);
+      try {
+        let loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced, timeout: 5000 });
+        setLocation(loc.coords);
+      } catch (e) {
+        console.warn("Location fetch timeout, using fallback Tiruchirappalli coordinates.");
+        setLocation({ latitude: 10.7905, longitude: 78.7047 });
+      }
     })();
   }, []);
 

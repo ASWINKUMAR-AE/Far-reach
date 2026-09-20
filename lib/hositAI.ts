@@ -24,7 +24,7 @@ export async function askHositAI({
   // ----------------------------------------------------
   try {
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 20000); // 20s timeout for LLM
+    const timer = setTimeout(() => controller.abort(), 35000); // 35s timeout for LLM
 
     const res = await fetch(HOSIT_AI_PUBLIC_8000, {
       method: "POST",
@@ -95,7 +95,7 @@ export async function askHositAI({
   // ----------------------------------------------------
   // 4. Offline Smart Agronomist Fallback
   // ----------------------------------------------------
-  return getFallbackResponse(message);
+  return getFallbackResponse(message, context);
 }
 
 /**
@@ -125,9 +125,42 @@ export async function testHositAI(): Promise<{ success: boolean; response: strin
 /**
  * Friendly offline/fallback AI response when server is unreachable or times out
  */
-function getFallbackResponse(userQuery: string): string {
+function getFallbackResponse(userQuery: string, context: string = ""): string {
   const query = userQuery.toLowerCase();
   
+  if (context.includes("JSON array")) {
+    // Return mock crop recommendation JSON array for the crop-recommendations module
+    return JSON.stringify([
+      {
+        "name": "Wheat (High Yielding Variety)",
+        "estimatedYield": "1800-2200",
+        "projectedProfit": 24000,
+        "sustainabilityScore": 85,
+        "sowingWindow": "Oct - Nov",
+        "risks": [
+          {"type": "pest", "level": "medium"},
+          {"type": "drought", "level": "low"}
+        ],
+        "fertilizerPlan": ["Urea", "DAP"],
+        "irrigationSchedule": "Every 15-20 days",
+        "rationale": "Excellent deep-rooted rotational crop following your previous cycle. highly profitable."
+      },
+      {
+        "name": "Chickpeas (Bengal Gram)",
+        "estimatedYield": "800-1000",
+        "projectedProfit": 18500,
+        "sustainabilityScore": 95,
+        "sowingWindow": "Oct - Nov",
+        "risks": [
+          {"type": "pest", "level": "high"}
+        ],
+        "fertilizerPlan": ["Organic Compost"],
+        "irrigationSchedule": "Minimal, once at flowering",
+        "rationale": "Legume crop that fixes atmospheric nitrogen, perfectly restorative for your soil."
+      }
+    ]);
+  }
+
   if (query.includes("centre") || query.includes("center") || query.includes("where")) {
     return "🌾 [Far Reach Guidance]: Samayapuram Procurement Centre currently has the lowest load (43% capacity, ~18 min wait). It is recommended for paddy procurement.";
   }

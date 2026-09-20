@@ -256,6 +256,26 @@ export async function createComplaint(payload: {
 // ----------------------------------------------------
 export const NEWS_API_BASE_URL = process.env.EXPO_PUBLIC_NEWS_API_URL || 'http://localhost:3000/api/news';
 
+export async function getLiveNews(category?: string, language?: string) {
+  const url = new URL(`${API_BASE_URL}/news`);
+  if (category) url.searchParams.append('category', category);
+  if (language) url.searchParams.append('language', language);
+  return apiRequest(url.toString());
+}
+
+export async function fetchFertilizerRecommendation(payload: {
+  crop: string;
+  variety?: string;
+  area: number;
+  area_unit: string;
+  soil: { N: number; P: number; K: number; pH: number };
+}) {
+  return apiRequest(`${API_BASE_URL}/fertilizer/recommend`, {
+    method: 'POST',
+    body: JSON.stringify(payload)
+  });
+}
+
 export async function fetchNews(params?: { category?: string; location?: string; priority?: string; search?: string; limit?: number }) {
   const query = new URLSearchParams(params as Record<string, string>).toString();
   try {

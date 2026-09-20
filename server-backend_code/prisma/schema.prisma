@@ -167,3 +167,76 @@ model CctvRequest {
   centre_id    String
   requested_at DateTime @default(now())
 }
+
+// ----------------------------------------------------------------------
+// AI Fertilizer Intelligence System Models
+// ----------------------------------------------------------------------
+
+model Fertilizer {
+  id                  String   @id @default(uuid())
+  name                String
+  local_name          String?
+  category            String   // organic, chemical, biofertilizer
+  description         String?
+  image_url           String?
+  nutrient_n          Float    @default(0) // Percentage or fraction
+  nutrient_p          Float    @default(0) // P2O5
+  nutrient_k          Float    @default(0) // K2O
+  application_methods String   // JSON array string
+  application_stages  String   // JSON array string
+  precautions         String?
+  region              String?
+  source_reference    String?
+  created_at          DateTime @default(now())
+  updated_at          DateTime @updatedAt
+}
+
+model CropKnowledge {
+  id                      String   @id @default(uuid())
+  crop                    String
+  variety                 String?
+  season                  String?
+  growth_stages           String   // JSON array string
+  nutrient_requirements   String   // JSON object { N: number, P: number, K: number }
+  ph_range_min            Float?
+  ph_range_max            Float?
+  source_reference        String?
+  created_at              DateTime @default(now())
+}
+
+model SoilTest {
+  id               String   @id @default(uuid())
+  farmer_id        String
+  ph               Float?
+  nitrogen         Float?
+  phosphorus       Float?
+  potassium        Float?
+  organic_carbon   Float?
+  moisture         Float?
+  tested_at        DateTime @default(now())
+}
+
+model ResearchDocument {
+  id               String   @id @default(uuid())
+  title            String
+  author           String?
+  organization     String?
+  source_url       String?
+  content          String   // Full text
+  crop_tags        String?  // Comma separated
+  region_tags      String?
+  verification     String   @default("DRAFT") // DRAFT, UNDER_REVIEW, VERIFIED
+  created_at       DateTime @default(now())
+}
+
+model FertilizerRecommendation {
+  id               String   @id @default(uuid())
+  farmer_id        String
+  crop             String
+  farm_area        Float
+  area_unit        String
+  soil_test_id     String?
+  recommended_json String   // The generated structure
+  confidence       String
+  created_at       DateTime @default(now())
+}

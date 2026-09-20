@@ -20,7 +20,8 @@ import {
   Sparkles,
   Layers,
   MapPin,
-  CheckSquare
+  CheckSquare,
+  Camera
 } from 'lucide-react-native';
 import { 
   getActiveBooking, 
@@ -193,6 +194,21 @@ export default function QueueScreen() {
           )}
         </View>
 
+        {/* View CCTV Camera Button */}
+        <TouchableOpacity 
+          style={styles.cctvButton} 
+          onPress={() => router.push({ pathname: '/cctv-monitor', params: { centreId: booking?.centreId || currentCentre?.id, centreName: booking?.centreName || currentCentre?.name } })}
+        >
+          <View style={styles.cctvIconContainer}>
+            <Camera size={20} color="#F8FAFC" />
+          </View>
+          <View style={styles.cctvTextContainer}>
+            <Text style={styles.cctvButtonTitle}>Procurement Area Camera (Live)</Text>
+            <Text style={styles.cctvButtonSub}>View crowd density & wait conditions at {booking?.centreName || currentCentre?.name}</Text>
+          </View>
+          <ArrowRight size={20} color="#94A3B8" />
+        </TouchableOpacity>
+
         {/* Smart Centre Reallocation Alert */}
         {currentCentre?.loadStatus === 'HIGH' && (
           <View style={styles.reallocationCard}>
@@ -210,6 +226,17 @@ export default function QueueScreen() {
             <TouchableOpacity style={styles.reallocButton} onPress={handleConfirmReallocation}>
               <Text style={styles.reallocButtonText}>VIEW & CONFIRM ALTERNATIVE CENTRE</Text>
               <ArrowRight size={16} color="white" />
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              style={[styles.reallocButton, { backgroundColor: '#475569', marginTop: 8 }]} 
+              onPress={() => {
+                const alternative = centres.find(c => c.loadStatus === 'LOW') || centres[0];
+                router.push({ pathname: '/cctv-monitor', params: { centreId: alternative.id, centreName: alternative.name } });
+              }}
+            >
+              <Text style={styles.reallocButtonText}>VIEW ALTERNATIVE CAMERA</Text>
+              <Camera size={16} color="white" />
             </TouchableOpacity>
           </View>
         )}
@@ -445,4 +472,32 @@ const styles = StyleSheet.create({
   dotNumber: { fontSize: 10, fontWeight: '700', color: '#475569' },
   timelineText: { fontSize: 13, color: '#64748B', fontWeight: '500' },
   timelineTextDone: { color: '#0F172A', fontWeight: '700' },
+  cctvButton: {
+    backgroundColor: '#0F172A',
+    borderRadius: 16,
+    padding: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+    elevation: 3,
+  },
+  cctvIconContainer: {
+    backgroundColor: '#1E293B',
+    padding: 12,
+    borderRadius: 12,
+    marginRight: 14,
+  },
+  cctvTextContainer: {
+    flex: 1,
+  },
+  cctvButtonTitle: {
+    color: '#F8FAFC',
+    fontSize: 14,
+    fontWeight: '800',
+    marginBottom: 2,
+  },
+  cctvButtonSub: {
+    color: '#94A3B8',
+    fontSize: 12,
+  }
 });

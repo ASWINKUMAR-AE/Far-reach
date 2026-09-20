@@ -111,8 +111,16 @@ export default function InteractiveCropRotationScreen() {
     try {
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status === 'granted') {
-        const loc = await Location.getCurrentPositionAsync({});
-        const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${loc.coords.latitude}&longitude=${loc.coords.longitude}&current_weather=true`);
+        let latitude = 10.7905;
+        let longitude = 78.7047;
+        try {
+          const loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced, timeout: 5000 });
+          latitude = loc.coords.latitude;
+          longitude = loc.coords.longitude;
+        } catch (locErr) {
+          console.warn("Location fetch timeout, using fallback Tiruchirappalli coordinates.");
+        }
+        const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`);
         const data = await res.json();
         if (data?.current_weather) {
           setWeatherInfo(`Temp: ${data.current_weather.temperature}°C, Wind: ${data.current_weather.windspeed} km/h. Moderate rainfall expected.`);
@@ -347,9 +355,23 @@ Keep your tone friendly.`;
       } catch (err) { setIsListening(false); }
       return;
     }
-    
     try {
-      if (!Voice) return alert('Native speech recognition requires Android/iOS.');
+      if (!Voice) {
+        // Expo Go fallback simulation
+        if (isListening) {
+          setIsListening(false);
+          return;
+        }
+        setIsListening(true);
+        setInterimTranscript('Simulating voice input...');
+        setTimeout(() => {
+          setIsListening(false);
+          setInterimTranscript('');
+          handleSendMessage("What is the best crop to rotate with my previous wheat harvest?");
+        }, 2500);
+        return;
+      }
+
       if (isListening) { await Voice.stop(); setIsListening(false); } 
       else { setInterimTranscript('Listening...'); await Voice.start(selectedLang.code); setIsListening(true); }
     } catch (e) { setIsListening(false); }
