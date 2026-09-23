@@ -1,4 +1,4 @@
-# KisanMitra - AI-Based Crop Recommendation App
+# Far Reach - AI-Based Crop Recommendation & Smart Farming Platform
 
 A comprehensive React Native Expo application designed for Indian farmers to get AI-powered crop recommendations, soil analysis, market insights, and farming assistance.
 
@@ -40,8 +40,8 @@ A comprehensive React Native Expo application designed for Indian farmers to get
 
 1. **Clone and setup the project:**
    ```bash
-   git clone <repository-url>
-   cd kisan-mitra-app
+   git clone https://github.com/ASWINKUMAR-AE/Far-reach.git
+   cd Far-reach
    npm install
    ```
 
@@ -266,5 +266,4 @@ MIT License - see LICENSE file for details
 
 For technical support or questions:
 - Create an issue on GitHub
-- Email: support@kisanmitra.com
-- Documentation: https://docs.kisanmitra.com
+- Repository: https://github.com/ASWINKUMAR-AE/Far-reach
