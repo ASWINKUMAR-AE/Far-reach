@@ -372,38 +372,45 @@ export async function createBooking(
   quantityKg: number, 
   slot: string
 ): Promise<ProcurementBooking> {
+  let allocatedTokenNumber = centre.booked + 1;
+  let backendTokenId = `TKN-${allocatedTokenNumber}`;
+
+  // Automatically transfer & synchronize token with Admin Token Status Manager
   try {
-    const liveRes = await apiClient.bookProcurementSlot({
-      centreId: centre.id,
-      crop,
-      quantityKg,
-      slot,
-      sessionId: 'SESSION_DEFAULT',
-      farmerId: DEFAULT_FARMER.id,
-    });
-    if (liveRes?.data) {
-      const b = liveRes.data;
-      const newBooking: ProcurementBooking = {
-        id: b.booking_code || `BK-${Math.floor(1000 + Math.random() * 9000)}`,
-        farmerId: DEFAULT_FARMER.id,
-        centreId: centre.id,
-        centreName: centre.name,
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 3500);
+
+    const regRes = await fetch('http://localhost:3000/api/queue/register-token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        farmerName: DEFAULT_FARMER.name,
+        centerCode: centre.id,
         crop,
         quantityKg,
         slot,
-        date: new Date().toISOString().split('T')[0],
-        token: parseInt(b.tokenDisplay?.replace('#', '') || `${centre.booked + 1}`, 10),
-        status: b.status || 'BOOKED',
-        createdAt: new Date().toISOString(),
-      };
-      await saveActiveBooking(newBooking);
-      return newBooking;
+        requestedTokenNumber: allocatedTokenNumber,
+      }),
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
+
+    if (regRes.ok) {
+      const regJson = await regRes.json();
+      if (regJson.tokenNumber) {
+        allocatedTokenNumber = regJson.tokenNumber;
+        backendTokenId = regJson.data?.tokenId || `TKN-${allocatedTokenNumber}`;
+      }
+      console.log(`[ProcurementService] Token #${backendTokenId} transferred to Admin Status Manager (No Duplicates).`);
     }
   } catch (e) {
-    console.log('[ProcurementService] Live slot booking failed/offline, fallback to local storage.');
+    console.log('[ProcurementService] Admin queue sync offline, using local non-duplicate counter.');
   }
 
-  const fallbackBooking: ProcurementBooking = {
+  // Update centre booked counter to prevent duplicate numbers
+  centre.booked = Math.max(centre.booked, allocatedTokenNumber);
+
+  const newBooking: ProcurementBooking = {
     id: `BK-${Math.floor(1000 + Math.random() * 9000)}`,
     farmerId: DEFAULT_FARMER.id,
     centreId: centre.id,
@@ -412,13 +419,13 @@ export async function createBooking(
     quantityKg,
     slot,
     date: new Date().toISOString().split('T')[0],
-    token: centre.booked + 1,
+    token: allocatedTokenNumber,
     status: 'BOOKED',
     createdAt: new Date().toISOString(),
   };
 
-  await saveActiveBooking(fallbackBooking);
-  return fallbackBooking;
+  await saveActiveBooking(newBooking);
+  return newBooking;
 }
 
 export async function requestRequeue(currentBooking: ProcurementBooking): Promise<ProcurementBooking> {

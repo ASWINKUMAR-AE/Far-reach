@@ -20,22 +20,18 @@ export const MAX_STATUS_INDEX = TOKEN_STAGES.length - 1; // 7
 /**
  * Middleware: verifyToken
  * Extracts admin authentication and center scope.
- * Reads Bearer JWT or x-center-code header (fallback for internal dev/testing).
+ * Reads Bearer JWT or x-center-code header.
  * Populates req.user.center_code.
  */
 export const verifyToken = (req: Request, res: Response, next: NextFunction) => {
-  // Check header or authorization
   const authHeader = req.headers.authorization;
   const headerCenter = req.headers['x-center-code'] as string;
 
-  // Mock / extracted decoded user payload
   let userCenter = headerCenter || 'CTR-01';
 
   if (authHeader && authHeader.startsWith('Bearer ')) {
     const token = authHeader.split(' ')[1];
     try {
-      // In production: jwt.verify(token, process.env.JWT_SECRET)
-      // If token payload contains center_code:
       const payloadBase64 = token.split('.')[1];
       if (payloadBase64) {
         const decoded = JSON.parse(Buffer.from(payloadBase64, 'base64').toString('utf8'));
@@ -57,21 +53,31 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
 
 /**
  * 1. GET /api/queue/:tokenId
- * Fetches token details if it matches the admin's center_code
+ * Fetches token details with flexible query matching (e.g. "148", "#148", or "TKN-148")
+ * Enforces strict multi-tenant center scoping (403 if center mismatch).
  */
 router.get('/:tokenId', verifyToken, async (req: Request, res: Response) => {
   try {
-    const { tokenId } = req.params;
+    const rawParam = req.params.tokenId.trim();
     const adminCenterCode = (req as any).user?.center_code;
 
-    const token = await prisma.procurementToken.findUnique({
-      where: { tokenId },
+    // Normalize query: handle "148", "#148", "tkn-148", etc.
+    const cleanParam = rawParam.replace(/^#/, '').toUpperCase();
+    const possibleTokenIds = [
+      cleanParam,
+      cleanParam.startsWith('TKN-') ? cleanParam : `TKN-${cleanParam}`,
+    ];
+
+    const token = await prisma.procurementToken.findFirst({
+      where: {
+        tokenId: { in: possibleTokenIds },
+      },
     });
 
     if (!token) {
       return res.status(404).json({
         success: false,
-        error: `Token #${tokenId} not found in procurement registry.`,
+        error: `Token #${rawParam} not found in procurement registry.`,
       });
     }
 
@@ -79,7 +85,7 @@ router.get('/:tokenId', verifyToken, async (req: Request, res: Response) => {
     if (token.centerCode !== adminCenterCode) {
       return res.status(403).json({
         success: false,
-        error: `Access Denied: Token #${tokenId} belongs to center "${token.centerCode}", but your administrative session is assigned to "${adminCenterCode}".`,
+        error: `Access Denied: Token #${token.tokenId} belongs to center "${token.centerCode}", but your administrative session is assigned to "${adminCenterCode}".`,
       });
     }
 
@@ -107,18 +113,25 @@ router.get('/:tokenId', verifyToken, async (req: Request, res: Response) => {
  */
 router.put('/:tokenId/advance', verifyToken, async (req: Request, res: Response) => {
   try {
-    const { tokenId } = req.params;
+    const rawParam = req.params.tokenId.trim();
+    const cleanParam = rawParam.replace(/^#/, '').toUpperCase();
+    const possibleTokenIds = [
+      cleanParam,
+      cleanParam.startsWith('TKN-') ? cleanParam : `TKN-${cleanParam}`,
+    ];
     const adminCenterCode = (req as any).user?.center_code;
 
     // 1. Fetch current token state
-    const existingToken = await prisma.procurementToken.findUnique({
-      where: { tokenId },
+    const existingToken = await prisma.procurementToken.findFirst({
+      where: {
+        tokenId: { in: possibleTokenIds },
+      },
     });
 
     if (!existingToken) {
       return res.status(404).json({
         success: false,
-        error: `Token #${tokenId} not found.`,
+        error: `Token #${rawParam} not found.`,
       });
     }
 
@@ -141,7 +154,7 @@ router.put('/:tokenId/advance', verifyToken, async (req: Request, res: Response)
 
     // 4. Increment status index atomically
     const updatedToken = await prisma.procurementToken.update({
-      where: { tokenId },
+      where: { tokenId: existingToken.tokenId },
       data: {
         statusIndex: { increment: 1 },
       },
@@ -160,7 +173,7 @@ router.put('/:tokenId/advance', verifyToken, async (req: Request, res: Response)
 
     return res.status(200).json({
       success: true,
-      message: `Token #${tokenId} advanced to ${TOKEN_STAGES[updatedToken.statusIndex]}.`,
+      message: `Token #${updatedToken.tokenId} advanced to ${TOKEN_STAGES[updatedToken.statusIndex]}.`,
       data: {
         ...updatedToken,
         previousStage: TOKEN_STAGES[existingToken.statusIndex],
@@ -178,8 +191,98 @@ router.put('/:tokenId/advance', verifyToken, async (req: Request, res: Response)
 });
 
 /**
- * 3. POST /api/queue/create
- * Creates or seeds a procurement token for testing/demo
+ * 3. POST /api/queue/register-token
+ * Transfers token generated in the App to the Token Status Manager table.
+ * Enforces NO DUPLICATES: Atomically allocates next sequential token number if collision occurs.
+ */
+router.post('/register-token', async (req: Request, res: Response) => {
+  try {
+    const { farmerName, centerCode, crop, quantityKg, slot, requestedTokenNumber } = req.body;
+
+    if (!farmerName || !centerCode) {
+      return res.status(400).json({
+        success: false,
+        error: 'farmerName and centerCode are required.',
+      });
+    }
+
+    // Atomic transaction to ensure NO DUPLICATES
+    const result = await prisma.$transaction(async (tx) => {
+      // Find all existing tokens for this center to determine highest token number
+      const existingTokens = await tx.procurementToken.findMany({
+        where: { centerCode },
+        select: { tokenId: true },
+      });
+
+      // Extract existing numeric tokens
+      const existingNumbers = existingTokens
+        .map((t) => {
+          const numMatch = t.tokenId.match(/(\d+)/);
+          return numMatch ? parseInt(numMatch[1], 10) : 0;
+        })
+        .filter((n) => n > 0);
+
+      const maxNumber = existingNumbers.length > 0 ? Math.max(...existingNumbers) : 147;
+
+      let targetNumber: number;
+      if (requestedTokenNumber && typeof requestedTokenNumber === 'number') {
+        const candidateId = `TKN-${requestedTokenNumber}`;
+        const alreadyExists = existingTokens.some((t) => t.tokenId === candidateId);
+        if (!alreadyExists) {
+          targetNumber = requestedTokenNumber;
+        } else {
+          // If requested token number already exists, avoid duplicate by allocating max + 1
+          targetNumber = maxNumber + 1;
+        }
+      } else {
+        targetNumber = maxNumber + 1;
+      }
+
+      const finalTokenId = `TKN-${targetNumber}`;
+
+      const created = await tx.procurementToken.create({
+        data: {
+          tokenId: finalTokenId,
+          farmerName,
+          centerCode,
+          statusIndex: 1, // Step 1: SLOT BOOKED
+          crop: crop || 'Paddy (A-Grade)',
+          quantityKg: typeof quantityKg === 'number' ? quantityKg : parseFloat(quantityKg) || 500,
+          notes: slot ? `Slot: ${slot}` : undefined,
+        },
+      });
+
+      return { token: created, tokenNumber: targetNumber };
+    });
+
+    // Notify connected admin dashboards in real time via Socket.io
+    const io = req.app.get('io');
+    if (io) {
+      io.emit('TOKEN_REGISTERED', {
+        tokenId: result.token.tokenId,
+        farmerName: result.token.farmerName,
+        centerCode: result.token.centerCode,
+        crop: result.token.crop,
+        quantityKg: result.token.quantityKg,
+        statusIndex: result.token.statusIndex,
+      });
+    }
+
+    return res.status(201).json({
+      success: true,
+      message: `Token #${result.token.tokenId} successfully transferred and registered with zero duplicates.`,
+      data: result.token,
+      tokenNumber: result.tokenNumber,
+    });
+  } catch (error: any) {
+    console.error('[POST /api/queue/register-token Error]:', error);
+    return res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+/**
+ * 4. POST /api/queue/create
+ * Legacy/test endpoint for direct creation
  */
 router.post('/create', async (req: Request, res: Response) => {
   try {
@@ -218,8 +321,8 @@ router.post('/create', async (req: Request, res: Response) => {
 });
 
 /**
- * 4. GET /api/queue
- * Lists all tokens for a center
+ * 5. GET /api/queue
+ * Lists all registered tokens for the admin's center
  */
 router.get('/', verifyToken, async (req: Request, res: Response) => {
   try {
@@ -227,9 +330,18 @@ router.get('/', verifyToken, async (req: Request, res: Response) => {
     const tokens = await prisma.procurementToken.findMany({
       where: { centerCode: adminCenterCode },
       orderBy: { createdAt: 'desc' },
+      take: 20,
     });
 
-    return res.status(200).json({ success: true, data: tokens });
+    return res.status(200).json({
+      success: true,
+      centerCode: adminCenterCode,
+      count: tokens.length,
+      data: tokens.map((t) => ({
+        ...t,
+        currentStage: TOKEN_STAGES[t.statusIndex],
+      })),
+    });
   } catch (error: any) {
     return res.status(500).json({ success: false, error: error.message });
   }

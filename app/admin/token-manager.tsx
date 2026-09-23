@@ -22,7 +22,9 @@ import {
   Building2,
   RotateCcw,
   Sparkles,
+  RefreshCw,
 } from 'lucide-react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const STAGES = [
   { id: 0, label: 'REGISTRATION', desc: 'Farmer registered in Mandi procurement system' },
@@ -71,16 +73,81 @@ export default function TokenStatusManagerScreen() {
   const [adminCenterCode, setAdminCenterCode] = useState('CTR-01');
   const [searchInput, setSearchInput] = useState('TKN-1042');
   const [tokenData, setTokenData] = useState<any>(INITIAL_DEMO_TOKENS['TKN-1042']);
+  const [liveTokens, setLiveTokens] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [refreshingList, setRefreshingList] = useState(false);
   const [advancing, setAdvancing] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [errorType, setErrorType] = useState<'403' | '404' | 'generic' | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  // Search Token Handler
-  const handleSearch = async () => {
-    const query = searchInput.trim().toUpperCase();
-    if (!query) return;
+  // Auto-fetch live transferred tokens from backend and local app storage on mount
+  const loadTransferredTokens = async () => {
+    setRefreshingList(true);
+    const discovered: Record<string, any> = { ...INITIAL_DEMO_TOKENS };
+
+    try {
+      // 1. Fetch live backend tokens
+      const res = await fetch(`http://localhost:3000/api/queue`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-center-code': adminCenterCode,
+        },
+      });
+
+      if (res.ok) {
+        const json = await res.json();
+        if (json.data && Array.isArray(json.data)) {
+          json.data.forEach((t: any) => {
+            discovered[t.tokenId] = t;
+          });
+        }
+      }
+    } catch (e) {
+      console.log('[TokenManager] Backend queue offline, loading local tokens');
+    }
+
+    try {
+      // 2. Read active booking from farmer app local storage
+      const activeRaw = await AsyncStorage.getItem('far_reach_active_booking');
+      if (activeRaw) {
+        const active = JSON.parse(activeRaw);
+        const appTokenId = `TKN-${active.token}`;
+        if (!discovered[appTokenId]) {
+          discovered[appTokenId] = {
+            tokenId: appTokenId,
+            farmerName: active.farmerName || 'Ramesh Kumar',
+            centerCode: active.centreId || 'CTR-01',
+            statusIndex: 1, // SLOT BOOKED
+            crop: active.crop || 'Paddy (A-Grade)',
+            quantityKg: active.quantityKg || 500,
+          };
+        }
+      }
+    } catch (e) {
+      console.log('[TokenManager] Skipped local storage read');
+    }
+
+    const tokenList = Object.values(discovered).filter(
+      (t) => t.centerCode === adminCenterCode
+    );
+    setLiveTokens(tokenList);
+    setRefreshingList(false);
+  };
+
+  React.useEffect(() => {
+    loadTransferredTokens();
+  }, [adminCenterCode]);
+
+  // Search Token Handler with smart normalization
+  const handleSearch = async (overrideQuery?: string) => {
+    const raw = (overrideQuery || searchInput).trim();
+    if (!raw) return;
+
+    // Normalization: handles "148", "#148", "TKN-148"
+    const cleanNum = raw.replace(/^[#TKN-]+/, '').trim();
+    const query = raw.startsWith('TKN-') ? raw.toUpperCase() : cleanNum ? `TKN-${cleanNum}` : raw.toUpperCase();
 
     setLoading(true);
     setErrorMessage(null);
@@ -100,6 +167,8 @@ export default function TokenStatusManagerScreen() {
       if (res.ok) {
         const json = await res.json();
         setTokenData(json.data);
+        setSearchInput(json.data.tokenId);
+        setLoading(false);
         return;
       }
 
@@ -108,35 +177,39 @@ export default function TokenStatusManagerScreen() {
         setErrorType('403');
         setErrorMessage(json.error || `Access Denied: Token belongs to another procurement center.`);
         setTokenData(null);
+        setLoading(false);
         return;
       } else if (res.status === 404) {
         setErrorType('404');
         setErrorMessage(`Token #${query} not found in procurement registry.`);
         setTokenData(null);
+        setLoading(false);
         return;
       }
     } catch (e) {
-      // Fallback to local demo registry with security enforcement
-      console.log('[TokenManager] Backend offline, using local registry');
-    } finally {
-      setLoading(false);
+      console.log('[TokenManager] Backend offline, searching local token registry');
     }
 
     // Local deterministic fallback
-    const match = INITIAL_DEMO_TOKENS[query];
-    if (!match) {
+    const matchedToken =
+      liveTokens.find((t) => t.tokenId === query || t.tokenId.endsWith(cleanNum)) ||
+      INITIAL_DEMO_TOKENS[query];
+
+    if (!matchedToken) {
       setErrorType('404');
       setErrorMessage(`Token #${query} was not found in the Mandi records.`);
       setTokenData(null);
-    } else if (match.centerCode !== adminCenterCode) {
+    } else if (matchedToken.centerCode !== adminCenterCode) {
       setErrorType('403');
       setErrorMessage(
-        `Security Restriction: Token #${query} belongs to "${match.centerCode}", but your session is scoped to "${adminCenterCode}".`
+        `Security Restriction: Token #${query} belongs to "${matchedToken.centerCode}", but your session is scoped to "${adminCenterCode}".`
       );
       setTokenData(null);
     } else {
-      setTokenData({ ...match });
+      setTokenData({ ...matchedToken });
+      setSearchInput(matchedToken.tokenId);
     }
+    setLoading(false);
   };
 
   // Advance Status Handler
@@ -223,7 +296,7 @@ export default function TokenStatusManagerScreen() {
             />
             <TouchableOpacity
               style={styles.searchBtn}
-              onPress={handleSearch}
+              onPress={() => handleSearch()}
               disabled={loading || !searchInput.trim()}
             >
               {loading ? (
@@ -242,23 +315,79 @@ export default function TokenStatusManagerScreen() {
             <Text style={styles.presetsLabel}>Test Tokens:</Text>
             <TouchableOpacity
               style={styles.presetChip}
-              onPress={() => setSearchInput('TKN-1042')}
+              onPress={() => {
+                setSearchInput('TKN-1042');
+                handleSearch('TKN-1042');
+              }}
             >
               <Text style={styles.presetChipText}>TKN-1042 (CTR-01)</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.presetChip}
-              onPress={() => setSearchInput('PRC-2026-001')}
+              onPress={() => {
+                setSearchInput('PRC-2026-001');
+                handleSearch('PRC-2026-001');
+              }}
             >
               <Text style={styles.presetChipText}>PRC-2026-001</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.presetChip, styles.presetChipOther]}
-              onPress={() => setSearchInput('TKN-9999')}
+              onPress={() => {
+                setSearchInput('TKN-9999');
+                handleSearch('TKN-9999');
+              }}
             >
               <Lock size={10} color="#B45309" />
               <Text style={styles.presetChipTextOther}>TKN-9999 (Test 403)</Text>
             </TouchableOpacity>
+          </View>
+
+          {/* Live Transferred App Tokens (Zero Duplicates) */}
+          <View style={{ marginTop: 14, paddingTop: 12, borderTopWidth: 1, borderTopColor: '#F1F5F9' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                <Sparkles size={14} color="#059669" />
+                <Text style={{ fontSize: 12, fontWeight: '800', color: '#064E3B' }}>
+                  Live Transferred Tokens from App (Zero Duplicates):
+                </Text>
+              </View>
+              <TouchableOpacity onPress={loadTransferredTokens} style={{ padding: 4 }}>
+                <RefreshCw size={13} color="#059669" />
+              </TouchableOpacity>
+            </View>
+
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              <View style={{ flexDirection: 'row', gap: 8 }}>
+                {liveTokens.map((t) => {
+                  const isSelected = tokenData?.tokenId === t.tokenId;
+                  return (
+                    <TouchableOpacity
+                      key={t.tokenId}
+                      onPress={() => {
+                        setSearchInput(t.tokenId);
+                        handleSearch(t.tokenId);
+                      }}
+                      style={{
+                        backgroundColor: isSelected ? '#059669' : '#F0FDF4',
+                        borderWidth: 1,
+                        borderColor: isSelected ? '#059669' : '#86EFAC',
+                        borderRadius: 10,
+                        paddingHorizontal: 10,
+                        paddingVertical: 6,
+                      }}
+                    >
+                      <Text style={{ fontSize: 11, fontWeight: '800', color: isSelected ? '#FFFFFF' : '#065F46' }}>
+                        #{t.tokenId}
+                      </Text>
+                      <Text style={{ fontSize: 9, color: isSelected ? '#DCFCE7' : '#64748B', fontWeight: '600' }}>
+                        {t.farmerName} • {t.crop || 'Paddy'}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            </ScrollView>
           </View>
 
           {/* Error Banner */}
