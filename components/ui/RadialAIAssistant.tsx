@@ -40,7 +40,7 @@ const LONG_PRESS_DURATION = 400;
 const OPTIONS = [
   { id: 'voice_chat', icon: Mic, label: 'Voice Chat', route: '/chat-assistant', color: '#38BDF8' },
   { id: 'crop_rotation', icon: Repeat, label: 'Crop Rotation', route: '/(tabs)/Crop_rotation', color: '#10B981' },
-  { id: 'fertilizer', icon: Leaf, label: 'Fertilizer', route: '/fertilizer-advisor', color: '#84CC16' },
+  { id: 'fertilizer', icon: Leaf, label: 'Fertiliser Info', route: '/fertiliser-info', color: '#16A34A' },
   { id: 'soil_test', icon: TestTubes, label: 'Soil Test', route: '/soil-input', color: '#A855F7' },
 ];
 

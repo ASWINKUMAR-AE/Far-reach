@@ -10,6 +10,7 @@ import procurementRoutes from './routes/procurement.routes';
 import cvRoutes from './routes/cv.routes';
 import paymentRoutes from './routes/payment.routes';
 import fertilizerRoutes from './routes/fertilizer.routes';
+import queueRoutes from './routes/queue.routes';
 import { startIngestionScheduler } from './services/ingestion.service';
 
 dotenv.config();
@@ -42,6 +43,7 @@ app.use('/api/procurement', procurementRoutes);
 app.use('/api/cv', cvRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/fertilizer', fertilizerRoutes);
+app.use('/api/queue', queueRoutes);
 
 // Socket.io Events
 io.on('connection', (socket) => {

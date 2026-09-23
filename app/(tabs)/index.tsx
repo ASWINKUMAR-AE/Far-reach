@@ -24,7 +24,10 @@ import {
   Repeat,
   Bell,
   QrCode,
-  HelpCircle
+  HelpCircle,
+  FlaskConical,
+  Sparkles,
+  Calendar
 } from 'lucide-react-native';
 import { WeatherCard } from '@/components/home/WeatherCard';
 import { RecentActivity } from '@/components/home/RecentActivity';
@@ -32,6 +35,18 @@ import { RecentActivity } from '@/components/home/RecentActivity';
 const { width } = Dimensions.get('window');
 
 const quickActions = [
+  {
+    icon: Calendar,
+    titleKey: 'Book Slot',
+    route: '/book-slot',
+    color: '#059669',
+  },
+  {
+    icon: FlaskConical,
+    titleKey: 'Fertiliser Info',
+    route: '/fertiliser-info',
+    color: '#059669',
+  },
   {
     icon: QrCode,
     titleKey: 'Self Check-in',
@@ -211,7 +226,7 @@ export default function HomeScreen() {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.pBtnSecondary}
-                onPress={() => router.push('/(tabs)/procurement' as any)}
+                onPress={() => router.push('/book-slot' as any)}
               >
                 <Text style={styles.pBtnSecondaryText}>BOOK SLOT</Text>
               </TouchableOpacity>
@@ -223,6 +238,34 @@ export default function HomeScreen() {
               </TouchableOpacity>
             </View>
           </View>
+        </Animated.View>
+
+        {/* FERTILISER INFO FEATURED HERO CARD */}
+        <Animated.View entering={FadeInDown.delay(250).springify()} style={styles.section}>
+          <TouchableOpacity
+            style={styles.fertHeroCard}
+            onPress={() => router.push('/fertiliser-info' as any)}
+            activeOpacity={0.85}
+          >
+            <View style={styles.fertHeroHeader}>
+              <View style={styles.fertHeroTagRow}>
+                <Sparkles size={13} color="#A7F3D0" />
+                <Text style={styles.fertHeroTag}>NEW DEDICATED SECTION</Text>
+              </View>
+              <View style={styles.fertTtsBadge}>
+                <Text style={styles.fertTtsBadgeText}>TTS VOICE</Text>
+              </View>
+            </View>
+
+            <Text style={styles.fertHeroTitle}>Fertiliser Info & Science Hub</Text>
+            <Text style={styles.fertHeroDesc}>
+              Complete NPK scientific proofs, high-res images, and dosage calculator per acre & hectare with multi-lingual audio narration.
+            </Text>
+
+            <View style={styles.fertHeroFooter}>
+              <Text style={styles.fertHeroBtnText}>EXPLORE FERTILISER HUB →</Text>
+            </View>
+          </TouchableOpacity>
         </Animated.View>
 
         {/* Quick Actions */}
@@ -419,4 +462,68 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   pBtnSecondaryText: { color: 'white', fontWeight: '700', fontSize: 11 },
+  fertHeroCard: {
+    backgroundColor: '#047857',
+    borderRadius: 20,
+    padding: 18,
+    borderWidth: 1,
+    borderColor: '#059669',
+    shadowColor: '#059669',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    elevation: 4,
+  },
+  fertHeroHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  fertHeroTagRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+  },
+  fertHeroTag: {
+    fontSize: 10,
+    fontWeight: '800',
+    color: '#A7F3D0',
+    letterSpacing: 1,
+  },
+  fertTtsBadge: {
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 6,
+  },
+  fertTtsBadgeText: {
+    fontSize: 10,
+    fontWeight: '800',
+    color: '#FFFFFF',
+  },
+  fertHeroTitle: {
+    fontSize: 18,
+    fontWeight: '900',
+    color: '#FFFFFF',
+    marginBottom: 4,
+  },
+  fertHeroDesc: {
+    fontSize: 12,
+    color: '#D1FAE5',
+    lineHeight: 17,
+    marginBottom: 12,
+  },
+  fertHeroFooter: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 8,
+  },
+  fertHeroBtnText: {
+    fontSize: 11,
+    fontWeight: '800',
+    color: '#065F46',
+  },
 });

@@ -205,6 +205,40 @@ Centres:
           </TouchableOpacity>
         )}
 
+        {/* Dedicated In-Software Booking Banner */}
+        <TouchableOpacity 
+          onPress={() => router.push('/book-slot' as any)}
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            backgroundColor: '#059669',
+            padding: 14,
+            borderRadius: 14,
+            marginBottom: 14,
+            shadowColor: '#059669',
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: 0.25,
+            shadowRadius: 8,
+            elevation: 4,
+          }}
+        >
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, flex: 1 }}>
+            <Calendar size={22} color="#FFFFFF" />
+            <View style={{ flex: 1 }}>
+              <Text style={{ fontSize: 13, fontWeight: '900', color: '#FFFFFF' }}>
+                DIRECT IN-APP SLOT BOOKING & PASS
+              </Text>
+              <Text style={{ fontSize: 11, color: '#DCFCE7', fontWeight: '600', marginTop: 2 }}>
+                Instant MSP calculation, vehicle pass & digital token
+              </Text>
+            </View>
+          </View>
+          <View style={{ backgroundColor: '#FFFFFF', paddingHorizontal: 10, paddingVertical: 6, borderRadius: 8 }}>
+            <Text style={{ fontSize: 11, fontWeight: '800', color: '#059669' }}>BOOK →</Text>
+          </View>
+        </TouchableOpacity>
+
         {/* AI Smart Slot Allocation Banner */}
         <View style={styles.aiBanner}>
           <View style={styles.aiBannerHeader}>
