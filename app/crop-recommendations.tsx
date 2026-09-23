@@ -143,7 +143,7 @@ export default function AICropRecommendationScreen() {
         let latitude = 10.7905;
         let longitude = 78.7047;
         try {
-          const loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced, timeout: 5000 });
+          const loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
           latitude = loc.coords.latitude;
           longitude = loc.coords.longitude;
         } catch (locErr) {

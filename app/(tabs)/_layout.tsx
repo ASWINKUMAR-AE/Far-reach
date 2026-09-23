@@ -11,23 +11,27 @@ import {
   Newspaper,
 } from 'lucide-react-native';
 
-import { View, Text, StyleSheet, Animated } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
+import React, { useEffect } from 'react';
 
 const CustomTabBarIcon = ({ icon, label, focused }: { icon: any; label: string; focused: boolean }) => {
-  const scale = new Animated.Value(focused ? 1.1 : 1);
+  const scale = useSharedValue(focused ? 1.1 : 1);
 
-  Animated.spring(scale, {
-    toValue: focused ? 1.1 : 1,
-    useNativeDriver: true,
-    friction: 4,
-  }).start();
+  useEffect(() => {
+    scale.value = withSpring(focused ? 1.1 : 1, { damping: 12, stiffness: 150 });
+  }, [focused]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
 
   return (
     <Animated.View
       style={[
         styles.tabIconContainer,
         focused && styles.tabIconFocused,
-        { transform: [{ scale }] },
+        animatedStyle,
       ]}
     >
       {icon}
@@ -152,37 +156,44 @@ export default function TabLayout() {
 const styles = StyleSheet.create({
   tabBar: {
     position: 'absolute',
-    bottom: 16,
-    left: 16,
-    right: 16,
-    height: 70,
-    borderRadius: 35,
-    backgroundColor: '#f0fdf4',
+    bottom: 12,
+    left: 12,
+    right: 12,
+    height: 58,
+    borderRadius: 29,
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
     shadowColor: '#059669',
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.15,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
     shadowRadius: 10,
     marginHorizontal: 10,
     elevation: 8,
+    borderWidth: 1,
+    borderColor: 'rgba(5, 150, 105, 0.1)',
   },
   tabIconContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 20,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 16,
   },
   tabIconFocused: {
     backgroundColor: '#059669',
+    shadowColor: '#059669',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 4,
   },
   tabLabel: {
-    fontSize: 10,
-    fontWeight: '500',
-    color: '#84cc16',
-    marginTop: 4,
+    fontSize: 9,
+    fontWeight: '600',
+    color: '#059669',
+    marginTop: 2,
   },
   tabLabelFocused: {
     color: '#ffffff',

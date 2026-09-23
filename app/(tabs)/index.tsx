@@ -12,6 +12,8 @@ import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Speech from "expo-speech";
+import Animated, { FadeInDown } from 'react-native-reanimated';
+import { BlurView } from 'expo-blur';
 import { 
   TestTubes, 
   Sprout, 
@@ -134,7 +136,7 @@ export default function HomeScreen() {
         </View>
 
         {/* Header */}
-        <View style={styles.header}>
+        <BlurView intensity={80} tint="light" style={styles.header}>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
             <View style={{ flex: 1 }}>
               <Text style={styles.greeting}>
@@ -144,7 +146,7 @@ export default function HomeScreen() {
                 {t('home.subtitle')}
               </Text>
             </View>
-            <Image source={require('../../assets/icon.png')} style={{ width: 52, height: 52, borderRadius: 14, marginLeft: 12 }} resizeMode="contain" />
+            <Image source={require('../../assets/icon.png')} style={{ width: 52, height: 52, borderRadius: 16, marginLeft: 12 }} resizeMode="contain" />
           </View>
 
           {/* Translation Buttons */}
@@ -158,21 +160,21 @@ export default function HomeScreen() {
                     style={[styles.langButton, isActive && styles.langButtonActive]} 
                     onPress={() => changeLanguage(lang.code)}
                   >
-                    <Text style={[styles.langText, isActive && styles.langTextActive]}>{lang.name}</Text>
+                    <Text style={[styles.langText, isActive && { color: 'white', fontWeight: 'bold' }]}>{lang.name}</Text>
                   </TouchableOpacity>
                 );
               })}
             </ScrollView>
           </View>
-        </View>
+        </BlurView>
 
         {/* Weather Card */}
-        <View style={styles.section}>
+        <Animated.View entering={FadeInDown.delay(100).springify()} style={styles.section}>
           <WeatherCard />
-        </View>
+        </Animated.View>
 
         {/* FAR REACH — Today's Procurement Card */}
-        <View style={styles.section}>
+        <Animated.View entering={FadeInDown.delay(200).springify()} style={styles.section}>
           <View style={styles.procurementHeroCard}>
             <View style={styles.procurementHeader}>
               <View>
@@ -221,10 +223,10 @@ export default function HomeScreen() {
               </TouchableOpacity>
             </View>
           </View>
-        </View>
+        </Animated.View>
 
         {/* Quick Actions */}
-        <View style={styles.section}>
+        <Animated.View entering={FadeInDown.delay(300).springify()} style={styles.section}>
           <Text style={styles.sectionTitle}>
             {t('home.quickActions')}
           </Text>
@@ -233,35 +235,35 @@ export default function HomeScreen() {
             {quickActions.map((action, index) => {
               const IconComponent = action.icon;
               return (
-                <TouchableOpacity
-                  key={index}
-                  onPress={() => router.push(action.route as any)}
-                  style={styles.actionItem}
-                >
-                  <View style={styles.actionCard}>
+                <Animated.View key={index} entering={FadeInDown.delay(350 + (index * 50)).springify()} style={styles.actionItem}>
+                  <TouchableOpacity
+                    onPress={() => router.push(action.route as any)}
+                    style={styles.actionCard}
+                    activeOpacity={0.7}
+                  >
                     <View style={[styles.actionIcon, { backgroundColor: action.color }]}>
-                      <IconComponent size={24} color="white" />
+                      <IconComponent size={22} color="white" />
                     </View>
                     <Text style={styles.actionText}>
                       {t(action.titleKey)}
                     </Text>
-                  </View>
-                </TouchableOpacity>
+                  </TouchableOpacity>
+                </Animated.View>
               );
             })}
           </View>
-        </View>
+        </Animated.View>
 
         {/* Recent Activity */}
-        <View style={styles.section}>
+        <Animated.View entering={FadeInDown.delay(500).springify()} style={styles.section}>
           <Text style={styles.sectionTitle}>
             {t('home.recentActivity')}
           </Text>
           <RecentActivity />
-        </View>
+        </Animated.View>
 
         {/* Farm Statistics */}
-        <View style={styles.section}>
+        <Animated.View entering={FadeInDown.delay(600).springify()} style={styles.section}>
           <Text style={styles.sectionTitle}>
             {t('home.farmStats')}
           </Text>
@@ -294,30 +296,30 @@ export default function HomeScreen() {
               </View>
             </View>
           </View>
-        </View>
+        </Animated.View>
       </ScrollView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#f0fdf4' },
+  container: { flex: 1, backgroundColor: '#f4fbf7' },
   scrollView: { flex: 1 },
   header: {
-    backgroundColor: 'white',
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
     paddingHorizontal: 24,
-    paddingVertical: 24,
-    borderBottomWidth: 1,
-    borderBottomColor: '#dcfce7',
+    paddingTop: 32,
+    paddingBottom: 24,
     marginBottom: 16,
   },
   greeting: {
-    color: '#052e16',
-    fontSize: 28,
-    fontWeight: 'bold',
+    color: '#064e3b',
+    fontSize: 26,
+    fontWeight: '900',
     marginBottom: 4,
+    letterSpacing: -0.5,
   },
-  subtitle: { color: '#059669', fontSize: 16, marginBottom: 12 },
+  subtitle: { color: '#059669', fontSize: 15, fontWeight: '600', marginBottom: 12 },
   languageContainer: { flexDirection: 'row', gap: 8 },
   langButton: {
     paddingVertical: 6,
@@ -326,44 +328,40 @@ const styles = StyleSheet.create({
     backgroundColor: '#e5e7eb',
   },
   langButtonActive: { backgroundColor: '#059669' },
-  langText: { color: 'white', fontWeight: 'bold' },
+  langText: { color: '#374151', fontWeight: 'bold' },
   section: { paddingHorizontal: 20, marginBottom: 24, position: 'relative', zIndex: 10 },
-  sectionTitle: { color: '#052e16', fontSize: 20, fontWeight: 'bold', marginBottom: 16 },
-  actionsGrid: { flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: -4 },
-  actionItem: { width: (width - 40) / 2 - 8, marginHorizontal: 4, marginBottom: 16 },
+  sectionTitle: { color: '#064e3b', fontSize: 20, fontWeight: '900', marginBottom: 16 },
+  actionsGrid: { flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: -6 },
+  actionItem: { width: (width - 40) / 2 - 12, marginHorizontal: 6, marginBottom: 16 },
   actionCard: {
     backgroundColor: 'white',
-    borderRadius: 16,
-    padding: 16,
+    borderRadius: 20,
+    padding: 18,
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#dcfce7',
     shadowColor: '#059669',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 10,
+    elevation: 4,
   },
   actionIcon: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 44,
+    height: 44,
+    borderRadius: 14,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 12,
   },
-  actionText: { color: '#052e16', fontWeight: '500', fontSize: 14, textAlign: 'center' },
+  actionText: { color: '#064e3b', fontWeight: '800', fontSize: 13, textAlign: 'center' },
   statsCard: {
     backgroundColor: 'white',
-    borderRadius: 16,
+    borderRadius: 20,
     padding: 20,
-    borderWidth: 1,
-    borderColor: '#dcfce7',
     shadowColor: '#059669',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 10,
+    elevation: 4,
   },
   statsContainer: { flexDirection: 'row', justifyContent: 'space-around' },
   statItem: { flex: 1, alignItems: 'center' },

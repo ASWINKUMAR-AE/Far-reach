@@ -59,16 +59,14 @@
           "microphonePermission": "Allow Far-Reach to use the microphone for voice chatting.",
           "speechRecognitionPermission": "Allow Far-Reach to securely recognize your speech."
         }
-      ]
+      ],
+      "expo-splash-screen"
     ],
     "experiments": {
       "typedRoutes": true
     },
     "extra": {
-      "router": {},
-      "eas": {
-        "projectId": "b254cacb-897a-4d12-8c87-d596e348b0e2"
-      }
+      "router": {}
     }
   }
 }

@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   background: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill as any,
   },
   gradientTop: {
     position: 'absolute',

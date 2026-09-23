@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, Alert, Dimensions } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import * as Location from 'expo-location';
 import { useTranslation } from 'react-i18next';
 import { Sun, Droplets, Wind, Eye, AlertCircle } from 'lucide-react-native';
@@ -33,7 +34,7 @@ export function WeatherCard() {
         let latitude = 10.7905;
         let longitude = 78.7047;
         try {
-          const loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced, timeout: 5000 });
+          const loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
           latitude = loc.coords.latitude;
           longitude = loc.coords.longitude;
         } catch (locErr) {
@@ -101,14 +102,19 @@ export function WeatherCard() {
   }
 
   return (
-    <View style={styles.card}>
+    <LinearGradient
+      colors={['#059669', '#10b981', '#34d399']}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      style={styles.card}
+    >
       <View style={styles.header}>
         <View>
           <Text style={styles.title}>{t('weather.today')}</Text>
           <Text style={styles.location}>{locationName}</Text>
         </View>
         <View style={styles.temperatureContainer}>
-          <Sun size={32} color="#F59E0B" />
+          <Sun size={32} color="#FDE047" />
           <Text style={styles.temperature}>{weather?.temperature}°C</Text>
         </View>
       </View>
@@ -116,7 +122,7 @@ export function WeatherCard() {
       <View style={styles.weatherDetails}>
         <View style={styles.weatherItem}>
           <View style={[styles.iconContainer, styles.humidityIcon]}>
-            <Droplets size={16} color="#3B82F6" />
+            <Droplets size={16} color="#BAE6FD" />
           </View>
           <Text style={styles.value}>{weather?.humidity}%</Text>
           <Text style={styles.label}>{t('weather.humidity')}</Text>
@@ -124,7 +130,7 @@ export function WeatherCard() {
 
         <View style={styles.weatherItem}>
           <View style={[styles.iconContainer, styles.windIcon]}>
-            <Wind size={16} color="#6B7280" />
+            <Wind size={16} color="#E2E8F0" />
           </View>
           <Text style={styles.value}>{weather?.windSpeed} km/h</Text>
           <Text style={styles.label}>{t('weather.wind')}</Text>
@@ -132,31 +138,32 @@ export function WeatherCard() {
 
         <View style={styles.weatherItem}>
           <View style={[styles.iconContainer, styles.visibilityIcon]}>
-            <Eye size={16} color="#8B5CF6" />
+            <Eye size={16} color="#DDD6FE" />
           </View>
           <Text style={styles.value}>{weather?.visibility} km</Text>
           <Text style={styles.label}>{t('weather.visibility')}</Text>
         </View>
       </View>
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#fff',
-    borderRadius: 16,
-    padding: 16,
-    margin: 16,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 3.8,
-    elevation: 5,
+    borderRadius: 24,
+    padding: 20,
+    marginVertical: 8,
+    shadowColor: '#059669',
+    shadowOpacity: 0.15,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 6,
   },
   centered: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: 200,
+    height: 180,
+    backgroundColor: '#fff',
   },
   loadingText: {
     marginTop: 10,
@@ -173,28 +180,29 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 20,
+    marginBottom: 24,
     paddingBottom: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: 'rgba(255,255,255,0.2)',
   },
   title: {
-    color: '#2d3b2d',
+    color: '#ffffff',
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: '800',
     marginBottom: 4,
   },
   location: {
-    color: '#6b776b',
+    color: 'rgba(255,255,255,0.8)',
     fontSize: 14,
+    fontWeight: '500',
   },
   temperatureContainer: {
     alignItems: 'center',
   },
   temperature: {
-    color: '#2d3b2d',
-    fontSize: 24,
-    fontWeight: 'bold',
+    color: '#ffffff',
+    fontSize: 28,
+    fontWeight: '900',
     marginTop: 4,
   },
   weatherDetails: {
@@ -206,30 +214,32 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   iconContainer: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 8,
   },
   humidityIcon: {
-    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
   },
   windIcon: {
-    backgroundColor: 'rgba(107, 114, 128, 0.1)',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
   },
   visibilityIcon: {
-    backgroundColor: 'rgba(139, 92, 246, 0.1)',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
   },
   value: {
-    color: '#2d3b2d',
-    fontSize: 14,
-    fontWeight: '600',
+    color: '#ffffff',
+    fontSize: 15,
+    fontWeight: '800',
     marginBottom: 2,
   },
   label: {
-    color: '#6b776b',
-    fontSize: 12,
+    color: 'rgba(255,255,255,0.8)',
+    fontSize: 11,
+    fontWeight: '600',
+    textTransform: 'uppercase',
   },
 });

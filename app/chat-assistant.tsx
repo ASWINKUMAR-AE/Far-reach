@@ -366,6 +366,8 @@ Farmer Profile:
 
 Task: You are an expert agricultural AI assistant for an Indian farmer. YOU MUST answer all agriculture-related questions (crops, farming techniques, soil, weather, fertilizers, market prices, etc.) thoroughly and accurately. Do not refuse to answer agricultural queries. Provide the response in clear English.`;
 
+      const isFertilizerQuery = englishPrompt.toLowerCase().includes('fertilizer') || englishPrompt.toLowerCase().includes('npk');
+      let contextLayer = context;
       // If it is a fertilizer query, hit the Deterministic API silently first
       if (isFertilizerQuery) {
         try {

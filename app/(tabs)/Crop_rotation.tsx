@@ -19,7 +19,7 @@ import { Audio } from 'expo-av';
 import * as Haptics from 'expo-haptics';
 import * as Location from 'expo-location';
 import { Feather } from '@expo/vector-icons';
-import { Mic, Volume2, VolumeX, User, Bot, CheckSquare, Square } from 'lucide-react-native';
+import { Mic, Volume2, VolumeX, User, Bot, CheckSquare, Square, Sprout } from 'lucide-react-native';
 import { askHositAI } from '@/lib/hositAI';
 import { translateText } from '@/lib/translationService';
 import { DEFAULT_FARMER } from '@/lib/procurementService';
@@ -114,7 +114,7 @@ export default function InteractiveCropRotationScreen() {
         let latitude = 10.7905;
         let longitude = 78.7047;
         try {
-          const loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced, timeout: 5000 });
+          const loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
           latitude = loc.coords.latitude;
           longitude = loc.coords.longitude;
         } catch (locErr) {
@@ -380,7 +380,7 @@ Keep your tone friendly.`;
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Feather name="sprout" size={24} color="#166534" />
+        <Sprout size={24} color="#166534" />
         <Text style={styles.headerTitle}>AI Agronomist Voice Assistant</Text>
       </View>
 

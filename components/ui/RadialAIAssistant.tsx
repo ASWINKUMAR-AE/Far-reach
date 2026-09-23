@@ -40,12 +40,8 @@ const LONG_PRESS_DURATION = 400;
 const OPTIONS = [
   { id: 'voice_chat', icon: Mic, label: 'Voice Chat', route: '/chat-assistant', color: '#38BDF8' },
   { id: 'crop_rotation', icon: Repeat, label: 'Crop Rotation', route: '/(tabs)/Crop_rotation', color: '#10B981' },
-  { id: 'language', icon: Globe, label: 'Language', action: 'language', color: '#F59E0B' },
   { id: 'fertilizer', icon: Leaf, label: 'Fertilizer', route: '/fertilizer-advisor', color: '#84CC16' },
-  { id: 'weather', icon: CloudSun, label: 'Weather', action: 'weather', color: '#FCD34D' },
-  { id: 'crop_disease', icon: Bug, label: 'Crop Disease', route: '/CropScanner', color: '#EF4444' },
   { id: 'soil_test', icon: TestTubes, label: 'Soil Test', route: '/soil-input', color: '#A855F7' },
-  { id: 'procurement', icon: Building2, label: 'Procure', route: '/(tabs)/procurement', color: '#6366F1' },
 ];
 
 export default function RadialAIAssistant() {
@@ -62,6 +58,11 @@ export default function RadialAIAssistant() {
   const pointerX = useSharedValue(0);
   const pointerY = useSharedValue(0);
   const activeSectorIndex = useSharedValue(-1);
+  const buttonX = useSharedValue(SCREEN_WIDTH / 2 - 40);
+  const buttonY = useSharedValue(0);
+  const offsetX = useSharedValue(SCREEN_WIDTH / 2 - 40);
+  const offsetY = useSharedValue(0);
+  const isMovable = useSharedValue(false);
 
   // Breathing Animation for Idle state
   useEffect(() => {
@@ -98,62 +99,94 @@ export default function RadialAIAssistant() {
     
     if (option.route) {
       router.push(option.route as any);
-    } else if (option.action === 'language') {
-      const nextLang = i18n.language === 'en' ? 'hi' : 'en'; 
-      i18n.changeLanguage(nextLang);
-      triggerBubble("Language Updated", `System language switched to ${nextLang === 'en' ? 'English' : 'Hindi'}. Voice responses will now use this language.`, option.color);
-    } else if (option.action === 'weather') {
-      triggerBubble("Live Weather Pulse", "Current: 28°C, Clear Skies.\nHumidity: 65%.\nIdeal conditions for spraying fertilizer today.", option.color);
     }
   }, [router, i18n]);
 
   // Gesture handling
+  const longPressGesture = Gesture.LongPress()
+    .minDuration(3000)
+    .onStart(() => {
+      isMovable.value = true;
+      menuOpen.value = withSpring(0);
+      runOnJS(Haptics.notificationAsync)(Haptics.NotificationFeedbackType.Warning);
+    });
+
   const panGesture = Gesture.Pan()
     .activateAfterLongPress(LONG_PRESS_DURATION)
     .onStart(() => {
-      // Menu opens
-      menuOpen.value = withSpring(1, { damping: 15, stiffness: 120 });
-      coreScale.value = withSpring(0.9);
-      runOnJS(Haptics.impactAsync)(Haptics.ImpactFeedbackStyle.Medium);
-      
-      pointerX.value = 0;
-      pointerY.value = 0;
-      activeSectorIndex.value = -1;
+      if (!isMovable.value) {
+        menuOpen.value = withSpring(1, { damping: 15, stiffness: 120 });
+        coreScale.value = withSpring(0.9);
+        runOnJS(Haptics.impactAsync)(Haptics.ImpactFeedbackStyle.Medium);
+        
+        pointerX.value = 0;
+        pointerY.value = 0;
+        activeSectorIndex.value = -1;
+      }
     })
     .onUpdate((e) => {
-      pointerX.value = e.translationX;
-      pointerY.value = e.translationY;
-      
-      const distance = Math.sqrt(e.translationX * e.translationX + e.translationY * e.translationY);
-      
-      if (distance > 40) {
-        // Calculate angle - Math.atan2 returns -PI to PI
-        let angle = Math.atan2(e.translationY, e.translationX);
-        angle = angle + Math.PI / 2;
-        if (angle < 0) angle += 2 * Math.PI;
-        
-        const sectorSize = (2 * Math.PI) / 8;
-        const index = Math.round(angle / sectorSize) % 8;
-        
-        if (activeSectorIndex.value !== index) {
-          activeSectorIndex.value = index;
-          runOnJS(Haptics.impactAsync)(Haptics.ImpactFeedbackStyle.Light);
-        }
+      if (isMovable.value) {
+        buttonX.value = offsetX.value + e.translationX;
+        buttonY.value = offsetY.value + e.translationY;
       } else {
-        if (activeSectorIndex.value !== -1) {
-          activeSectorIndex.value = -1;
+        pointerX.value = e.translationX;
+        pointerY.value = e.translationY;
+        
+        const distance = Math.sqrt(e.translationX * e.translationX + e.translationY * e.translationY);
+        
+        if (distance > 40) {
+          let rawAngle = Math.atan2(e.translationY, e.translationX);
+          let angle360 = rawAngle;
+          if (angle360 < 0) angle360 += 2 * Math.PI;
+          
+          let index = -1;
+          
+          if (buttonX.value > SCREEN_WIDTH / 4) {
+             if (angle360 < Math.PI/2 || angle360 > 3*Math.PI/2) {
+               index = angle360 < Math.PI/2 ? 0 : OPTIONS.length - 1;
+             } else {
+               index = Math.round(((angle360 - Math.PI/2) / Math.PI) * (OPTIONS.length - 1));
+             }
+          } else if (buttonX.value < -SCREEN_WIDTH / 4) {
+             if (rawAngle > Math.PI/2 || rawAngle < -Math.PI/2) {
+               index = rawAngle > 0 ? OPTIONS.length - 1 : 0;
+             } else {
+               index = Math.round(((rawAngle + Math.PI/2) / Math.PI) * (OPTIONS.length - 1));
+             }
+          } else {
+             let a = angle360 + Math.PI / 2;
+             if (a >= 2 * Math.PI) a -= 2 * Math.PI;
+             const sectorSize = (2 * Math.PI) / OPTIONS.length;
+             index = Math.round(a / sectorSize) % OPTIONS.length;
+          }
+          
+          if (activeSectorIndex.value !== index && index >= 0 && index < OPTIONS.length) {
+            activeSectorIndex.value = index;
+            runOnJS(Haptics.impactAsync)(Haptics.ImpactFeedbackStyle.Light);
+          }
+        } else {
+          if (activeSectorIndex.value !== -1) {
+            activeSectorIndex.value = -1;
+          }
         }
       }
     })
     .onEnd(() => {
-      if (activeSectorIndex.value !== -1) {
-        const selected = OPTIONS[activeSectorIndex.value].id;
-        runOnJS(handleAction)(selected);
+      if (isMovable.value) {
+        offsetX.value = buttonX.value;
+        offsetY.value = buttonY.value;
+        isMovable.value = false;
+        runOnJS(Haptics.notificationAsync)(Haptics.NotificationFeedbackType.Success);
+      } else {
+        if (activeSectorIndex.value !== -1) {
+          const selected = OPTIONS[activeSectorIndex.value].id;
+          runOnJS(handleAction)(selected);
+        }
+        
+        menuOpen.value = withSpring(0, { damping: 12, stiffness: 150 });
+        coreScale.value = withSpring(1);
+        activeSectorIndex.value = -1;
       }
-      
-      menuOpen.value = withSpring(0, { damping: 12, stiffness: 150 });
-      coreScale.value = withSpring(1);
-      activeSectorIndex.value = -1;
     });
 
   const tapGesture = Gesture.Tap()
@@ -161,7 +194,7 @@ export default function RadialAIAssistant() {
       runOnJS(handleAction)('voice_chat');
     });
 
-  const composedGesture = Gesture.Simultaneous(panGesture, tapGesture);
+  const composedGesture = Gesture.Simultaneous(panGesture, tapGesture, longPressGesture);
 
   // Styles
   const coreAnimatedStyle = useAnimatedStyle(() => {
@@ -176,6 +209,15 @@ export default function RadialAIAssistant() {
     return {
       opacity: interpolate(menuOpen.value, [0, 1], [0, 0.85]),
       pointerEvents: menuOpen.value > 0.1 ? 'auto' : 'none',
+    };
+  });
+
+  const wrapperStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { translateX: buttonX.value },
+        { translateY: buttonY.value }
+      ]
     };
   });
 
@@ -197,18 +239,25 @@ export default function RadialAIAssistant() {
       {/* Main UI */}
       <View style={styles.container} pointerEvents="box-none">
         <GestureDetector gesture={composedGesture}>
-          <Animated.View style={styles.coreWrapper} pointerEvents="box-none">
+          <Animated.View style={[styles.coreWrapper, wrapperStyle]} pointerEvents="box-none">
             
             {/* Radial Options */}
             {OPTIONS.map((option, index) => {
-              const angle = (index * (Math.PI * 2)) / 8 - Math.PI / 2;
-              
               const optionStyle = useAnimatedStyle(() => {
                 const isActive = activeSectorIndex.value === index;
                 const distance = interpolate(menuOpen.value, [0, 1], [0, RADIAL_RADIUS], Extrapolation.CLAMP);
                 const scale = interpolate(menuOpen.value, [0, 1], [0, isActive ? 1.25 : 1], Extrapolation.CLAMP);
                 const opacity = interpolate(menuOpen.value, [0, 0.5, 1], [0, 0, isActive ? 1 : 0.6]);
                 
+                let angle = 0;
+                if (buttonX.value > SCREEN_WIDTH / 4) {
+                   angle = Math.PI / 2 + (index * Math.PI) / (OPTIONS.length - 1);
+                } else if (buttonX.value < -SCREEN_WIDTH / 4) {
+                   angle = -Math.PI / 2 + (index * Math.PI) / (OPTIONS.length - 1);
+                } else {
+                   angle = (index * (Math.PI * 2)) / OPTIONS.length - Math.PI / 2;
+                }
+
                 return {
                   opacity,
                   transform: [
@@ -248,11 +297,11 @@ const styles = StyleSheet.create({
     zIndex: 999,
   },
   container: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFillObject as any,
     zIndex: 1000,
-    justifyContent: 'flex-end',
+    elevation: 1000,
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 40,
   },
   coreWrapper: {
     width: BUTTON_SIZE,
@@ -275,7 +324,7 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   coreInnerGlow: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill as any,
     borderRadius: BUTTON_SIZE / 2,
     backgroundColor: '#10B981',
     opacity: 0.2,

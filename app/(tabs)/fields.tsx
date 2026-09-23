@@ -20,7 +20,7 @@ export default function FieldsScreen() {
 
       // Get current position
       try {
-        let loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced, timeout: 5000 });
+        let loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
         setLocation(loc.coords);
       } catch (e) {
         console.warn("Location fetch timeout, using fallback Tiruchirappalli coordinates.");

@@ -24,7 +24,7 @@ export const recommendFertilizer = async (req: Request, res: Response) => {
     const dosage = FertilizerEngine.calculateDosage(cropReq, soilStatus, farmAreaAcres);
     
     // 5. Recommend Products
-    const products = await FertilizerEngine.recommendFertilizers(dosage);
+    const products = await FertilizerEngine.recommendFertilizers({ n: dosage.targetN_total, p: dosage.targetP_total, k: dosage.targetK_total });
     
     // 6. RAG Context (Find IEEE papers etc.)
     const researchContext = await RAGService.searchResearchContext(crop, 'fertilizer application');

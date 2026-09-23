@@ -113,7 +113,7 @@ export default function ProcurementStatusScreen() {
             <ArrowRight size={20} color="#166534" />
           </TouchableOpacity>
 
-          {(booking.status === 'PAYMENT_PENDING' || booking.status === 'PAYMENT_INITIATED' || booking.status === 'COMPLETED') && (
+          {(booking.status === 'PROCUREMENT_ACCEPTED') && (
             <TouchableOpacity onPress={() => router.push('/payment')} style={styles.primaryBtn}>
               <CreditCard size={20} color="white" />
               <Text style={styles.primaryBtnText}>Proceed to Secure Payment</Text>
