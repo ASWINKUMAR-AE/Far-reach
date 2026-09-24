@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   Platform,
+  Linking,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
@@ -32,6 +33,7 @@ import {
   Play,
   Layers,
   MapPin,
+  MessageCircle,
 } from 'lucide-react-native';
 import { getActiveBooking, getProcurementRecord } from '@/lib/procurementService';
 import { ProcurementBooking, ProcurementRecord } from '@/lib/types';
@@ -138,6 +140,35 @@ export default function ProcurementStatusScreen() {
     }, 800);
   };
 
+  const handleWhatsAppBooking = async () => {
+    triggerHaptic();
+    if (!booking) return;
+
+    // Direct WhatsApp booking & status connection with centre
+    const rawPhone = '914312700123';
+    const message = 
+      `🌾 *Far Reach - Procurement Booking & Status Check*\n\n` +
+      `📋 *Token:* #${booking.token}\n` +
+      `🏛️ *Procurement Centre:* ${booking.centreName}\n` +
+      `🌾 *Crop:* ${booking.crop} (${booking.quantityKg} kg)\n` +
+      `⏰ *Slot Time:* ${booking.slot || '10:30 AM'}\n` +
+      `📍 *Current Status:* ${booking.status.replace(/_/g, ' ')}\n\n` +
+      `_Slot booked & verified via Far Reach Smart Mandi Platform._`;
+
+    const whatsappUrl = `https://wa.me/${rawPhone}?text=${encodeURIComponent(message)}`;
+
+    try {
+      const canOpen = await Linking.canOpenURL(whatsappUrl);
+      if (canOpen) {
+        await Linking.openURL(whatsappUrl);
+      } else {
+        await Linking.openURL(`https://api.whatsapp.com/send?phone=${rawPhone}&text=${encodeURIComponent(message)}`);
+      }
+    } catch {
+      await Linking.openURL(whatsappUrl);
+    }
+  };
+
   if (loading || !booking) {
     return (
       <SafeAreaView style={styles.container}>
@@ -179,16 +210,23 @@ export default function ProcurementStatusScreen() {
           >
             <ArrowLeft size={20} color="#166534" />
           </TouchableOpacity>
-          <View>
+          <View style={{ flex: 1 }}>
             <Text style={styles.headerTitle}>Procurement Status</Text>
             <Text style={styles.headerSubtitle}>Live Tracking & Video Verification</Text>
           </View>
+          <TouchableOpacity
+            onPress={handleWhatsAppBooking}
+            style={styles.headerWhatsAppBtn}
+            accessibilityLabel="WhatsApp Booking & Support"
+          >
+            <MessageCircle size={20} color="#FFFFFF" />
+          </TouchableOpacity>
         </View>
 
         {/* Overview Header */}
         <View style={styles.heroCard}>
           <View style={styles.heroTopRow}>
-            <View>
+            <View style={{ flex: 1, marginRight: 8 }}>
               <Text style={styles.heroLabel}>CURRENT ACTIVE PROCUREMENT</Text>
               <Text style={styles.cropTitle}>
                 {booking.crop} ({booking.quantityKg} kg)
@@ -197,8 +235,18 @@ export default function ProcurementStatusScreen() {
                 {booking.centreName} • Token #{booking.token}
               </Text>
             </View>
-            <View style={styles.tokenPill}>
-              <Text style={styles.tokenPillText}>TOKEN #{booking.token}</Text>
+            <View style={{ flexDirection: 'column', gap: 6, alignItems: 'flex-end' }}>
+              <View style={styles.tokenPill}>
+                <Text style={styles.tokenPillText}>TOKEN #{booking.token}</Text>
+              </View>
+              <TouchableOpacity 
+                onPress={handleWhatsAppBooking} 
+                style={styles.whatsAppPill}
+                accessibilityLabel="WhatsApp Centre Booking"
+              >
+                <MessageCircle size={13} color="#FFFFFF" />
+                <Text style={styles.whatsAppPillText}>WhatsApp</Text>
+              </TouchableOpacity>
             </View>
           </View>
 
@@ -546,6 +594,16 @@ const styles = StyleSheet.create({
   },
   headerTitle: { fontSize: 18, fontWeight: '800', color: '#0F172A' },
   headerSubtitle: { fontSize: 11, color: '#64748B', fontWeight: '600' },
+  headerWhatsAppBtn: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: '#16A34A',
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 2,
+    marginLeft: 8,
+  },
   heroCard: {
     backgroundColor: 'white',
     margin: 16,
@@ -569,6 +627,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 8,
+  },
+  whatsAppPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: '#16A34A',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 8,
+  },
+  whatsAppPillText: {
+    color: '#FFFFFF',
+    fontWeight: '800',
+    fontSize: 11,
   },
   tokenPillText: {
     color: '#FFFFFF',
