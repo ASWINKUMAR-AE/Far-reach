@@ -211,7 +211,6 @@ export default function ChatAssistantScreen() {
   const [isListening, setIsListening] = useState(false);
   const [interimTranscript, setInterimTranscript] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedLang, setSelectedLang] = useState(LANGUAGES[0]);
   const [currentlySpeakingId, setCurrentlySpeakingId] = useState<string | null>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [voiceSettings, setVoiceSettings] = useState<VoiceSettings>(DEFAULT_SETTINGS);
