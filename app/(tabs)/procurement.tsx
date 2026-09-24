@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   Alert,
   Modal,
+  Linking,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -25,7 +26,8 @@ import {
   Layers,
   ChevronRight,
   X,
-  Scale
+  Scale,
+  MessageCircle
 } from 'lucide-react-native';
 import { askHositAI, testHositAI } from '@/lib/hositAI';
 import { 
@@ -150,6 +152,7 @@ Centres:
     try {
       const qty = parseInt(quantityKg, 10) || 500;
       const newBooking = await createBooking(selectedCentre, selectedCrop, qty, selectedSlot);
+      setActiveBooking(newBooking);
       
       setShowConfirmModal(false);
       Alert.alert(
@@ -164,6 +167,78 @@ Centres:
       );
     } catch (error) {
       Alert.alert("Booking Error", "Unable to complete booking. Please try again.");
+    } finally {
+      setBookingInProgress(false);
+    }
+  };
+
+  const handleWhatsAppBooking = async () => {
+    if (!selectedCrop.trim()) {
+      Alert.alert('Validation Error', 'Please select or enter your crop variety.');
+      return;
+    }
+    const qty = parseInt(quantityKg, 10);
+    if (!qty || qty <= 0) {
+      Alert.alert('Validation Error', 'Please enter a valid harvest quantity in kg.');
+      return;
+    }
+
+    const chosenSlotObj = slotOptions.find(s => s.time === selectedSlot);
+    if (chosenSlotObj?.status === 'FULL') {
+      Alert.alert('Slot Full', 'This time slot is full. Please choose another available slot.');
+      return;
+    }
+
+    setBookingInProgress(true);
+    try {
+      const newBooking = await createBooking(selectedCentre, selectedCrop, qty, selectedSlot);
+      setActiveBooking(newBooking);
+      setShowConfirmModal(false);
+
+      // Clean contact number for WhatsApp
+      let phoneDigits = (selectedCentre.contactNumber || '9876543210').replace(/[^0-9]/g, '');
+      if (phoneDigits.length === 10) {
+        phoneDigits = '91' + phoneDigits;
+      }
+
+      const message = 
+        `🌾 *Far Reach - Procurement Slot Booking*\n\n` +
+        `📋 *Token:* #${newBooking.token}\n` +
+        `🏛️ *Procurement Centre:* ${selectedCentre.name}\n` +
+        `📍 *Location:* ${selectedCentre.address}\n` +
+        `👨‍🌾 *Farmer:* ${DEFAULT_FARMER.name} (${DEFAULT_FARMER.id})\n` +
+        `📞 *Farmer Phone:* ${DEFAULT_FARMER.phone}\n` +
+        `🌾 *Crop:* ${selectedCrop}\n` +
+        `⚖️ *Quantity:* ${quantityKg} kg\n` +
+        `📅 *Date:* ${selectedDate}\n` +
+        `⏰ *Time Slot:* ${selectedSlot}\n\n` +
+        `_Slot booked and confirmed via Far Reach Smart Mandi Platform._`;
+
+      const whatsappUrl = `https://wa.me/${phoneDigits}?text=${encodeURIComponent(message)}`;
+
+      try {
+        const canOpen = await Linking.canOpenURL(whatsappUrl);
+        if (canOpen) {
+          await Linking.openURL(whatsappUrl);
+        } else {
+          await Linking.openURL(`https://api.whatsapp.com/send?phone=${phoneDigits}&text=${encodeURIComponent(message)}`);
+        }
+      } catch (e) {
+        await Linking.openURL(whatsappUrl);
+      }
+
+      Alert.alert(
+        "🎉 Slot Booked via WhatsApp!",
+        `Far Reach Digital Token #${newBooking.token} booked for ${selectedCentre.name}.\nDate: ${selectedDate}\nSlot: ${selectedSlot}\n\nRedirecting to WhatsApp message to ${selectedCentre.contactNumber}.`,
+        [
+          {
+            text: "View Digital Token & Queue",
+            onPress: () => router.push('/(tabs)/queue'),
+          },
+        ]
+      );
+    } catch (error) {
+      Alert.alert("Booking Error", "Unable to complete WhatsApp booking. Please try again.");
     } finally {
       setBookingInProgress(false);
     }
@@ -415,14 +490,25 @@ Centres:
             })}
           </View>
 
-          {/* Book Slot Action Button */}
-          <TouchableOpacity
-            onPress={handleOpenConfirm}
-            style={styles.bookButton}
-          >
-            <Text style={styles.bookButtonText}>CONFIRM & GENERATE DIGITAL TOKEN</Text>
-            <ArrowRight size={20} color="white" />
-          </TouchableOpacity>
+          {/* Book Slot Action Buttons */}
+          <View style={styles.actionButtonsContainer}>
+            <TouchableOpacity
+              onPress={handleOpenConfirm}
+              style={styles.bookButton}
+            >
+              <Text style={styles.bookButtonText}>CONFIRM & GENERATE DIGITAL TOKEN</Text>
+              <ArrowRight size={18} color="white" />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={handleWhatsAppBooking}
+              disabled={bookingInProgress}
+              style={styles.whatsappButton}
+            >
+              <MessageCircle size={18} color="white" />
+              <Text style={styles.whatsappButtonText}>BOOK & NOTIFY VIA WHATSAPP</Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* Confirmation Modal */}
@@ -470,6 +556,15 @@ Centres:
                 </TouchableOpacity>
 
                 <TouchableOpacity 
+                  onPress={handleWhatsAppBooking} 
+                  disabled={bookingInProgress}
+                  style={styles.whatsappModalBtn}
+                >
+                  <MessageCircle size={16} color="white" />
+                  <Text style={styles.whatsappModalBtnText}>WhatsApp</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity 
                   onPress={handleConfirmAndBook} 
                   disabled={bookingInProgress}
                   style={styles.confirmModalBtn}
@@ -477,7 +572,7 @@ Centres:
                   {bookingInProgress ? (
                     <ActivityIndicator color="white" />
                   ) : (
-                    <Text style={styles.confirmModalBtnText}>Confirm Booking</Text>
+                    <Text style={styles.confirmModalBtnText}>Confirm Slot</Text>
                   )}
                 </TouchableOpacity>
               </View>
@@ -642,17 +737,33 @@ const styles = StyleSheet.create({
   slotTextActive: { color: 'white' },
   slotTextFull: { color: '#B91C1C' },
   slotBadge: { fontSize: 10, fontWeight: '800', marginTop: 2 },
+  actionButtonsContainer: {
+    flexDirection: 'column',
+    gap: 10,
+    marginTop: 4,
+  },
   bookButton: {
     backgroundColor: '#166534',
     borderRadius: 12,
-    paddingVertical: 16,
+    paddingVertical: 15,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     gap: 8,
     elevation: 3,
   },
-  bookButtonText: { color: 'white', fontWeight: '900', fontSize: 15 },
+  bookButtonText: { color: 'white', fontWeight: '900', fontSize: 14 },
+  whatsappButton: {
+    backgroundColor: '#16A34A',
+    borderRadius: 12,
+    paddingVertical: 14,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 8,
+    elevation: 2,
+  },
+  whatsappButtonText: { color: 'white', fontWeight: '900', fontSize: 14 },
   modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', padding: 20 },
   modalContent: { backgroundColor: 'white', borderRadius: 20, padding: 20 },
   modalHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 },
@@ -661,9 +772,20 @@ const styles = StyleSheet.create({
   sumRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 },
   sumLbl: { fontSize: 13, color: '#64748B', fontWeight: '600' },
   sumVal: { fontSize: 13, color: '#0F172A', fontWeight: '800' },
-  modalActions: { flexDirection: 'row', gap: 10 },
+  modalActions: { flexDirection: 'row', gap: 8 },
   cancelBtn: { flex: 1, paddingVertical: 14, borderRadius: 10, borderWidth: 1, borderColor: '#CBD5E1', alignItems: 'center' },
-  cancelBtnText: { fontWeight: '800', color: '#64748B' },
-  confirmModalBtn: { flex: 2, backgroundColor: '#166534', paddingVertical: 14, borderRadius: 10, alignItems: 'center' },
-  confirmModalBtnText: { color: 'white', fontWeight: '900', fontSize: 15 },
+  cancelBtnText: { fontWeight: '800', color: '#64748B', fontSize: 13 },
+  whatsappModalBtn: {
+    flex: 1.3,
+    backgroundColor: '#16A34A',
+    paddingVertical: 14,
+    borderRadius: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 6,
+  },
+  whatsappModalBtnText: { color: 'white', fontWeight: '900', fontSize: 13 },
+  confirmModalBtn: { flex: 1.5, backgroundColor: '#166534', paddingVertical: 14, borderRadius: 10, alignItems: 'center' },
+  confirmModalBtnText: { color: 'white', fontWeight: '900', fontSize: 13 },
 });

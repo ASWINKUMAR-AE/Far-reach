@@ -1,21 +1,18 @@
 import { Tabs } from 'expo-router';
-import { useTranslation } from 'react-i18next';
 import {
   Hop as Home,
-  MapPin,
   TrendingUp,
-  Leaf,
   Building2,
   Users,
   CreditCard,
   Newspaper,
 } from 'lucide-react-native';
 
-import { View, Text, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import React, { useEffect } from 'react';
 
-const CustomTabBarIcon = ({ icon, label, focused }: { icon: any; label: string; focused: boolean }) => {
+const CustomTabBarIcon = ({ icon, focused }: { icon: any; focused: boolean }) => {
   const scale = useSharedValue(focused ? 1.1 : 1);
 
   useEffect(() => {
@@ -35,16 +32,11 @@ const CustomTabBarIcon = ({ icon, label, focused }: { icon: any; label: string; 
       ]}
     >
       {icon}
-      <Text style={[styles.tabLabel, focused && styles.tabLabelFocused]}>
-        {label}
-      </Text>
     </Animated.View>
   );
 };
 
 export default function TabLayout() {
-  const { t } = useTranslation();
-
   return (
     <Tabs
       screenOptions={{
@@ -58,8 +50,7 @@ export default function TabLayout() {
         options={{
           tabBarIcon: ({ focused }) => (
             <CustomTabBarIcon
-              icon={<Home size={20} color={focused ? '#ffffff' : '#059669'} />}
-              label={t('navigation.home')}
+              icon={<Home size={22} color={focused ? '#ffffff' : '#059669'} />}
               focused={focused}
             />
           ),
@@ -70,8 +61,7 @@ export default function TabLayout() {
         options={{
           tabBarIcon: ({ focused }) => (
             <CustomTabBarIcon
-              icon={<Building2 size={20} color={focused ? '#ffffff' : '#059669'} />}
-              label="Procure"
+              icon={<Building2 size={22} color={focused ? '#ffffff' : '#059669'} />}
               focused={focused}
             />
           ),
@@ -82,8 +72,7 @@ export default function TabLayout() {
         options={{
           tabBarIcon: ({ focused }) => (
             <CustomTabBarIcon
-              icon={<Users size={20} color={focused ? '#ffffff' : '#059669'} />}
-              label="Queue"
+              icon={<Users size={22} color={focused ? '#ffffff' : '#059669'} />}
               focused={focused}
             />
           ),
@@ -94,8 +83,7 @@ export default function TabLayout() {
         options={{
           tabBarIcon: ({ focused }) => (
             <CustomTabBarIcon
-              icon={<CreditCard size={20} color={focused ? '#ffffff' : '#059669'} />}
-              label="Pay"
+              icon={<CreditCard size={22} color={focused ? '#ffffff' : '#059669'} />}
               focused={focused}
             />
           ),
@@ -106,8 +94,7 @@ export default function TabLayout() {
         options={{
           tabBarIcon: ({ focused }) => (
             <CustomTabBarIcon
-              icon={<TrendingUp size={20} color={focused ? '#ffffff' : '#059669'} />}
-              label={t('navigation.market')}
+              icon={<TrendingUp size={22} color={focused ? '#ffffff' : '#059669'} />}
               focused={focused}
             />
           ),
@@ -118,8 +105,7 @@ export default function TabLayout() {
         options={{
           tabBarIcon: ({ focused }) => (
             <CustomTabBarIcon
-              icon={<Newspaper size={20} color={focused ? '#ffffff' : '#059669'} />}
-              label="Updates"
+              icon={<Newspaper size={22} color={focused ? '#ffffff' : '#059669'} />}
               focused={focused}
             />
           ),
@@ -128,13 +114,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="CropScanner"
         options={{
-          tabBarIcon: ({ focused }) => (
-            <CustomTabBarIcon
-              icon={<Leaf size={20} color={focused ? '#ffffff' : '#059669'} />}
-              label={t('Scanner')}
-              focused={focused}
-            />
-          ),
+          href: null,
         }}
       />
       <Tabs.Screen
@@ -177,9 +157,10 @@ const styles = StyleSheet.create({
   tabIconContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    borderRadius: 16,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginTop: -25,
   },
   tabIconFocused: {
     backgroundColor: '#059669',
@@ -188,15 +169,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 4,
-  },
-  tabLabel: {
-    fontSize: 9,
-    fontWeight: '600',
-    color: '#059669',
-    marginTop: 2,
-  },
-  tabLabelFocused: {
-    color: '#ffffff',
-    fontWeight: 'bold',
   },
 });
