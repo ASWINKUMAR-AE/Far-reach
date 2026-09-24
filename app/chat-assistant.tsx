@@ -90,13 +90,120 @@ const LANGUAGES = [
   { code: "sat-IN", name: "ᱥᱟᱱᱛᱟᱲᱤ (Santali)" },
 ];
 
+const WELCOME_MESSAGES: Record<string, string> = {
+  "en-IN": "👋 Welcome to Far-Reach Voice Assistant! Ask me anything about crop prices, mandi queues, digital tokens, or soil advisory.",
+  "hi-IN": "👋 फ़ार-रीच वॉयस असिस्टेंट में आपका स्वागत है! फसल की कीमतों, मंडी कतार, डिजिटल टोकन या मिट्टी की सलाह के बारे में कुछ भी पूछें।",
+  "ta-IN": "👋 ஃபார்-ரீச் குரல் உதவியாளருக்கு நல்வரவு! பயிர் விலைகள், மண்டி வரிசை, டிஜிட்டல் டோக்கன்கள் அல்லது மண் ஆலோசனை பற்றி என்னிடம் கேளுங்கள்.",
+  "te-IN": "👋 ఫార్-రీచ్ వాయిస్ అసిస్టెంట్‌కి స్వాగతం! పంట ధరలు, మండి క్యూ, డిజిటల్ టోకెన్‌లు లేదా నేల సలహాల గురించి ఏదైనా అడగండి.",
+  "mr-IN": "👋 फार-रीच व्हॉईस असिस्टंटमध्ये आपले स्वागत आहे! पिकांचे भाव, मंडी रांग, डिजिटल टोकन किंवा माती सल्ल्याबद्दल काहीही विचारा.",
+  "gu-IN": "👋 ફાર-રીચ વોઇસ આસિસ્ટન્ટમાં આપનું સ્વાગત છે! પાકના ભાવ, મંડી કતાર, ડિજિટલ ટોકન અથવા જમીનની સલાહ વિશે કંઈપણ પૂછો.",
+  "pa-IN": "👋 ਫ਼ਾਰ-ਰੀਚ ਵੌਇਸ ਅਸਿਸਟੈਂਟ ਵਿੱਚ ਤੁਹਾਡਾ ਸੁਆਗਤ ਹੈ! ਫਸਲਾਂ ਦੇ ਭਾਅ, ਮੰਡੀ ਕਤਾਰ, ਡਿਜੀਟਲ ਟੋਕਨ ਜਾਂ ਮਿੱਟੀ ਸਲਾਹ ਬਾਰੇ ਕੁਝ ਵੀ ਪੁੱਛੋ।",
+  "kn-IN": "👋 ಫಾರ್-ರೀಚ್ ಧ್ವನಿ ಸಹಾಯಕಕ್ಕೆ ಸುಸ್ವಾಗತ! ಬೆಳೆ ಬೆಲೆಗಳು, ಮಂಡಿ ಸರತಿ ಸಾಲು, ಡಿಜಿಟಲ್ ಟೋಕನ್‌ಗಳು ಅಥವಾ ಮಣ್ಣಿನ ಸಲಹೆಯ ಬಗ್ಗೆ ಏನಾದರೂ ಕೇಳಿ.",
+  "bn-IN": "👋 ফার-রিচ ভয়েস অ্যাসিস্ট্যান্টে স্বাগতম! ফসলের দাম, মান্ডি সারি, ডিজিটাল টোকেন বা মাটির পরামর্শ সম্পর্কে যেকোনো কিছু জিজ্ঞাসা করুন।",
+  "ml-IN": "👋 ഫാർ-റീച്ച് വോയ്‌സ് അസിസ്റ്റന്റിലേക്ക് സ്വാഗതം! വിള വിലകൾ, മണ്ടി ക്യൂ, ഡിജിറ്റൽ ടോക്കണുകൾ അല്ലെങ്കിൽ മണ്ണ് ഉപദേശം എന്നിവയെക്കുറിച്ച് ചോദിക്കാം.",
+  "or-IN": "👋 ଫାର୍-ରିଚ୍ ଭଏସ୍ ଆସିଷ୍ଟାଣ୍ଟକୁ ସ୍ୱାଗତ! ଫସଲ ଦର, ମଣ୍ଡି ଧାଡ଼ି, ଡିଜିଟାଲ୍ ଟୋକନ୍ କିମ୍ବା ମାଟି ପରାମର୍ଶ ବିଷୟରେ ଯାହା ବି ପଚାରନ୍ତୁ।",
+  "sat-IN": "👋 ᱯᱷᱟᱨ-ᱨᱤᱪ ᱵᱷᱚᱭᱮᱥ ᱮᱥᱤᱥᱴᱮᱱᱴ ᱨᱮ ᱥᱟᱹᱜᱩᱱ ᱫᱟᱨᱟᱢ! ᱪᱟᱥ ᱫᱟᱢ, ᱢᱟᱱᱰᱤ ᱞᱟᱭᱤᱱ, ᱰᱤᱡᱤᱴᱟᱞ ᱴᱳᱠᱮᱱ ᱥᱮ ᱦᱟᱥᱟ ᱥᱟᱞᱟᱦ ᱵᱟᱵᱚᱛ ᱠᱩᱞᱤ ᱢᱮ।",
+};
+
+const QUICK_PROMPTS_BY_LANG: Record<string, string[]> = {
+  "en-IN": [
+    "Check my token & mandi queue status",
+    "Where is the best price for paddy today?",
+    "Why was Samayapuram centre recommended?",
+    "Check payment status for lot #147",
+    "What moisture limit is allowed for wheat?",
+    "Best fertilizer schedule for black cotton soil",
+  ],
+  "ta-IN": [
+    "எனது டோக்கன் மற்றும் மண்டி வரிசை நிலையை சரிபார்க்கவும்",
+    "இன்று நெல்லுக்கு சிறந்த விலை எங்கு கிடைக்கிறது?",
+    "சமயபுரம் மையம் ஏன் பரிந்துரைக்கப்பட்டது?",
+    "லாட் #147 க்கான கட்டண நிலையை சரிபார்க்கவும்",
+    "கோதுமைக்கு அனுமதிக்கப்பட்ட ஈரப்பதம் என்ன?",
+    "பருத்தி மண்ணுக்கான சிறந்த உர அட்டவணை",
+  ],
+  "hi-IN": [
+    "मेरा टोकन और मंडी कतार स्थिति जांचें",
+    "आज धान का सबसे अच्छा भाव कहाँ है?",
+    "समयापुरम केंद्र की सिफारिश क्यों की गई?",
+    "लॉट #147 के लिए भुगतान स्थिति जांचें",
+    "गेहूं के लिए कितनी नमी की अनुमति है?",
+    "काली मिट्टी के लिए सबसे अच्छा उर्वरक शेड्यूल",
+  ],
+  "te-IN": [
+    "నా టోకెన్ & మండి క్యూ స్థితిని తనిఖీ చేయండి",
+    "నేడు వరికి ఉత్తమ ధర ఎక్కడ ఉంది?",
+    "సమయపురం కేంద్రాన్ని ఎందుకు సిఫార్సు చేశారు?",
+    "లాట్ #147 చెల్లింపు స్థితిని తనిఖీ చేయండి",
+    "గోధుమలకు అనుమతించబడిన తేమ పరిమితి ఎంత?",
+    "నల్ల రేగడి నేలకు ఉత్తమ ఎరువుల ప్రణాళిక",
+  ],
+  "kn-IN": [
+    "ನನ್ನ ಟೋಕನ್ ಮತ್ತು ಮಂಡಿ ಕ್ಯೂ ಸ್ಥಿತಿಯನ್ನು ಪರಿಶೀಲಿಸಿ",
+    "ಇಂದು ಭತ್ತಕ್ಕೆ ಉತ್ತಮ ಬೆಲೆ ಎಲ್ಲಿ ಸಿಗುತ್ತದೆ?",
+    "ಸಮಯಪುರಂ ಕೇಂದ್ರವನ್ನು ಏಕೆ ಶಿಫಾರಸು ಮಾಡಲಾಗಿದೆ?",
+    "ಲಾಟ್ #147 ಗಾಗಿ ಪಾವತಿ ಸ್ಥಿತಿಯನ್ನು ಪರಿಶೀಲಿಸಿ",
+    "ಗೋಧಿ ಬೆಳೆಗೆ ಅನುಮತಿಸಲಾದ ತೇವಾಂಶದ ಮಿತಿ ಏನು?",
+    "ಕಪ್ಪು ಮಣ್ಣಿಗೆ ಉತ್ತಮ ರಸಗೊಬ್ಬರ ವೇಳಾಪಟ್ಟಿ",
+  ],
+  "ml-IN": [
+    "എന്റെ ടോക്കണും മണ്ടി ക്യൂ സ്റ്റാറ്റസും പരിശോധിക്കുക",
+    "ഇന്ന് നെല്ലിന് ഏറ്റവും നല്ല വില എവിടെ ലഭിക്കും?",
+    "സമയപുരം കേന്ദ്രം എന്തുകൊണ്ട് നിർദ്ദേശിച്ചു?",
+    "ലോട്ട് #147-ന്റെ പേയ്‌മെന്റ് നില പരിശോധിക്കുക",
+    "ഗോതമ്പിന് അനുവദനീയമായ ഈർപ്പത്തിന്റെ പരിധി എത്രയാണ്?",
+    "കറുത്ത മണ്ണിലെ ഏറ്റവും നല്ല വളപ്രയോഗം",
+  ],
+  "mr-IN": [
+    "माझी टोकन आणि मंडी रांगेची स्थिती तपासा",
+    "आज धानाला कुठे चांगला भाव मिळत आहे?",
+    "समयापुरम केंद्राची शिफारस का केली गेली?",
+    "लॉट #147 चे पेमेंट स्टेटस तपासा",
+    "गव्हासाठी किती ओलावा मर्यादा मान्य आहे?",
+    "काळी मातीसाठी उत्तम खतांचे वेळापत्रक",
+  ],
+  "bn-IN": [
+    "আমার টোকেন এবং মান্ডি সারির স্থিতি পরীক্ষা করুন",
+    "আজ ধানের সেরা দাম কোথায় পাওয়া যাচ্ছে?",
+    "সমায়পুরম কেন্দ্র কেন সুপারিশ করা হয়েছিল?",
+    "লট #147 এর পেমেন্ট স্থিতি পরীক্ষা করুন",
+    "গমের জন্য অনুমোদিত আর্দ্রতার সীমা কত?",
+    "কালো মাটির জন্য সেরা সার প্রয়োগের সময়সূচী",
+  ],
+  "gu-IN": [
+    "મારું ટોકન અને મંડી કતાર સ્થિતિ તપાસો",
+    "આજે ડાંગરનો શ્રેષ્ઠ ભાવ ક્યાં મળી રહ્યો છે?",
+    "સમયાપુરમ કેન્દ્રની ભલામણ કેમ કરવામાં આવી?",
+    "લોટ #147 માટે ચુકવણી સ્થિતિ તપાસો",
+    "ઘઉં માટે કેટલી ભેજ મર્યાદા માન્ય છે?",
+    "કાળી જમીન માટે શ્રેષ્ઠ ખાતર સમયપત્રક",
+  ],
+  "pa-IN": [
+    "ਮੇਰਾ ਟੋਕਨ ਅਤੇ ਮੰਡੀ ਕਤਾਰ ਸਥਿਤੀ ਦੇਖੋ",
+    "ਅੱਜ ਝੋਨੇ ਦਾ ਸਭ ਤੋਂ ਵਧੀਆ ਰੇਟ ਕਿੱਥੇ ਹੈ?",
+    "ਸਮਯਾਪੁਰਮ ਕੇਂਦਰ ਦੀ ਸਿਫਾਰਸ਼ ਕਿਉਂ ਕੀਤੀ ਗਈ?",
+    "ਲਾਟ #147 ਦੀ ਭੁਗਤਾਨ ਸਥਿਤੀ ਦੇਖੋ",
+    "ਕਣਕ ਲਈ ਨਮੀ ਦੀ ਸੀਮਾ ਕਿੰਨੀ ਹੈ?",
+    "ਕਾਲੀ ਮਿੱਟੀ ਲਈ ਸਭ ਤੋਂ ਵਧੀਆ ਖਾਦ ਸਮਾਂ-ਸਾਰਣੀ",
+  ],
+};
+
 export default function ChatAssistantScreen() {
   const { t, i18n } = useTranslation();
+  
+  // Resolve initial language from i18n
+  const initialLang = React.useMemo(() => {
+    const cur = i18n?.language?.toLowerCase() || "en";
+    const found = LANGUAGES.find((l) => l.code.toLowerCase().startsWith(cur));
+    return found || LANGUAGES[0];
+  }, [i18n?.language]);
+
+  const [selectedLang, setSelectedLang] = useState(initialLang);
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: "1",
       type: "assistant",
-      content: "👋 Welcome to Far-Reach Voice Assistant! Ask me anything about crop prices, mandi queues, digital tokens, or soil advisory.",
+      content: WELCOME_MESSAGES[initialLang.code] || WELCOME_MESSAGES["en-IN"],
       timestamp: new Date(),
     },
   ]);
@@ -146,6 +253,50 @@ export default function ChatAssistantScreen() {
     } catch (err) {
       console.warn("Could not persist voice settings:", err);
     }
+  };
+
+  const handleLanguageChange = (lang: typeof LANGUAGES[0]) => {
+    triggerHaptic(Haptics.ImpactFeedbackStyle.Light);
+    setSelectedLang(lang);
+    if (i18n && typeof i18n.changeLanguage === 'function') {
+      i18n.changeLanguage(lang.code.split('-')[0]);
+    }
+    stopAllTTS();
+
+    const localizedWelcome = WELCOME_MESSAGES[lang.code] || WELCOME_MESSAGES["en-IN"];
+
+    // Update messages to reflect the new language addressing
+    setMessages((prev) => {
+      if (prev.length <= 1) {
+        return [
+          {
+            id: "1",
+            type: "assistant",
+            content: localizedWelcome,
+            timestamp: new Date(),
+          },
+        ];
+      } else {
+        return [
+          ...prev,
+          {
+            id: Date.now().toString(),
+            type: "assistant",
+            content: localizedWelcome,
+            timestamp: new Date(),
+          },
+        ];
+      }
+    });
+
+    // Speak the welcome greeting aloud strictly in the chosen language and voice pack
+    setTimeout(() => {
+      speakUpgradedVoice(localizedWelcome, {
+        language: lang.code,
+        rate: voiceSettings.speechRate,
+        pitch: voiceSettings.speechPitch,
+      });
+    }, 200);
   };
 
   // Mic pulse animation & audio waveforms
@@ -300,20 +451,14 @@ export default function ChatAssistantScreen() {
         
         await audio.play();
       } else {
-        // Universal Cloud TTS for Mobile
-        const langCode = selectedLang.code.split("-")[0];
-        const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(clean.substring(0, 200))}&tl=${langCode}&client=tw-ob`;
-        
-        const { sound } = await Audio.Sound.createAsync(
-          { uri: url },
-          { shouldPlay: true, rate: voiceSettings.speechRate }
-        );
-        soundRef.current = sound;
-        
-        sound.setOnPlaybackStatusUpdate((status) => {
-          if (status.isLoaded && status.didJustFinish) {
-            stopAllTTS();
-          }
+        // High quality device synthesis strictly in chosen language
+        speakUpgradedVoice(clean, {
+          language: selectedLang.code,
+          rate: voiceSettings.speechRate,
+          pitch: voiceSettings.speechPitch,
+          onDone: stopAllTTS,
+          onStopped: stopAllTTS,
+          onError: stopAllTTS,
         });
       }
     } catch (e) {
@@ -353,7 +498,7 @@ export default function ChatAssistantScreen() {
       const englishPrompt = await translateText(messageText, "auto", "en");
 
       const context = `Application: Far-Reach Procurement & Agriculture OS (SIH26032)
-Farmer Language: English
+Farmer Selected Language: ${selectedLang.name} (${selectedLang.code})
 Farmer Profile:
 - Name: ${DEFAULT_FARMER.name}
 - Farmer ID: ${DEFAULT_FARMER.id}
@@ -365,7 +510,7 @@ Farmer Profile:
 - Weighing Status: Net 500 kg @ ₹23.50/kg = ₹11,750
 - Payment Status: Processing (Ref: ${INITIAL_RECORD.transactionRef})
 
-Task: You are an expert agricultural AI assistant for an Indian farmer. YOU MUST answer all agriculture-related questions (crops, farming techniques, soil, weather, fertilizers, market prices, etc.) thoroughly and accurately. Do not refuse to answer agricultural queries. Provide the response in clear English.`;
+Task: You are an expert agricultural AI assistant for an Indian farmer. YOU MUST answer all agriculture-related questions (crops, farming techniques, soil, weather, fertilizers, market prices, etc.) thoroughly, helpfully, and accurately. The farmer is conversing strictly in ${selectedLang.name}. Provide a clear, natural response.`;
 
       const isFertilizerQuery = englishPrompt.toLowerCase().includes('fertilizer') || englishPrompt.toLowerCase().includes('npk');
       let contextLayer = context;
@@ -754,12 +899,7 @@ Task: You are an expert agricultural AI assistant for an Indian farmer. YOU MUST
               return (
                 <TouchableOpacity
                   key={lang.code}
-                  onPress={() => {
-                    triggerHaptic(Haptics.ImpactFeedbackStyle.Light);
-                    setSelectedLang(lang);
-                    i18n.changeLanguage(lang.code.split('-')[0]);
-                    stopAllTTS();
-                  }}
+                  onPress={() => handleLanguageChange(lang)}
                   style={[styles.langButton, isActive && styles.langButtonActive]}
                 >
                   <Text style={isActive ? styles.langTextActive : styles.langText}>
@@ -830,7 +970,7 @@ Task: You are an expert agricultural AI assistant for an Indian farmer. YOU MUST
         {/* Quick Prompts Carousel */}
         <View style={styles.quickPromptsContainer}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {QUICK_PROMPTS.map((prompt, idx) => (
+            {(QUICK_PROMPTS_BY_LANG[selectedLang.code] || QUICK_PROMPTS_BY_LANG["en-IN"]).map((prompt, idx) => (
               <TouchableOpacity
                 key={idx}
                 onPress={() => handleSendMessage(prompt)}
