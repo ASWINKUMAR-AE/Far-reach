@@ -39,6 +39,7 @@ import {
 } from "lucide-react-native";
 import { askHositAI } from "@/lib/hositAI";
 import { translateText } from "@/lib/translationService";
+import { speakUpgradedVoice } from "@/lib/voiceService";
 import { DEFAULT_FARMER, INITIAL_BOOKING, INITIAL_RECORD } from "@/lib/procurementService";
 
 // Safe import for native Voice (Android/iOS builds)
@@ -317,7 +318,7 @@ export default function ChatAssistantScreen() {
       }
     } catch (e) {
       console.warn("TTS Error, falling back to local TTS:", e);
-      Speech.speak(clean, {
+      speakUpgradedVoice(clean, {
         language: selectedLang.code,
         rate: voiceSettings.speechRate,
         pitch: voiceSettings.speechPitch,
@@ -597,7 +598,7 @@ Task: You are an expert agricultural AI assistant for an Indian farmer. YOU MUST
         ? "வணக்கம் விவசாய நண்பரே, இது ஃபார்-ரீச் குரல் உதவியாளர்."
         : "Hello farmer, this is a test of your Far-Reach voice assistant settings.";
 
-    Speech.speak(sampleText, {
+    speakUpgradedVoice(sampleText, {
       language: selectedLang.code,
       rate: voiceSettings.speechRate,
       pitch: voiceSettings.speechPitch,

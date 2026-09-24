@@ -36,6 +36,7 @@ import {
   MessageCircle,
 } from 'lucide-react-native';
 import { getActiveBooking, getProcurementRecord } from '@/lib/procurementService';
+import { speakUpgradedVoice } from '@/lib/voiceService';
 import { ProcurementBooking, ProcurementRecord } from '@/lib/types';
 
 export default function ProcurementStatusScreen() {
@@ -119,7 +120,7 @@ export default function ProcurementStatusScreen() {
 
     setIsSpeaking(true);
     try {
-      Speech.speak(speechText, {
+      speakUpgradedVoice(speechText, {
         language: 'en-IN',
         rate: 1.0,
         pitch: 1.0,
