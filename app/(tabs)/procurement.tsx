@@ -196,7 +196,7 @@ Centres:
       setShowConfirmModal(false);
 
       // Clean contact number for WhatsApp
-      let phoneDigits = (selectedCentre.contactNumber || '9876543210').replace(/[^0-9]/g, '');
+      let phoneDigits = (selectedCentre.contactNumber || '8825443731').replace(/[^0-9]/g, '');
       if (phoneDigits.length === 10) {
         phoneDigits = '91' + phoneDigits;
       }

@@ -145,7 +145,7 @@ export default function ProcurementStatusScreen() {
     if (!booking) return;
 
     // Direct WhatsApp booking & status connection with centre
-    const rawPhone = '914312700123';
+    const rawPhone = '918825443731';
     const message = 
       `🌾 *Far Reach - Procurement Booking & Status Check*\n\n` +
       `📋 *Token:* #${booking.token}\n` +

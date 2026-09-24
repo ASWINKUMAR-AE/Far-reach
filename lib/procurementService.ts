@@ -44,7 +44,7 @@ export const INITIAL_CENTRES: ProcurementCentre[] = [
     loadStatus: 'LOW',
     operatingHours: '08:00 AM - 06:00 PM',
     address: 'NH 45, Near Toll Gate, Samayapuram',
-    contactNumber: '+91 431 2700123',
+    contactNumber: '+91 8825443731',
     countersCount: 4,
   },
   {
@@ -58,7 +58,7 @@ export const INITIAL_CENTRES: ProcurementCentre[] = [
     loadStatus: 'HIGH',
     operatingHours: '07:30 AM - 07:00 PM',
     address: 'Main Road, Manachanallur',
-    contactNumber: '+91 431 2700456',
+    contactNumber: '+91 8825443731',
     countersCount: 2,
   },
   {
@@ -72,7 +72,7 @@ export const INITIAL_CENTRES: ProcurementCentre[] = [
     loadStatus: 'MEDIUM',
     operatingHours: '08:00 AM - 05:00 PM',
     address: 'Station Road, Lalgudi',
-    contactNumber: '+91 431 2700789',
+    contactNumber: '+91 8825443731',
     countersCount: 3,
   },
 ];
